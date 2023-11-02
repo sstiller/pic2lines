@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 class Svg::Private
 {
@@ -105,8 +106,8 @@ void Svg::finishFile()
   prv->currentOutputElements.pop_back();
   prv->fileContent.append("</svg>\n");
 
-  std::cout << "Would write to file " << prv->fileName << ":\n"
-            << prv->fileContent
-            << std::endl;
+  std::ofstream outFile(prv->fileName, std::ofstream::out);
+  outFile << prv->fileContent;
+  outFile.close();
 }
 

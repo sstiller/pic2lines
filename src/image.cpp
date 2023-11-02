@@ -16,7 +16,6 @@ public:
   , height{height}
   , data(Image::formatBpp(format) * width * height)
   {
-
   }
 };
 
@@ -25,9 +24,7 @@ Image::Image(Format format, unsigned int width, unsigned int height)
 {
 }
 
-Image::~Image()
-{
-}
+Image::~Image() = default;
 
 unsigned int Image::width() const
 {

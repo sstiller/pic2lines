@@ -18,16 +18,13 @@ public:
   }
 };
 
-
 Pic2Lines::Pic2Lines(const std::string inFile, std::shared_ptr<Output> output)
 {
-
   const auto image = readJpeg(inFile);
 
   std::cout << "Loaded image: " << image->width() << "x" << image->height()
             << " " << Image::formatToString(image->format())
             << std::endl;
-
 
   const auto xScale = output->width() / image->width();
   const auto yScale = output->height() / image->height();
@@ -44,20 +41,16 @@ Pic2Lines::Pic2Lines(const std::string inFile, std::shared_ptr<Output> output)
         grayValue += point[componentIdx];
       }
       grayValue /= Image::formatBpp(image->format());
-      std::cout << (grayValue >= 127 ? "#" : " ");
 
       if(grayValue < 127)
       {
         output->drawLine(x * scale, y * scale, x * scale + scale, y * scale + scale);
         output->drawLine(x * scale, y * scale + scale, x * scale + scale, y * scale);
       }
-
     }
-    std::cout << std::endl;
   }
-  // test code until we can load an image
-  std::cout << __PRETTY_FUNCTION__ << ": TODO: open file or better take bitmap image data in ctor"
-            << std::endl;
+
+// test code until we can load an image
 
 //  output->startPolyLine();
 //  output->continuePolyLine(10, 10);

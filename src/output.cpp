@@ -25,10 +25,7 @@ Output::Output(double width, double height, const std::string& unit)
 {
 }
 
-Output::~Output()
-{
-
-}
+Output::~Output() = default;
 
 double Output::width() const
 {
