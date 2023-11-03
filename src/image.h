@@ -29,6 +29,8 @@ public:
   static unsigned int formatBpp(Format format);
   static std::string formatToString(Format format);
 
+  static float calculateBrightness(float gamma, float maxInput, float maxOutput, float inBrightness);
+
 private:
   class Private;
   std::unique_ptr<Private> prv;

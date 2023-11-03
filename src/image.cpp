@@ -1,6 +1,7 @@
 #include "image.h"
 
 #include <stdexcept>
+#include <cmath>
 
 class Image::Private
 {
@@ -88,4 +89,9 @@ std::string Image::formatToString(Format format)
       return "RGB24";
     }
   }
+}
+
+float Image::calculateBrightness(float gamma, float maxInput, float maxOutput, float inBrightness)
+{
+  return std::pow(inBrightness / maxInput, gamma) * maxOutput + 0.5;
 }
