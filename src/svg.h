@@ -1,9 +1,21 @@
 #ifndef SVG_H
 #define SVG_H
 
-#include "output.h"
+#include "outputgenerator.h"
 
-class Svg final : public Output
+
+// example code
+//  outputGenerator->startPolyLine();
+//  outputGenerator->continuePolyLine(10, 10);
+//  outputGenerator->continuePolyLine(10, 20);
+//  outputGenerator->continuePolyLine(20, 20);
+//  outputGenerator->continuePolyLine(20, 10);
+//  outputGenerator->continuePolyLine(10, 10);
+//  outputGenerator->endPolyLine();
+//
+//  outputGenerator->drawLine(10, 10, 20, 20);
+
+class Svg final : public OutputGenerator
 {
 public:
   Svg(const std::string& fileName,

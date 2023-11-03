@@ -1,15 +1,15 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef OUTPUTGENERATOR_H
+#define OUTPUTGENERATOR_H
 
 #include <string>
 #include <memory>
 
-class Output
+class OutputGenerator
 {
 protected:
-  Output(double width, double height, const std::string& unit);
+  OutputGenerator(double width, double height, const std::string& unit);
 public:
-  ~Output();
+  ~OutputGenerator();
 
   double width() const;
   double height() const;
@@ -28,4 +28,4 @@ private:
 };
 
 
-#endif // OUTPUT_H
+#endif // OUTPUTGENERATOR_H

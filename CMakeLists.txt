@@ -9,15 +9,19 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(JPEG REQUIRED libjpeg)
 
 set(SOURCES
+  src/crossesprocessor.cpp
+  src/crossesprocessor.h
   src/image.cpp
   src/image.h
   src/jpeg.cpp
   src/jpeg.h
   src/main.cpp
-  src/output.cpp
-  src/output.h
+  src/outputgenerator.cpp
+  src/outputgenerator.h
   src/pic2lines.cpp
   src/pic2lines.h
+  src/processor.cpp
+  src/processor.h
   src/svg.cpp
   src/svg.h
 )

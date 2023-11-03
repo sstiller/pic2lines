@@ -1,8 +1,8 @@
-#include "output.h"
+#include "outputgenerator.h"
 
 #include <stdexcept>
 
-class Output::Private
+class OutputGenerator::Private
 {
 public:
   double width;
@@ -20,24 +20,24 @@ public:
   }
 };
 
-Output::Output(double width, double height, const std::string& unit)
+OutputGenerator::OutputGenerator(double width, double height, const std::string& unit)
 : prv{std::make_unique<Private>(width, height, unit)}
 {
 }
 
-Output::~Output() = default;
+OutputGenerator::~OutputGenerator() = default;
 
-double Output::width() const
+double OutputGenerator::width() const
 {
   return prv->width;
 }
 
-double Output::height() const
+double OutputGenerator::height() const
 {
   return prv->height;
 }
 
-std::string Output::unit() const
+std::string OutputGenerator::unit() const
 {
   return prv->unit;
 }

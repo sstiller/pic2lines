@@ -20,7 +20,7 @@ public:
 
 
 Svg::Svg(const std::string& fileName, double width, double height, const std::string& unit)
-: Output(width, height, unit)
+: OutputGenerator(width, height, unit)
 , prv{std::make_unique<Private>(fileName)}
 {
   startFile();

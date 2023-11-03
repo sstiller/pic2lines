@@ -1,7 +1,7 @@
 #ifndef PIC2LINES_H
 #define PIC2LINES_H
 
-#include "output.h"
+#include "outputgenerator.h"
 
 #include <string>
 #include <memory>
@@ -9,7 +9,7 @@
 class Pic2Lines final
 {
 public:
-  Pic2Lines(const std::string inFile, std::shared_ptr<Output> output);
+  Pic2Lines(const std::string inFilePath, std::shared_ptr<OutputGenerator> outputGenerator);
   ~Pic2Lines();
 private:
   class Private;
