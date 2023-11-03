@@ -16,6 +16,8 @@ public:
   std::string unit() const;
 
   // virtual functions
+  virtual void setLineWidth(double width) = 0;
+
   virtual void drawLine(double x1, double y1, double x2, double y2) = 0;
 
   virtual void startPolyLine() = 0;

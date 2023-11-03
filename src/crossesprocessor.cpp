@@ -7,6 +7,7 @@ CrossesProcessor::CrossesProcessor(const std::string inFilePath, std::shared_ptr
 
 void CrossesProcessor::run()
 {
+  outputGenerator()->setLineWidth(scale() / 5);
   auto input = inputImage();
   for(unsigned int y = 0; y < input->height(); y++)
   {

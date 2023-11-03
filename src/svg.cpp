@@ -31,6 +31,11 @@ Svg::~Svg()
   finishFile();
 }
 
+void Svg::setLineWidth(double width)
+{
+  prv->svgStroke = "stroke:#000000;stroke-opacity:1;stroke-width:" + std::to_string(width);
+}
+
 void Svg::drawLine(double x1, double y1, double x2, double y2)
 {
   if(prv->currentOutputElements.empty()

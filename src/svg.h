@@ -25,6 +25,7 @@ public:
   ~Svg();
 public:
   // Output interface
+  void setLineWidth(double width) override;
   void drawLine(double x1, double y1, double x2, double y2) override;
   void startPolyLine() override;
   void continuePolyLine(double x, double y) override;
