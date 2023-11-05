@@ -42,4 +42,14 @@ std::string OutputGenerator::unit() const
   return prv->unit;
 }
 
+void OutputGenerator::drawLine(Point<double> p1, Point<double> p2)
+{
+  drawLine(p1.x, p1.y, p2.x, p2.y);
+}
+
+void OutputGenerator::continuePolyLine(Point<double> point)
+{
+  continuePolyLine(point.x, point.y);
+}
+
 

@@ -1,6 +1,8 @@
 #ifndef OUTPUTGENERATOR_H
 #define OUTPUTGENERATOR_H
 
+#include "point.h"
+
 #include <string>
 #include <memory>
 
@@ -14,6 +16,10 @@ public:
   double width() const;
   double height() const;
   std::string unit() const;
+
+  void drawLine(Point<double> p1, Point <double> p2);
+  void continuePolyLine(Point<double> point);
+
 
   // virtual functions
   virtual void setLineWidth(double width) = 0;
