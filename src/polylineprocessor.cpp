@@ -10,12 +10,12 @@
 
 //TODO: remove poly lines with only one point
 
-#define BRIGHTNESS_INC 10
+#define BRIGHTNESS_INC 30
 #define NEIGHBOUR_DIST 1 // TODO: if neighbour dist > 1, also increase brightness of pixels between
 #define STOP_BRIGHTNESS 200.
 #define START_OPACITY 1.
-#define LINE_WIDTH 0.1
-#define MIN_LINES_PER_POLY 3
+#define LINE_WIDTH 0.2
+#define MIN_LINES_PER_POLY 5
 
 PolyLineProcessor::PolyLineProcessor(const std::string inFilePath,
                                      std::shared_ptr<OutputGenerator> outputGenerator)
@@ -95,13 +95,13 @@ Point<unsigned int> PolyLineProcessor::findDarkest(const Image& image,
 
   double darkestValue = 255;
   Point<unsigned int> darkestPoint;
-  for(unsigned int x = topLeft.x; x < bottomRight.x; x++)
+  for(unsigned int x = topLeft.x; x <= bottomRight.x; x++)
   {
-    for(unsigned int y = topLeft.y; y < bottomRight.y; y++)
+    for(unsigned int y = topLeft.y; y <= bottomRight.y; y++)
     {
       const Point currentPoint(x, y);
-      // +/- 0.5 to avoid patterns (use randum dark point if multiple with same brightness
-      const double grayValue = *image.data(currentPoint) * (1.f -  (static_cast<double>(rand()) / RAND_MAX - 0.5));
+      // +/- 0.5 to avoid patterns (use random dark point if multiple with same brightness
+      const double grayValue = *image.data(currentPoint) + (static_cast<double>(rand()) / RAND_MAX - 0.5);
       //std::cout << "rand = " << grayValue << std::endl;
       if(grayValue < darkestValue)
       {
