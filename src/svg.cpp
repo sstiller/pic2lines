@@ -1,9 +1,10 @@
 #include "svg.h"
 
+#include <algorithm>
+#include <fstream>
+#include <iostream>
 #include <stdexcept>
 #include <vector>
-#include <iostream>
-#include <fstream>
 
 class Svg::Private
 {
@@ -12,6 +13,12 @@ public:
   std::string fileContent;
   std::vector<std::string> currentOutputElements;
   std::string svgStroke{"stroke:#000000;stroke-opacity:1;stroke-width:0.1"};
+  struct
+  {
+    double width{0.1};
+    double opacity{1.0};
+  }currentLineProperties;
+
   Private(const std::string& fileName)
   : fileName{fileName}
   {
@@ -31,9 +38,10 @@ Svg::~Svg()
   finishFile();
 }
 
-void Svg::setLineWidth(double width)
+void Svg::updateLineProperties()
 {
-  prv->svgStroke = "stroke:#000000;stroke-opacity:1;stroke-width:" + std::to_string(width);
+  prv->svgStroke = "stroke:#000000;stroke-opacity:" + std::to_string(opacity());
+  prv->svgStroke += ";stroke-width:" + std::to_string(lineWidth());
 }
 
 void Svg::drawLine(double x1, double y1, double x2, double y2)

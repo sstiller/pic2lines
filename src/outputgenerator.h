@@ -21,8 +21,14 @@ public:
   void continuePolyLine(Point<double> point);
 
 
+  void setLineWidth(double width) ;
+  double lineWidth() const;
+
+  void setOpacity(double opacity);
+  double opacity() const;
+
   // virtual functions
-  virtual void setLineWidth(double width) = 0;
+  virtual void updateLineProperties() = 0;
 
   virtual void drawLine(double x1, double y1, double x2, double y2) = 0;
 
