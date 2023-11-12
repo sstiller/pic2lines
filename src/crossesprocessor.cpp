@@ -22,21 +22,30 @@ void CrossesProcessor::run()
       }
       grayValue /= Image::formatBpp(input->format());
 
+      const auto pixelTopLeft = Point<double>{static_cast<double>(x), static_cast<double>(y)} * scale();
+
       if(grayValue < 192)
       {
-        outputGenerator()->drawLine(x * scale(), y * scale(), x * scale() + scale(), y * scale() + scale());
+        // top left to right bottom of pixel
+        outputGenerator()->drawLine(pixelTopLeft, pixelTopLeft + Dimensions<double>{scale(), scale()});
       }
       if(grayValue < 95)
       {
-        outputGenerator()->drawLine(x * scale(), y * scale() + scale(), x * scale() + scale(), y * scale());
+        // top bottom to right top of pixel
+        outputGenerator()->drawLine(pixelTopLeft + Dimensions<double>{scale(), -scale()},
+                                    pixelTopLeft + Dimensions<double>{-scale(), scale()});
       }
       if(grayValue < 48)
       {
-        outputGenerator()->drawLine(x * scale() + scale() / 2, y * scale() , x * scale() + scale() / 2, y * scale() + scale());
+        // vertical
+        outputGenerator()->drawLine(pixelTopLeft + Dimensions<double>{scale() / 2, 0},
+                                    pixelTopLeft + Dimensions<double>{scale() / 2, scale()});
       }
       if(grayValue < 24)
       {
-        outputGenerator()->drawLine(x * scale(), y * scale() + scale() / 2, x * scale() + scale(), y * scale() + scale() / 2);
+        // horizontal
+        outputGenerator()->drawLine(pixelTopLeft + Dimensions<double>{0, scale() / 2},
+                                    pixelTopLeft + Dimensions<double>{scale(), scale() / 2});
       }
     }
   }

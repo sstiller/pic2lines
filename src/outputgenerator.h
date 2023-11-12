@@ -17,8 +17,6 @@ public:
   Dimensions<double> dimensions() const;
   std::string unit() const;
 
-  void drawLine(const Point<double>& p1, const Point<double>& p2);
-  void continuePolyLine(const Point<double>& point);
 
 //#error function to prcess whole polyline., class Point
   void setLineWidth(double width) ;
@@ -30,7 +28,7 @@ public:
   // virtual functions
   virtual void updateLineProperties() = 0;
 
-  virtual void drawLine(double x1, double y1, double x2, double y2) = 0;
+  virtual void drawLine(const Point<double>& p1, const Point<double>& p2) = 0;
   virtual void drawPolyline(const std::vector<Point<double>>& points) = 0;
 
 

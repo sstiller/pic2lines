@@ -35,14 +35,14 @@ void SvgGenerator::updateLineProperties()
   prv->svgStroke += ";stroke-width:" + std::to_string(lineWidth());
 }
 
-void SvgGenerator::drawLine(double x1, double y1, double x2, double y2)
+void SvgGenerator::drawLine(const Point<double>& p1, const Point<double>& p2)
 {
   appendOutput(std::string(2, ' '));
   appendOutput("<line style=\"" + prv->svgStroke + "\" "
-                          + "x1=\"" + std::to_string(x1) + "\" "
-                          + "y1=\"" + std::to_string(y1) + "\" "
-                          + "x2=\"" + std::to_string(x2) + "\" "
-                          + "y2=\"" + std::to_string(y2) + "\" />\n");
+                          + "x1=\"" + std::to_string(p1.x) + "\" "
+                          + "y1=\"" + std::to_string(p1.y) + "\" "
+                          + "x2=\"" + std::to_string(p2.x) + "\" "
+                          + "y2=\"" + std::to_string(p2.y) + "\" />\n");
 }
 
 void SvgGenerator::drawPolyline(const std::vector<Point<double> >& points)

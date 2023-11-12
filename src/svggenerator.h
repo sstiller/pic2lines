@@ -14,8 +14,8 @@ public:
   // Output interface
   void updateLineProperties() override;
 
-  void drawLine(double x1, double y1, double x2, double y2) override;
-  void drawPolyline(const std::vector<Point<double> >& points);
+  void drawLine(const Point<double>& p1, const Point<double>& p2) override;
+  void drawPolyline(const std::vector<Point<double> >& points) override;
 
 private:
   class Private;
