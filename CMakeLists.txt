@@ -24,8 +24,8 @@ set(SOURCES
   src/polylineprocessor.h
   src/processor.cpp
   src/processor.h
-  src/svg.cpp
-  src/svg.h
+  src/svggenerator.cpp
+  src/svggenerator.h
   src/textfileoutputgenerator.cpp
   src/textfileoutputgenerator.h
   src/vec2.h

@@ -1,7 +1,7 @@
 #ifndef TEXTFILEOUTPUTGENERATOR_H
 #define TEXTFILEOUTPUTGENERATOR_H
 
-#include "drawing.h"
+#include "vec2.h"
 #include "outputgenerator.h"
 
 #include <memory>

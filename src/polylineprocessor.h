@@ -2,7 +2,7 @@
 #define POLYLINEPROCESSOR_H
 
 #include "processor.h"
-#include "drawing.h"
+#include "vec2.h"
 
 class PolyLineProcessor : public Processor
 {

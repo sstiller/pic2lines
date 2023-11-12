@@ -1,11 +1,11 @@
-#include "svg.h"
+#include "svggenerator.h"
 
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
 #include <vector>
 
-class Svg::Private
+class SvgGenerator::Private
 {
 public:
   std::string svgStroke{"stroke:#000000;stroke-opacity:1;stroke-width:0.1"};
@@ -17,25 +17,25 @@ public:
 };
 
 
-Svg::Svg(const std::string& fileName, const Dimensions<double>& dimensions, const std::string& unit)
+SvgGenerator::SvgGenerator(const std::string& fileName, const Dimensions<double>& dimensions, const std::string& unit)
 : TextFileOutputGenerator(fileName, dimensions, unit)
 , prv{std::make_unique<Private>()}
 {
   startFile();
 }
 
-Svg::~Svg()
+SvgGenerator::~SvgGenerator()
 {
   finishFile();
 }
 
-void Svg::updateLineProperties()
+void SvgGenerator::updateLineProperties()
 {
   prv->svgStroke = "stroke:#000000;stroke-opacity:" + std::to_string(opacity());
   prv->svgStroke += ";stroke-width:" + std::to_string(lineWidth());
 }
 
-void Svg::drawLine(double x1, double y1, double x2, double y2)
+void SvgGenerator::drawLine(double x1, double y1, double x2, double y2)
 {
   appendOutput(std::string(2, ' '));
   appendOutput("<line style=\"" + prv->svgStroke + "\" "
@@ -45,7 +45,7 @@ void Svg::drawLine(double x1, double y1, double x2, double y2)
                           + "y2=\"" + std::to_string(y2) + "\" />\n");
 }
 
-void Svg::drawPolyline(const std::vector<Point<double> >& points)
+void SvgGenerator::drawPolyline(const std::vector<Point<double> >& points)
 {
   if(points.size() < 2)
   {
@@ -61,7 +61,7 @@ void Svg::drawPolyline(const std::vector<Point<double> >& points)
   appendOutput("\" />\"\n");
 }
 
-void Svg::startFile()
+void SvgGenerator::startFile()
 {
   appendOutput("<svg viewBox=\"0 0 " + std::to_string(dimensions().x) + " " + std::to_string(dimensions().y) + "\"\n"
                           + "  units=\"" + unit() + "\"\n"
@@ -70,7 +70,7 @@ void Svg::startFile()
                           + "  xmlns=\"http://www.w3.org/2000/svg\">\n");
 }
 
-void Svg::finishFile()
+void SvgGenerator::finishFile()
 {
   appendOutput("</svg>\n");
 }
