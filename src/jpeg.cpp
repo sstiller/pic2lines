@@ -76,9 +76,10 @@ std::shared_ptr<Image> readJpeg(const std::string& path)
   Image::Format format = Image::Format::RGB24;
   if (decompressInfo.output_components == 1)
       format = Image::Format::GRAY8;
-  auto ret = std::make_shared<Image>(format, decompressInfo.image_width, decompressInfo.image_height);
+  auto ret = std::make_shared<Image>(format, Dimensions<int>{static_cast<int>(decompressInfo.image_width),
+                                                             static_cast<int>(decompressInfo.image_height)});
 
-  unsigned int lineNumber{0};
+  int lineNumber{0};
   while (decompressInfo.output_scanline < decompressInfo.output_height)
   {
     /* jpeg_read_scanlines expects an array of pointers to scanlines.
@@ -87,7 +88,7 @@ std::shared_ptr<Image> readJpeg(const std::string& path)
      */
     jpeg_read_scanlines(&decompressInfo, outputRow, 1);
 
-    memcpy(ret->data(0, lineNumber), outputRow[0], rowStride);
+    memcpy(ret->data({0, lineNumber}), outputRow[0], rowStride);
     lineNumber++;
   }
 

@@ -9,11 +9,12 @@ void CrossesProcessor::run()
 {
   outputGenerator()->setLineWidth(scale() / 5);
   auto input = inputImage();
-  for(unsigned int y = 0; y < input->height(); y++)
+  const auto imageDimensions = input->dimensions();
+  for(int y = 0; y < imageDimensions.y; y++)
   {
-    for(unsigned int x = 0; x < input->width(); x++)
+    for(int x = 0; x < imageDimensions.x; x++)
     {
-      const auto* point = input->data(x, y);
+      const auto* point = input->data(Point<int>{x, y});
       unsigned int grayValue{0};
       for(unsigned int componentIdx = 0; componentIdx < Image::formatBpp(input->format()); componentIdx++)
       {

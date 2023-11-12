@@ -1,26 +1,26 @@
 #ifndef OUTPUTGENERATOR_H
 #define OUTPUTGENERATOR_H
 
-#include "point.h"
+#include "drawing.h"
 
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 class OutputGenerator
 {
 protected:
-  OutputGenerator(double width, double height, const std::string& unit);
+  OutputGenerator(const Dimensions<double> dim, const std::string& unit);
 public:
   ~OutputGenerator();
 
-  double width() const;
-  double height() const;
+  Dimensions<double> dimensions() const;
   std::string unit() const;
 
-  void drawLine(Point<double> p1, Point <double> p2);
-  void continuePolyLine(Point<double> point);
+  void drawLine(const Point<double>& p1, const Point<double>& p2);
+  void continuePolyLine(const Point<double>& point);
 
-
+//#error function to prcess whole polyline., class Point
   void setLineWidth(double width) ;
   double lineWidth() const;
 
@@ -31,10 +31,8 @@ public:
   virtual void updateLineProperties() = 0;
 
   virtual void drawLine(double x1, double y1, double x2, double y2) = 0;
+  virtual void drawPolyline(const std::vector<Point<double>>& points) = 0;
 
-  virtual void startPolyLine() = 0;
-  virtual void continuePolyLine(double x, double y) = 0;
-  virtual void endPolyLine() = 0;
 
 private:
   class Private;

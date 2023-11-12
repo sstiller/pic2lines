@@ -1,7 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include "point.h"
+#include "vec2.h"
 
 #include <memory>
 #include <vector>
@@ -14,19 +14,15 @@ public:
     RGB24,
     GRAY8
   };
-  Image(Format format, unsigned int width, unsigned int height);
+  Image(Format format, const Dimensions<int>& dimensions);
   Image(const Image& other);
   ~Image();
 
-  unsigned int width() const;
-  unsigned int height() const;
+  Dimensions<int> dimensions() const;
   Format format() const;
 
-  uint8_t* data(unsigned int x = 0, unsigned int y = 0);
-  const uint8_t* data(unsigned int x = 0, unsigned int y = 0) const;
-  uint8_t* data(Point<unsigned int> point);
-  const uint8_t* data(Point<unsigned int> point) const;
-
+  uint8_t* data(const Point<int>& point = {0, 0});
+  const uint8_t* data(const Point<int>& point = {0, 0}) const;
 
   Image toGrayscale() const;
 
@@ -37,7 +33,7 @@ public:
   static unsigned int formatBpp(Format format);
   static std::string formatToString(Format format);
 
-  Point<unsigned int> indexToPosition(unsigned int index) const;
+  Point<int> indexToPosition(unsigned int index) const;
 
   static float calculateBrightness(float gamma, float maxInput, float maxOutput, float inBrightness);
 

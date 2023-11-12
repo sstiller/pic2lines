@@ -6,54 +6,37 @@
 class OutputGenerator::Private
 {
 public:
-  double width;
-  double height;
+  const Dimensions<double> dimensions;
   const std::string unit;
   double lineWidth{1};
   double opacity{1};
 
-  Private(double width, double height, const std::string& unit)
-  : width{width}
-  , height{height}
+  Private(Dimensions<double> dimensions, const std::string& unit)
+  : dimensions{dimensions}
   , unit{unit}
   {
-    if(! (width > 0 && height > 0 && ! unit.empty()))
+    if(dimensions.area() == 0 || unit.empty())
     {
-      throw std::invalid_argument("Dimensions or unit not correct");
+      throw std::invalid_argument("Dimensions or unit invalid");
     }
   }
 };
 
-OutputGenerator::OutputGenerator(double width, double height, const std::string& unit)
-: prv{std::make_unique<Private>(width, height, unit)}
+OutputGenerator::OutputGenerator(const Dimensions<double> dimensions, const std::string& unit)
+: prv{std::make_unique<Private>(dimensions, unit)}
 {
 }
 
 OutputGenerator::~OutputGenerator() = default;
 
-double OutputGenerator::width() const
+Dimensions<double> OutputGenerator::dimensions() const
 {
-  return prv->width;
-}
-
-double OutputGenerator::height() const
-{
-  return prv->height;
+  return prv->dimensions;
 }
 
 std::string OutputGenerator::unit() const
 {
   return prv->unit;
-}
-
-void OutputGenerator::drawLine(Point<double> p1, Point<double> p2)
-{
-  drawLine(p1.x, p1.y, p2.x, p2.y);
-}
-
-void OutputGenerator::continuePolyLine(Point<double> point)
-{
-  continuePolyLine(point.x, point.y);
 }
 
 void OutputGenerator::setLineWidth(double width)

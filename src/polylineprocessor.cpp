@@ -1,7 +1,6 @@
 #include "polylineprocessor.h"
 
 #include <stdexcept>
-#include <algorithm>
 #include <iostream>
 
 // C
@@ -10,7 +9,7 @@
 
 //TODO: remove poly lines with only one point
 
-#define BRIGHTNESS_INC 30
+#define BRIGHTNESS_INC 25
 #define NEIGHBOUR_DIST 1 // TODO: if neighbour dist > 1, also increase brightness of pixels between
 #define STOP_BRIGHTNESS 200.
 #define START_OPACITY 1.
@@ -46,10 +45,9 @@ void PolyLineProcessor::run()
     while(currentBrightness <= STOP_BRIGHTNESS
           && currentDarkness >= startDarkness * 0.7)
     {
-
       const auto randomX = (static_cast<double>(rand()) / RAND_MAX) * scale();
       const auto randomY = (static_cast<double>(rand()) / RAND_MAX) * scale();
-      currentPolyLine.emplace_back(darkestPoint.x * scale() + randomX, darkestPoint.y * scale() + randomY);
+      currentPolyLine.emplace_back(Point<double>{darkestPoint.x * scale() + randomX, darkestPoint.y * scale() + randomY});
       *grayscaleImage.data(darkestPoint) += static_cast<uint8_t>(BRIGHTNESS_INC);
 
       darkestPoint = findDarkest(grayscaleImage, darkestPoint, NEIGHBOUR_DIST);
@@ -60,24 +58,19 @@ void PolyLineProcessor::run()
 
     if(currentPolyLine.size() > MIN_LINES_PER_POLY + 1)
     {
-      outputGenerator()->startPolyLine();
-      for(const auto& currentPoint : currentPolyLine)
-      {
-        outputGenerator()->continuePolyLine(currentPoint);
-      }
-      outputGenerator()->endPolyLine();
+      outputGenerator()->drawPolyline(currentPolyLine);
     }
   } while(startBrightness < STOP_BRIGHTNESS);
 }
 
-Point<unsigned int> PolyLineProcessor::findDarkest(const Image& image)
+Point<int> PolyLineProcessor::findDarkest(const Image& image)
 {
-  return findDarkest(image, {0, 0}, {image.width() - 1, image.height() - 1});
+  return findDarkest(image, {0, 0}, {image.dimensions() - Dimensions<int>{1, 1}});
 }
 
-Point<unsigned int> PolyLineProcessor::findDarkest(const Image& image,
-                                                   Point<unsigned int> topLeft,
-                                                   Point<unsigned int> bottomRight)
+Point<int> PolyLineProcessor::findDarkest(const Image& image,
+                                          Point<int> topLeft,
+                                          Point<int> bottomRight)
 {
 //std::cout << __PRETTY_FUNCTION__ << "("
 //          << topLeft.x << "/" << topLeft.y << " ; "
@@ -94,12 +87,12 @@ Point<unsigned int> PolyLineProcessor::findDarkest(const Image& image,
   }
 
   double darkestValue = 255;
-  Point<unsigned int> darkestPoint;
-  for(unsigned int x = topLeft.x; x <= bottomRight.x; x++)
+  Point<int> darkestPoint;
+  for(int x = topLeft.x; x <= bottomRight.x; x++)
   {
-    for(unsigned int y = topLeft.y; y <= bottomRight.y; y++)
+    for(int y = topLeft.y; y <= bottomRight.y; y++)
     {
-      const Point currentPoint(x, y);
+      const Point<int> currentPoint{x, y};
       // +/- 0.5 to avoid patterns (use random dark point if multiple with same brightness
       const double grayValue = *image.data(currentPoint) + (static_cast<double>(rand()) / RAND_MAX - 0.5);
       //std::cout << "rand = " << grayValue << std::endl;
@@ -118,12 +111,11 @@ Point<unsigned int> PolyLineProcessor::findDarkest(const Image& image,
   return darkestPoint;
 }
 
-Point<unsigned int> PolyLineProcessor::findDarkest(const Image& image, Point<unsigned int> pos, unsigned int maxDistance)
+Point<int> PolyLineProcessor::findDarkest(const Image& image, Point<int> pos, unsigned int maxDistance)
 {
-  const Point<unsigned int> topLeft(std::clamp<int64_t>(static_cast<int64_t>(pos.x) - maxDistance, 0u, image.width() - 1),
-                                    std::clamp<int64_t>(static_cast<int64_t>(pos.y) - maxDistance, 0u, image.height() - 1));
-  const Point<unsigned int> bottomRight(std::clamp<int64_t>(static_cast<int64_t>(pos.x) + maxDistance, 0u, image.width() - 1 ),
-                                        std::clamp<int64_t>(static_cast<int64_t>(pos.y) + maxDistance, 0u, image.height() - 1));
+  const Dimensions<int> delta{static_cast<int>(maxDistance), static_cast<int>(maxDistance)};
+  const auto topLeft = (pos - delta).clamp({0, 0}, {image.dimensions() - Dimensions<int>{1, 1}});
+  const auto bottomRight = (pos + delta).clamp({0, 0}, {image.dimensions() - Dimensions<int>{1, 1}});
 
   return findDarkest(image, topLeft, bottomRight);
 }

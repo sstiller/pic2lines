@@ -2,7 +2,7 @@
 #define POLYLINEPROCESSOR_H
 
 #include "processor.h"
-#include "point.h"
+#include "drawing.h"
 
 class PolyLineProcessor : public Processor
 {
@@ -14,9 +14,9 @@ public:
   void run() override;
 
 private:
-  static Point<unsigned int> findDarkest(const Image& image);
-  static Point<unsigned int> findDarkest(const Image& image, Point<unsigned int> topLeft, Point<unsigned int> bottomRight);
-  static Point<unsigned int> findDarkest(const Image& image, Point<unsigned int> pos, unsigned int maxDistance);
+  static Point<int> findDarkest(const Image& image);
+  static Point<int> findDarkest(const Image& image, Point<int> topLeft, Point<int> bottomRight);
+  static Point<int> findDarkest(const Image& image, Point<int> pos, unsigned int maxDistance);
 };
 
 #endif // POLYLINEPROCESSOR_H

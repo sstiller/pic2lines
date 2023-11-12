@@ -1,7 +1,7 @@
 #ifndef SVG_H
 #define SVG_H
 
-#include "outputgenerator.h"
+#include "textfileoutputgenerator.h"
 
 
 // example code
@@ -15,12 +15,11 @@
 //
 //  outputGenerator->drawLine(10, 10, 20, 20);
 
-class Svg final : public OutputGenerator
+class Svg final : public TextFileOutputGenerator
 {
 public:
   Svg(const std::string& fileName,
-      double width,
-      double height,
+      const Dimensions<double>& dimensions,
       const std::string& unit = "mm");
   ~Svg();
 public:
@@ -28,9 +27,7 @@ public:
   void updateLineProperties() override;
 
   void drawLine(double x1, double y1, double x2, double y2) override;
-  void startPolyLine() override;
-  void continuePolyLine(double x, double y) override;
-  void endPolyLine() override;
+  void drawPolyline(const std::vector<Point<double> >& points);
 
 private:
   class Private;
@@ -38,6 +35,7 @@ private:
 
   void startFile();
   void finishFile();
+
 
 };
 

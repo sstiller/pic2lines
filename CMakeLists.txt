@@ -20,13 +20,15 @@ set(SOURCES
   src/outputgenerator.h
   src/pic2lines.cpp
   src/pic2lines.h
-  src/point.h
   src/polylineprocessor.cpp
   src/polylineprocessor.h
   src/processor.cpp
   src/processor.h
   src/svg.cpp
   src/svg.h
+  src/textfileoutputgenerator.cpp
+  src/textfileoutputgenerator.h
+  src/vec2.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

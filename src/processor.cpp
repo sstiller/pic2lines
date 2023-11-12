@@ -20,12 +20,12 @@ Processor::Processor(const std::string inFilePath, std::shared_ptr<OutputGenerat
 : prv{std::make_unique<Private>(outputGenerator)}
 {
   prv->inputImage = readJpeg(inFilePath); // throws on error
-  std::cout << "Loaded image: " << prv->inputImage->width() << "x" << prv->inputImage->height()
+  std::cout << "Loaded image: " << prv->inputImage->dimensions().toString()
             << " " << Image::formatToString(prv->inputImage->format())
             << std::endl;
 
-  const auto xScale = outputGenerator->width() / prv->inputImage->width();
-  const auto yScale = outputGenerator->height() / prv->inputImage->height();
+  const auto xScale = outputGenerator->dimensions().x / prv->inputImage->dimensions().x;
+  const auto yScale = outputGenerator->dimensions().y / prv->inputImage->dimensions().y;
   prv->scale = std::min(xScale, yScale);
 }
 

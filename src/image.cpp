@@ -8,25 +8,23 @@ class Image::Private
 {
 public:
   const Image::Format format;
-  const unsigned int width{0};
-  const unsigned int height{0};
+  Dimensions<int> dimensions;
   std::vector<uint8_t> data;
 
-  Private(Image::Format format, unsigned int width, unsigned int height)
+  Private(Image::Format format, const Dimensions<int>& dimensions)
   : format{format}
-  , width{width}
-  , height{height}
-  , data(Image::formatBpp(format) * width * height)
+  , dimensions{dimensions}
+  , data(Image::formatBpp(format) * dimensions.x * dimensions.y)
   {
   }
 };
 
-Image::Image(Format format, unsigned int width, unsigned int height)
-: prv{std::make_unique<Private>(format, width, height)}
+Image::Image(Format format, const Dimensions<int>& dimensions)
+: prv{std::make_unique<Private>(format, dimensions)}
 {
-  if(! (prv->width && prv->height))
+  if(! dimensions.length())
   {
-    throw std::invalid_argument("Image < 1 pixel in at least one dinension");
+    throw std::invalid_argument("Image < 1 pixel in at least one dimension");
   }
 }
 
@@ -37,48 +35,37 @@ Image::Image(const Image& other)
 
 Image::~Image() = default;
 
-unsigned int Image::width() const
+Dimensions<int> Image::dimensions() const
 {
-  return prv->width;
+  return prv->dimensions;
 }
 
-unsigned int Image::height() const
-{
-  return prv->height;
-}
 
 Image::Format Image::format() const
 {
   return prv->format;
 }
 
-uint8_t* Image::data(unsigned int x, unsigned int y)
+uint8_t* Image::data(const Point<int>& point)
 {
-  if(x >= prv->width || y >= prv->height)
+  // point within image?
+  if((prv->dimensions - point).area() <= 0)
   {
     throw std::out_of_range("data pos > image dimensions");
   }
-  return &prv->data.at((y * prv->width + x) * formatBpp(prv->format));
+  return &prv->data.at((point.y * prv->dimensions.x + point.x) * formatBpp(prv->format));
 }
 
-const uint8_t* Image::data(unsigned int x, unsigned int y) const
+const uint8_t* Image::data(const Point<int>& point) const
 {
-  if(x >= prv->width || y >= prv->height)
+  // point within image?
+  if((prv->dimensions - point).area() <= 0)
   {
     throw std::out_of_range("data pos > image dimensions");
   }
-  return &prv->data.at((y * prv->width + x) * formatBpp(prv->format));
+  return &prv->data.at((point.y * prv->dimensions.x + point.x) * formatBpp(prv->format));
 }
 
-uint8_t* Image::data(Point<unsigned int> point)
-{
-  return data(point.x, point.y);
-}
-
-const uint8_t* Image::data(Point<unsigned int> point) const
-{
-  return data(point.x, point.y);
-}
 
 Image Image::toGrayscale() const
 {
@@ -90,9 +77,9 @@ Image Image::toGrayscale() const
     }
     case Format::RGB24:
     {
-      Image ret(Format::GRAY8, prv->width, prv->height);
+      Image ret(Format::GRAY8, prv->dimensions);
       const auto bytesPerPixel = formatBpp(prv->format);
-      for(unsigned int i = 0; i < prv->width * prv->height; i++)
+      for(unsigned int i = 0; i < prv->dimensions.x * prv->dimensions.y; i++)
       {
         ret.prv->data[i] = static_cast<uint8_t>(
           prv->data[i * bytesPerPixel] * 0.299 // red
@@ -136,12 +123,12 @@ std::string Image::formatToString(Format format)
   }
 }
 
-Point<unsigned int> Image::indexToPosition(unsigned int index) const
+Point<int> Image::indexToPosition(unsigned int index) const
 {
   index /= formatBpp(prv->format);
   const auto bytesPerPixel = formatBpp(prv->format);
-  Point<unsigned int> ret((index % prv->width) * bytesPerPixel /*x*/,
-                          (index / prv->width) * bytesPerPixel /*y*/);
+  Point<int> ret{(index % prv->dimensions.x) * bytesPerPixel /*x*/,
+                          (index / prv->dimensions.x) * bytesPerPixel /*y*/};
 //std::cout << __func__ << "(): " << ret.x << "/" << ret.y
 //          << std::endl;
   return ret;
