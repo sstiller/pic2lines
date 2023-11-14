@@ -11,6 +11,8 @@ pkg_check_modules(JPEG REQUIRED libjpeg)
 set(SOURCES
   src/crossesprocessor.cpp
   src/crossesprocessor.h
+  src/gcodegenerator.cpp
+  src/gcodegenerator.h
   src/image.cpp
   src/image.h
   src/jpeg.cpp

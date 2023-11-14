@@ -10,7 +10,9 @@
 class Processor
 {
 public:
-  Processor(const std::string inFilePath, std::shared_ptr<OutputGenerator> outputGenerator);
+  Processor(std::shared_ptr<const Image> inputImage,
+            std::shared_ptr<OutputGenerator> outputGenerator);
+
   virtual ~Processor();
 
   virtual void run() = 0;

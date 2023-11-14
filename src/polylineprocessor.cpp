@@ -16,9 +16,9 @@
 #define LINE_WIDTH 0.2
 #define MIN_LINES_PER_POLY 5
 
-PolyLineProcessor::PolyLineProcessor(const std::string inFilePath,
+PolyLineProcessor::PolyLineProcessor(std::shared_ptr<const Image> inputImage,
                                      std::shared_ptr<OutputGenerator> outputGenerator)
-: Processor(inFilePath, outputGenerator)
+: Processor(inputImage, outputGenerator)
 {
   srand(time(nullptr));
   outputGenerator->setLineWidth(LINE_WIDTH);
@@ -31,8 +31,8 @@ void PolyLineProcessor::run()
   double startBrightness{255};
   do
   {
-    auto darkestPoint = findDarkest(grayscaleImage);
-    startBrightness = *grayscaleImage.data(darkestPoint);
+    auto darkestPoint = findDarkest(*grayscaleImage);
+    startBrightness = *grayscaleImage->data(darkestPoint);
     auto currentBrightness = startBrightness;
     if(startBrightness > STOP_BRIGHTNESS)
     {
@@ -48,10 +48,10 @@ void PolyLineProcessor::run()
       const auto randomX = (static_cast<double>(rand()) / RAND_MAX) * scale();
       const auto randomY = (static_cast<double>(rand()) / RAND_MAX) * scale();
       currentPolyLine.emplace_back(Point<double>{darkestPoint.x * scale() + randomX, darkestPoint.y * scale() + randomY});
-      *grayscaleImage.data(darkestPoint) += static_cast<uint8_t>(BRIGHTNESS_INC);
+      *grayscaleImage->data(darkestPoint) += static_cast<uint8_t>(BRIGHTNESS_INC);
 
-      darkestPoint = findDarkest(grayscaleImage, darkestPoint, NEIGHBOUR_DIST);
-      currentBrightness = *grayscaleImage.data(darkestPoint);
+      darkestPoint = findDarkest(*grayscaleImage, darkestPoint, NEIGHBOUR_DIST);
+      currentBrightness = *grayscaleImage->data(darkestPoint);
       currentDarkness = 255. - currentBrightness;
     }
     const double newOpcaity = std::min<double>(255., startDarkness);

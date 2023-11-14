@@ -6,7 +6,8 @@
 class CrossesProcessor : public Processor
 {
 public:
-  CrossesProcessor(const std::string inFilePath, std::shared_ptr<OutputGenerator> outputGenerator);
+  CrossesProcessor(std::shared_ptr<const Image> inputImage,
+                   std::shared_ptr<OutputGenerator> outputGenerator);
 
   // Processor interface
 public:

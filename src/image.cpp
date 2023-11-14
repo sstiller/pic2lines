@@ -29,8 +29,8 @@ Image::Image(Format format, const Dimensions<int>& dimensions)
 }
 
 Image::Image(const Image& other)
+: prv {std::make_unique<Private>(*other.prv)}
 {
-  prv = std::make_unique<Private>(*other.prv);
 }
 
 Image::~Image() = default;
@@ -67,21 +67,21 @@ const uint8_t* Image::data(const Point<int>& point) const
 }
 
 
-Image Image::toGrayscale() const
+std::shared_ptr<Image> Image::toGrayscale() const
 {
   switch(prv->format)
   {
     case Format::GRAY8:
     {
-      return Image(*this);
+      return std::make_shared<Image>(*this);
     }
     case Format::RGB24:
     {
-      Image ret(Format::GRAY8, prv->dimensions);
+      auto  ret = std::make_shared<Image>(Format::GRAY8, prv->dimensions);
       const auto bytesPerPixel = formatBpp(prv->format);
       for(unsigned int i = 0; i < prv->dimensions.x * prv->dimensions.y; i++)
       {
-        ret.prv->data[i] = static_cast<uint8_t>(
+        ret->prv->data[i] = static_cast<uint8_t>(
           prv->data[i * bytesPerPixel] * 0.299 // red
           + prv->data[i * bytesPerPixel + 1] * 0.587 // green
           + prv->data[i * bytesPerPixel + 2] * 0.114 // blue
@@ -90,6 +90,20 @@ Image Image::toGrayscale() const
       return ret;
     }
   }
+}
+
+std::shared_ptr<Image> Image::verticalFlip() const
+{
+  auto ret = std::make_shared<Image>(format(), prv->dimensions);
+  for(int y = 0; y < prv->dimensions.y; y++)
+  {
+    const auto srcY = (prv->dimensions.y - y) - 1;
+    std::copy(data(Point<int>{0, srcY}),
+              data(Point<int>{prv->dimensions.x - 1, srcY}) + 1,
+              ret->data(Point<int>{0, y})
+             );
+  }
+  return ret;
 }
 
 
@@ -123,12 +137,12 @@ std::string Image::formatToString(Format format)
   }
 }
 
-Point<int> Image::indexToPosition(unsigned int index) const
+Point<int> Image::indexToPosition(int index) const
 {
   index /= formatBpp(prv->format);
   const auto bytesPerPixel = formatBpp(prv->format);
-  Point<int> ret{(index % prv->dimensions.x) * bytesPerPixel /*x*/,
-                          (index / prv->dimensions.x) * bytesPerPixel /*y*/};
+  Point<int> ret{(index % prv->dimensions.x) * static_cast<int>(bytesPerPixel) /*x*/,
+                          (index / prv->dimensions.x) * static_cast<int>(bytesPerPixel) /*y*/};
 //std::cout << __func__ << "(): " << ret.x << "/" << ret.y
 //          << std::endl;
   return ret;

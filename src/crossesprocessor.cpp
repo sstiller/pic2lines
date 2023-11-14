@@ -1,7 +1,8 @@
 #include "crossesprocessor.h"
 
-CrossesProcessor::CrossesProcessor(const std::string inFilePath, std::shared_ptr<OutputGenerator> outputGenerator)
-: Processor(inFilePath, outputGenerator)
+CrossesProcessor::CrossesProcessor(std::shared_ptr<const Image> inputImage,
+                                   std::shared_ptr<OutputGenerator> outputGenerator)
+: Processor(inputImage, outputGenerator)
 {
 }
 
