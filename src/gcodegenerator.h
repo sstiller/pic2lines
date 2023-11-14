@@ -23,15 +23,15 @@ public:
 
 
 private:
-//  class Private;
-//  std::unique_ptr<Private> prv;
+  class Private;
+  std::unique_ptr<Private> prv;
 
+  void generate();
+  void generateLine(const std::vector<Point<double> >& points);
   void laserOff();
   void laserOn(uint8_t strength);
   void setSpeed(double speed);
   void moveTo(const Point<double> point);
-
-
 };
 
 #endif // GCODEGENERATOR_H

@@ -2,7 +2,6 @@
 
 #include <stdexcept>
 #include <cmath>
-#include <iostream>
 
 class Image::Private
 {
@@ -143,8 +142,6 @@ Point<int> Image::indexToPosition(int index) const
   const auto bytesPerPixel = formatBpp(prv->format);
   Point<int> ret{(index % prv->dimensions.x) * static_cast<int>(bytesPerPixel) /*x*/,
                           (index / prv->dimensions.x) * static_cast<int>(bytesPerPixel) /*y*/};
-//std::cout << __func__ << "(): " << ret.x << "/" << ret.y
-//          << std::endl;
   return ret;
 }
 

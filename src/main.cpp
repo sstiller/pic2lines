@@ -15,8 +15,8 @@ int main(int argc, char** argv)
     exit(EXIT_FAILURE);
   }
 
-  //Pic2Lines pic2Lines(argv[1], std::make_shared<SvgGenerator>(argv[2], Dimensions<double>{100., 100.}, "mm"));
-  Pic2Lines pic2Lines(argv[1], std::make_shared<GCodeGenerator>(argv[2], Dimensions<double>{100., 100.}, "mm"));
+  Pic2Lines pic2Lines(argv[1], std::make_shared<SvgGenerator>(argv[2], Dimensions<double>{100., 100.}, "mm"));
+  //Pic2Lines pic2Lines(argv[1], std::make_shared<GCodeGenerator>(argv[2], Dimensions<double>{100., 100.}, "mm"));
 
   return 0;
 }

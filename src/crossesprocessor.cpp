@@ -9,19 +9,13 @@ CrossesProcessor::CrossesProcessor(std::shared_ptr<const Image> inputImage,
 void CrossesProcessor::run()
 {
   outputGenerator()->setLineWidth(scale() / 5);
-  auto input = inputImage();
-  const auto imageDimensions = input->dimensions();
+  auto grayscaleImage = inputImage()->toGrayscale();
+  const auto imageDimensions = grayscaleImage->dimensions();
   for(int y = 0; y < imageDimensions.y; y++)
   {
     for(int x = 0; x < imageDimensions.x; x++)
     {
-      const auto* point = input->data(Point<int>{x, y});
-      unsigned int grayValue{0};
-      for(unsigned int componentIdx = 0; componentIdx < Image::formatBpp(input->format()); componentIdx++)
-      {
-        grayValue += point[componentIdx];
-      }
-      grayValue /= Image::formatBpp(input->format());
+      const uint8_t grayValue = *grayscaleImage->data(Point<int>{x, y});
 
       const auto pixelTopLeft = Point<double>{static_cast<double>(x), static_cast<double>(y)} * scale();
 
@@ -33,8 +27,8 @@ void CrossesProcessor::run()
       if(grayValue < 95)
       {
         // top bottom to right top of pixel
-        outputGenerator()->drawLine(pixelTopLeft + Dimensions<double>{scale(), -scale()},
-                                    pixelTopLeft + Dimensions<double>{-scale(), scale()});
+        outputGenerator()->drawLine(pixelTopLeft + Dimensions<double>{0., scale()},
+                                    pixelTopLeft + Dimensions<double>{scale(), 0.});
       }
       if(grayValue < 48)
       {

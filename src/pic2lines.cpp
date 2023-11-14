@@ -33,8 +33,8 @@ Pic2Lines::Pic2Lines(const std::string inFilePath, std::shared_ptr<OutputGenerat
             << " " << Image::formatToString(inputImage->format())
             << std::endl;
 
-  //CrossesProcessor(inputImage, outputGenerator).run();
-  CrossesProcessor(inputImage->verticalFlip(), outputGenerator).run();
+  CrossesProcessor(inputImage, outputGenerator).run();
+  //CrossesProcessor(inputImage->verticalFlip(), outputGenerator).run();
   //PolyLineProcessor(inputImage->verticalFlip(), outputGenerator).run();
   //PolyLineProcessor(inputImage, outputGenerator).run();
 //#error use vflip when gcode
