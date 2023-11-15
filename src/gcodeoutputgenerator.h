@@ -1,5 +1,5 @@
-#ifndef GCODEGENERATOR_H
-#define GCODEGENERATOR_H
+#ifndef GCODEOUTPUTGENERATOR_H
+#define GCODEOUTPUTGENERATOR_H
 
 #include "textfileoutputgenerator.h"
 
@@ -7,13 +7,13 @@
 #include <memory>
 #include <string>
 
-class GCodeGenerator final : public TextFileOutputGenerator
+class GCodeOutputGenerator final : public TextFileOutputGenerator
 {
 public:
-  GCodeGenerator(const std::string& fileName,
+  GCodeOutputGenerator(const std::string& fileName,
                  const Dimensions<double>& dimensions,
                  const std::string& unit = "mm");
-  ~GCodeGenerator();
+  ~GCodeOutputGenerator();
 
   // OutputGenerator interface
 public:
@@ -34,4 +34,4 @@ private:
   void moveTo(const Point<double> point);
 };
 
-#endif // GCODEGENERATOR_H
+#endif // GCODEOUTPUTGENERATOR_H

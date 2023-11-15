@@ -1,4 +1,4 @@
-#include "polylineprocessor.h"
+#include "polylinedrawer.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -16,15 +16,15 @@
 #define LINE_WIDTH 0.2
 #define MIN_LINES_PER_POLY 5
 
-PolyLineProcessor::PolyLineProcessor(std::shared_ptr<const Image> inputImage,
+PolyLineDrawer::PolyLineDrawer(std::shared_ptr<const Image> inputImage,
                                      std::shared_ptr<OutputGenerator> outputGenerator)
-: Processor(inputImage, outputGenerator)
+: Drawer(inputImage, outputGenerator)
 {
   srand(time(nullptr));
   outputGenerator->setLineWidth(LINE_WIDTH);
 }
 
-void PolyLineProcessor::run()
+void PolyLineDrawer::run()
 {
   auto grayscaleImage = inputImage()->toGrayscale();
 
@@ -63,12 +63,12 @@ void PolyLineProcessor::run()
   } while(startBrightness < STOP_BRIGHTNESS);
 }
 
-Point<int> PolyLineProcessor::findDarkest(const Image& image)
+Point<int> PolyLineDrawer::findDarkest(const Image& image)
 {
   return findDarkest(image, {0, 0}, {image.dimensions() - Dimensions<int>{1, 1}});
 }
 
-Point<int> PolyLineProcessor::findDarkest(const Image& image,
+Point<int> PolyLineDrawer::findDarkest(const Image& image,
                                           Point<int> topLeft,
                                           Point<int> bottomRight)
 {
@@ -111,7 +111,7 @@ Point<int> PolyLineProcessor::findDarkest(const Image& image,
   return darkestPoint;
 }
 
-Point<int> PolyLineProcessor::findDarkest(const Image& image, Point<int> pos, unsigned int maxDistance)
+Point<int> PolyLineDrawer::findDarkest(const Image& image, Point<int> pos, unsigned int maxDistance)
 {
   const Dimensions<int> delta{static_cast<int>(maxDistance), static_cast<int>(maxDistance)};
   const auto topLeft = (pos - delta).clamp({0, 0}, {image.dimensions() - Dimensions<int>{1, 1}});

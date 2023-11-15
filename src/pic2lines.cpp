@@ -1,8 +1,8 @@
 #include "pic2lines.h"
 #include "outputgenerator.h"
 
-#include "crossesprocessor.h"
-#include "polylineprocessor.h"
+#include "crossesdrawer.h"
+#include "polylinedrawer.h"
 
 #include "jpeg.h"
 
@@ -33,7 +33,7 @@ Pic2Lines::Pic2Lines(const std::string inFilePath, std::shared_ptr<OutputGenerat
             << " " << Image::formatToString(inputImage->format())
             << std::endl;
 
-  CrossesProcessor(inputImage, outputGenerator).run();
+  CrossesDrawer(inputImage, outputGenerator).run();
   //CrossesProcessor(inputImage->verticalFlip(), outputGenerator).run();
   //PolyLineProcessor(inputImage->verticalFlip(), outputGenerator).run();
   //PolyLineProcessor(inputImage, outputGenerator).run();

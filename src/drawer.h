@@ -1,5 +1,5 @@
-#ifndef PROCESSOR_H
-#define PROCESSOR_H
+#ifndef DRAWER_H
+#define DRAWER_H
 
 #include "image.h"
 #include "outputgenerator.h"
@@ -7,13 +7,13 @@
 #include <string>
 #include <memory>
 
-class Processor
+class Drawer
 {
 public:
-  Processor(std::shared_ptr<const Image> inputImage,
+  Drawer(std::shared_ptr<const Image> inputImage,
             std::shared_ptr<OutputGenerator> outputGenerator);
 
-  virtual ~Processor();
+  virtual ~Drawer();
 
   virtual void run() = 0;
 
@@ -28,4 +28,4 @@ private:
 };
 
 
-#endif // PROCESSOR_H
+#endif // DRAWER_H

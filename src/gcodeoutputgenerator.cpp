@@ -1,4 +1,4 @@
-#include "gcodegenerator.h"
+#include "gcodeoutputgenerator.h"
 
 #include <stdexcept>
 
@@ -22,7 +22,7 @@ public:
   }
 };
 
-class GCodeGenerator::Private
+class GCodeOutputGenerator::Private
 {
 public:
   std::vector<PolyLine> polyLines;
@@ -77,7 +77,7 @@ public:
 
 // https://marlinfw.org/docs/gcode/G000-G001.html
 
-GCodeGenerator::GCodeGenerator(const std::string& fileName,
+GCodeOutputGenerator::GCodeOutputGenerator(const std::string& fileName,
                                const Dimensions<double>& dimensions,
                                const std::string& unit)
 : TextFileOutputGenerator(fileName, dimensions, unit)
@@ -99,18 +99,18 @@ GCodeGenerator::GCodeGenerator(const std::string& fileName,
   }
 }
 
-GCodeGenerator::~GCodeGenerator()
+GCodeOutputGenerator::~GCodeOutputGenerator()
 {
   prv->sortLines();
   generate();
 }
 
-void GCodeGenerator::updateLineProperties()
+void GCodeOutputGenerator::updateLineProperties()
 {
   // nothing to do, laser strength set using opacity()
 }
 
-void GCodeGenerator::drawLine(const Point<double>& p1, const Point<double>& p2)
+void GCodeOutputGenerator::drawLine(const Point<double>& p1, const Point<double>& p2)
 {
   PolyLine line(opacity() * 255);
   line.push_back(p1);
@@ -118,7 +118,7 @@ void GCodeGenerator::drawLine(const Point<double>& p1, const Point<double>& p2)
   prv->polyLines.push_back(line);
 }
 
-void GCodeGenerator::drawPolyline(const std::vector<Point<double> >& points)
+void GCodeOutputGenerator::drawPolyline(const std::vector<Point<double> >& points)
 {
   if(points.size() < 2)
   {
@@ -130,7 +130,7 @@ void GCodeGenerator::drawPolyline(const std::vector<Point<double> >& points)
   prv->polyLines.push_back(line);
 }
 
-void GCodeGenerator::generate()
+void GCodeOutputGenerator::generate()
 {
   for(const auto line : prv->polyLines)
   {
@@ -140,7 +140,7 @@ void GCodeGenerator::generate()
   laserOff();
 }
 
-void GCodeGenerator::generateLine(uint8_t power, const std::vector<Point<double> >& points)
+void GCodeOutputGenerator::generateLine(uint8_t power, const std::vector<Point<double> >& points)
 {
   // TODO: do not move if same point
   if(points.size() < 2)
@@ -161,22 +161,22 @@ void GCodeGenerator::generateLine(uint8_t power, const std::vector<Point<double>
   laserOn(0);
 }
 
-void GCodeGenerator::laserOff()
+void GCodeOutputGenerator::laserOff()
 {
   appendOutput(LASER_OFF+ " S0\n");
 }
 
-void GCodeGenerator::laserOn(uint8_t strength)
+void GCodeOutputGenerator::laserOn(uint8_t strength)
 {
   appendOutput(LASER_ON + " S" + std::to_string(static_cast<int>(strength)) + "\n");
 }
 
-void GCodeGenerator::setSpeed(double speed)
+void GCodeOutputGenerator::setSpeed(double speed)
 {
   appendOutput("G1 F" + std::to_string(speed) + "\n");
 }
 
-void GCodeGenerator::moveTo(const Point<double> point)
+void GCodeOutputGenerator::moveTo(const Point<double> point)
 {
   appendOutput("G1 X" + std::to_string(point.x) + " Y" + std::to_string(point.y) + "\n");
 }

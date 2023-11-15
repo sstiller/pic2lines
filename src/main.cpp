@@ -1,6 +1,6 @@
 
 #include "svggenerator.h"
-#include "gcodegenerator.h"
+#include "gcodeoutputgenerator.h"
 #include "pic2lines.h"
 
 #include <iostream>

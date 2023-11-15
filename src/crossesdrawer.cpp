@@ -1,12 +1,12 @@
-#include "crossesprocessor.h"
+#include "crossesdrawer.h"
 
-CrossesProcessor::CrossesProcessor(std::shared_ptr<const Image> inputImage,
+CrossesDrawer::CrossesDrawer(std::shared_ptr<const Image> inputImage,
                                    std::shared_ptr<OutputGenerator> outputGenerator)
-: Processor(inputImage, outputGenerator)
+: Drawer(inputImage, outputGenerator)
 {
 }
 
-void CrossesProcessor::run()
+void CrossesDrawer::run()
 {
   outputGenerator()->setLineWidth(scale() / 5);
   auto grayscaleImage = inputImage()->toGrayscale();

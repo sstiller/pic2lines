@@ -9,10 +9,12 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(JPEG REQUIRED libjpeg)
 
 set(SOURCES
-  src/crossesprocessor.cpp
-  src/crossesprocessor.h
-  src/gcodegenerator.cpp
-  src/gcodegenerator.h
+  src/crossesdrawer.cpp
+  src/crossesdrawer.h
+  src/drawer.cpp
+  src/drawer.h
+  src/gcodeoutputgenerator.cpp
+  src/gcodeoutputgenerator.h
   src/image.cpp
   src/image.h
   src/jpeg.cpp
@@ -22,10 +24,8 @@ set(SOURCES
   src/outputgenerator.h
   src/pic2lines.cpp
   src/pic2lines.h
-  src/polylineprocessor.cpp
-  src/polylineprocessor.h
-  src/processor.cpp
-  src/processor.h
+  src/polylinedrawer.cpp
+  src/polylinedrawer.h
   src/svggenerator.cpp
   src/svggenerator.h
   src/textfileoutputgenerator.cpp
