@@ -12,12 +12,20 @@
 
 #include <iostream>
 
+class PolyLine : public std::vector<Point<double>>
+{
+public:
+  const uint8_t power{0};
+  PolyLine(uint8_t power)
+  : power{power}
+  {
+  }
+};
 
 class GCodeGenerator::Private
 {
 public:
-  std::vector<std::vector<Point<double>>> polyLines;
-
+  std::vector<PolyLine> polyLines;
   void sortLines()
   {
     //use vector.swap for sorting
@@ -104,7 +112,10 @@ void GCodeGenerator::updateLineProperties()
 
 void GCodeGenerator::drawLine(const Point<double>& p1, const Point<double>& p2)
 {
-  prv->polyLines.push_back({p1, p2});
+  PolyLine line(opacity() * 255);
+  line.push_back(p1);
+  line.push_back(p2);
+  prv->polyLines.push_back(line);
 }
 
 void GCodeGenerator::drawPolyline(const std::vector<Point<double> >& points)
@@ -114,20 +125,22 @@ void GCodeGenerator::drawPolyline(const std::vector<Point<double> >& points)
     throw std::invalid_argument("polyline needs at least 2 points");
   }
 
-  prv->polyLines.push_back(points);
+  PolyLine line(opacity() * 255);
+  std::copy(points.begin(), points.end(), std::back_inserter(line));
+  prv->polyLines.push_back(line);
 }
 
 void GCodeGenerator::generate()
 {
   for(const auto line : prv->polyLines)
   {
-    generateLine(line);
+    generateLine(line.power, line);
   }
 
   laserOff();
 }
 
-void GCodeGenerator::generateLine(const std::vector<Point<double> >& points)
+void GCodeGenerator::generateLine(uint8_t power, const std::vector<Point<double> >& points)
 {
   // TODO: do not move if same point
   if(points.size() < 2)
@@ -138,7 +151,7 @@ void GCodeGenerator::generateLine(const std::vector<Point<double> >& points)
   setSpeed(TRAVEL_SPEED);
   moveTo(points.front());
 
-  laserOn(opacity() * 255);
+  laserOn(power);
   setSpeed(BURNING_SPEED);
   // start at the 2nd point because we already are at the first one
   for(int i = 1; i < points.size(); i++)

@@ -27,7 +27,7 @@ private:
   std::unique_ptr<Private> prv;
 
   void generate();
-  void generateLine(const std::vector<Point<double> >& points);
+  void generateLine(uint8_t power, const std::vector<Point<double> >& points);
   void laserOff();
   void laserOn(uint8_t strength);
   void setSpeed(double speed);
