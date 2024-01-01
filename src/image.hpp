@@ -28,7 +28,7 @@ public:
   std::shared_ptr<Image> verticalFlip() const;
 
   /**
-   * @brief formatBpp returns the bytes per pixes for the given format
+   * @brief formatBpp returns the bytes per pixels for the given format
    * @param format
    */
   static unsigned int formatBpp(Format format);

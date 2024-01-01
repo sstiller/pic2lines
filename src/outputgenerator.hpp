@@ -20,7 +20,7 @@ public:
   std::string unit() const;
 
 
-//#error function to prcess whole polyline., class Point
+//#error function to process whole polyline., class Point
   void setLineWidth(double width) ;
   double lineWidth() const;
 

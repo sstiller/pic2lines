@@ -18,7 +18,7 @@ public:
   {
     if(! outputGenerator)
     {
-      throw std::invalid_argument("no valid outut generator");
+      throw std::invalid_argument("no valid output generator");
     }
   }
 };
