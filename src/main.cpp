@@ -4,11 +4,16 @@
 #include "pic2lines.hpp"
 #include "gcodeconfig.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <iostream>
+
 void printHelp(const std::string& command);
 
 int main(int argc, char** argv)
 {
+
+  spdlog::set_level(spdlog::level::debug); // Set global log level to debug
 
   if(argc != 3)
   {

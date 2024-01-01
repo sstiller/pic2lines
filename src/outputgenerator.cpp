@@ -1,5 +1,7 @@
 #include "outputgenerator.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <stdexcept>
 
@@ -55,7 +57,7 @@ double OutputGenerator::lineWidth() const
 void OutputGenerator::setOpacity(double opacity)
 {
   prv->opacity = std::clamp(opacity, 0., 1.);
-//std::cout << __func__ << "(): " << opacity << "->" << prv->opacity << std::endl;
+  spdlog::debug("{}(): {} -> {}", __func__ , opacity, prv->opacity);
   updateLineProperties();
 }
 

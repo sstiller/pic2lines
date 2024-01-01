@@ -1,7 +1,6 @@
 #include "svggenerator.hpp"
 
 #include <algorithm>
-#include <iostream>
 #include <stdexcept>
 #include <vector>
 

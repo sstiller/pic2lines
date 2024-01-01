@@ -6,8 +6,9 @@
 
 #include "jpeg.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <stdexcept>
-#include <iostream>
 
 class Pic2Lines::Private
 {
@@ -30,9 +31,9 @@ Pic2Lines::Pic2Lines(const std::string& inFilePath,
                      const std::string& outFilePath)
 {
   auto inputImage = readJpeg(inFilePath); // throws on error
-  std::cout << "Loaded image: " << inputImage->dimensions().toString()
-            << " " << Image::formatToString(inputImage->format())
-            << std::endl;
+  spdlog::info("Loaded image: {} {}",
+               inputImage->dimensions().toString(),
+               Image::formatToString(inputImage->format()));
 
   //CrossesDrawer(inputImage, outputGenerator).run();
   //CrossesDrawer(inputImage->verticalFlip(), outputGenerator).run();

@@ -1,7 +1,8 @@
 #include "polylinedrawer.hpp"
 
+#include <spdlog/spdlog.h>
+
 #include <stdexcept>
-#include <iostream>
 
 // C
 // TODO: REMOVE
@@ -71,10 +72,7 @@ Point<int> PolyLineDrawer::findDarkest(const Image& image,
                                           Point<int> topLeft,
                                           Point<int> bottomRight)
 {
-//std::cout << __PRETTY_FUNCTION__ << "("
-//          << topLeft.x << "/" << topLeft.y << " ; "
-//          << bottomRight.x << "/" << bottomRight.y
-//          << ")"<< std::endl;
+  spdlog::trace("{}({}/{}; {}/{})", topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
   if(image.format() != Image::Format::GRAY8)
   {
     throw std::invalid_argument("PolyLineProcessor::findDarkest only supports GRAY8 images");

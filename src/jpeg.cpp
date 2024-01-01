@@ -1,8 +1,8 @@
 #include "jpeg.hpp"
 
-#include <iostream>
-
 #include <jpeglib.h>
+
+#include <system_error>
 
 #include <cstring>
 #include <setjmp.h>

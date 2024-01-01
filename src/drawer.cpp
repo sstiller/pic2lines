@@ -1,7 +1,5 @@
 #include "drawer.hpp"
 
-#include <iostream>
-
 class Drawer::Private
 {
 public:

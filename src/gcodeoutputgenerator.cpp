@@ -2,8 +2,6 @@
 
 #include <stdexcept>
 
-#include <iostream>
-
 class PolyLine : public std::vector<Point<double>>
 {
 public:

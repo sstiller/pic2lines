@@ -14,6 +14,7 @@ find_package(Boost 1.75 REQUIRED
   COMPONENTS json
 )
 
+find_package(spdlog REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(JPEG REQUIRED libjpeg)
@@ -52,12 +53,12 @@ set(OBJECT_SRCS
 # so they can be re-used for the tests
 add_library(projectObjects OBJECT ${OBJECT_SRCS})
 
-
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME}
   projectObjects
   ${JPEG_LIBRARIES}
   Boost::json
+  spdlog::spdlog
 )
 target_include_directories(${PROJECT_NAME} PUBLIC ${JPEG_INCLUDE_DIRS})
 target_compile_options(${PROJECT_NAME} PUBLIC ${JPEG_CFLAGS_OTHER})
