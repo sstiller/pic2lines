@@ -1,4 +1,4 @@
-#include "svggenerator.h"
+#include "svggenerator.hpp"
 
 #include <algorithm>
 #include <iostream>

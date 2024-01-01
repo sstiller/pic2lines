@@ -1,4 +1,4 @@
-#include "crossesdrawer.h"
+#include "crossesdrawer.hpp"
 
 CrossesDrawer::CrossesDrawer(std::shared_ptr<const Image> inputImage,
                                    std::shared_ptr<OutputGenerator> outputGenerator)

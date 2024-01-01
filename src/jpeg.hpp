@@ -1,7 +1,7 @@
 #ifndef JPEG_H
 #define JPEG_H
 
-#include "image.h"
+#include "image.hpp"
 
 #include <string>
 #include <memory>

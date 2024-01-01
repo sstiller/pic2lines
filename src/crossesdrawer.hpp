@@ -1,7 +1,7 @@
 #ifndef CROSSESDRAWER_H
 #define CROSSESDRAWER_H
 
-#include "drawer.h"
+#include "drawer.hpp"
 
 class CrossesDrawer : public Drawer
 {

@@ -1,4 +1,4 @@
-#include "gcodeoutputgenerator.h"
+#include "gcodeoutputgenerator.hpp"
 
 #include <stdexcept>
 

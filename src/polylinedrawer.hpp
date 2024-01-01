@@ -1,8 +1,8 @@
 #ifndef POLYLINEDRAWER_H
 #define POLYLINEDRAWER_H
 
-#include "drawer.h"
-#include "vec2.h"
+#include "drawer.hpp"
+#include "vec2.hpp"
 
 class PolyLineDrawer : public Drawer
 {

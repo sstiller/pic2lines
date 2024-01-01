@@ -1,4 +1,4 @@
-#include "polylinedrawer.h"
+#include "polylinedrawer.hpp"
 
 #include <stdexcept>
 #include <iostream>

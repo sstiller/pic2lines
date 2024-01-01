@@ -1,4 +1,4 @@
-#include "textfileoutputgenerator.h"
+#include "textfileoutputgenerator.hpp"
 
 #include <fstream>
 

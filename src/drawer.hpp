@@ -1,8 +1,8 @@
 #ifndef DRAWER_H
 #define DRAWER_H
 
-#include "image.h"
-#include "outputgenerator.h"
+#include "image.hpp"
+#include "outputgenerator.hpp"
 
 #include <string>
 #include <memory>

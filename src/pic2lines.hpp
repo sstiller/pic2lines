@@ -1,7 +1,7 @@
 #ifndef PIC2LINES_H
 #define PIC2LINES_H
 
-#include "outputgenerator.h"
+#include "outputgenerator.hpp"
 
 #include <string>
 #include <memory>

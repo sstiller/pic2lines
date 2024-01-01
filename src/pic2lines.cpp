@@ -1,10 +1,10 @@
-#include "pic2lines.h"
-#include "outputgenerator.h"
+#include "pic2lines.hpp"
+#include "outputgenerator.hpp"
 
-#include "crossesdrawer.h"
-#include "polylinedrawer.h"
+#include "crossesdrawer.hpp"
+#include "polylinedrawer.hpp"
 
-#include "jpeg.h"
+#include "jpeg.hpp"
 
 #include <stdexcept>
 #include <iostream>
@@ -33,10 +33,10 @@ Pic2Lines::Pic2Lines(const std::string inFilePath, std::shared_ptr<OutputGenerat
             << " " << Image::formatToString(inputImage->format())
             << std::endl;
 
-  CrossesDrawer(inputImage, outputGenerator).run();
-  //CrossesProcessor(inputImage->verticalFlip(), outputGenerator).run();
-  //PolyLineProcessor(inputImage->verticalFlip(), outputGenerator).run();
-  //PolyLineProcessor(inputImage, outputGenerator).run();
+  //CrossesDrawer(inputImage, outputGenerator).run();
+  //CrossesDrawer(inputImage->verticalFlip(), outputGenerator).run();
+  PolyLineDrawer(inputImage->verticalFlip(), outputGenerator).run();
+  //PolyLineDrawer(inputImage, outputGenerator).run();
 //#error use vflip when gcode
 }
 

@@ -1,7 +1,7 @@
 #ifndef OUTPUTGENERATOR_H
 #define OUTPUTGENERATOR_H
 
-#include "vec2.h"
+#include "vec2.hpp"
 
 #include <memory>
 #include <string>

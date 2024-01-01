@@ -1,7 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include "vec2.h"
+#include "vec2.hpp"
 
 #include <memory>
 #include <vector>

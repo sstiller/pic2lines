@@ -1,4 +1,4 @@
-#include "outputgenerator.h"
+#include "outputgenerator.hpp"
 
 #include <algorithm>
 #include <stdexcept>

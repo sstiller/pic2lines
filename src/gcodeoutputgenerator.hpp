@@ -1,7 +1,7 @@
 #ifndef GCODEOUTPUTGENERATOR_H
 #define GCODEOUTPUTGENERATOR_H
 
-#include "textfileoutputgenerator.h"
+#include "textfileoutputgenerator.hpp"
 
 #include <cstdint>
 #include <memory>

@@ -1,7 +1,7 @@
 #ifndef SVGGENERATOR_H
 #define SVGGENERATOR_H
 
-#include "textfileoutputgenerator.h"
+#include "textfileoutputgenerator.hpp"
 
 class SvgGenerator final : public TextFileOutputGenerator
 {
