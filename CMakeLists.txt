@@ -4,7 +4,7 @@ project(pic2lines LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 
 # Optional: Enable testing
 option(BUILD_TESTS "Build tests" OFF)

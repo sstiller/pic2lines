@@ -22,9 +22,11 @@ public:
   }
 };
 
-OutputGenerator::OutputGenerator(const Dimensions<double> dimensions, const std::string& unit)
-: prv{std::make_unique<Private>(dimensions, unit)}
+OutputGenerator::OutputGenerator(const OutputConfig& config)
+: prv{std::make_unique<Private>(Dimensions<double>{config.width(), config.height()},
+                                config.unit())}
 {
+
 }
 
 OutputGenerator::~OutputGenerator() = default;

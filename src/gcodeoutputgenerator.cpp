@@ -77,14 +77,12 @@ public:
 
 GCodeOutputGenerator::GCodeOutputGenerator(const std::string &fileName,
                                            const GCodeConfig &config)
-: TextFileOutputGenerator(fileName, //TODO: give config directly
-                          Dimensions<double>{config.width(), config.height()},
-                          config.unit())
+: TextFileOutputGenerator(fileName, config)
 , prv{std::make_unique<Private>(config)}
 {
   laserOff();
   appendOutput("G90\n"); // absolute positioning
-  setUnit(config.unit());
+  setUnit(unit());
 }
 
 GCodeOutputGenerator::~GCodeOutputGenerator()
@@ -136,7 +134,7 @@ void GCodeOutputGenerator::setUnit(const std::string &unit)
 
 void GCodeOutputGenerator::generate()
 {
-  for(const auto line : prv->polyLines)
+  for(const auto& line : prv->polyLines)
   {
     generateLine(line.power, line);
   }
@@ -158,7 +156,7 @@ void GCodeOutputGenerator::generateLine(uint8_t power, const std::vector<Point<d
   laserOn(power);
   setSpeed(prv->config.burningSpeed());
   // start at the 2nd point because we already are at the first one
-  for(int i = 1; i < points.size(); i++)
+  for(unsigned int i = 1; i < points.size(); i++)
   {
     moveTo(points.at(i));
   }

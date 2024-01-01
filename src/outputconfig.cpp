@@ -20,6 +20,11 @@ OutputConfig::OutputConfig()
 {
 }
 
+OutputConfig::OutputConfig(const OutputConfig& other)
+: prv{std::make_unique<Private>(*other.prv)}
+{
+}
+
 OutputConfig::~OutputConfig() = default;
 
 

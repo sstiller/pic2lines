@@ -17,8 +17,9 @@ public:
 };
 
 
-SvgGenerator::SvgGenerator(const std::string& fileName, const Dimensions<double>& dimensions, const std::string& unit)
-: TextFileOutputGenerator(fileName, dimensions, unit)
+SvgGenerator::SvgGenerator(const std::string& fileName,
+                           const OutputConfig& config)
+: TextFileOutputGenerator(fileName, config)
 , prv{std::make_unique<Private>()}
 {
   startFile();

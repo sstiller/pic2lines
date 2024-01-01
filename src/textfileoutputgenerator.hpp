@@ -1,7 +1,7 @@
 #ifndef TEXTFILEOUTPUTGENERATOR_H
 #define TEXTFILEOUTPUTGENERATOR_H
 
-#include "vec2.hpp"
+#include "outputconfig.hpp"
 #include "outputgenerator.hpp"
 
 #include <memory>
@@ -9,7 +9,7 @@
 class TextFileOutputGenerator : public OutputGenerator
 {
 public:
-  TextFileOutputGenerator(const std::string& fileName, const Dimensions<double>& dimensions, const std::string& unit);
+  TextFileOutputGenerator(const std::string& fileName, const OutputConfig& config);
   ~TextFileOutputGenerator();
 protected:
   void appendOutput(std::string data);

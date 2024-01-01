@@ -2,6 +2,7 @@
 #define OUTPUTGENERATOR_H
 
 #include "vec2.hpp"
+#include "outputconfig.hpp"
 
 #include <memory>
 #include <string>
@@ -11,6 +12,7 @@ class OutputGenerator
 {
 protected:
   OutputGenerator(const Dimensions<double> dim, const std::string& unit);
+  OutputGenerator(const OutputConfig& config);
 public:
   ~OutputGenerator();
 

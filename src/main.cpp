@@ -16,8 +16,17 @@ int main(int argc, char** argv)
     exit(EXIT_FAILURE);
   }
 
-  //Pic2Lines pic2Lines(argv[1], std::make_shared<SvgGenerator>(argv[2], Dimensions<double>{100., 100.}, "mm"));
+#if 1
+  OutputConfig svgConfig;
+  svgConfig.height() = 100;
+  svgConfig.width() = 100;
+  svgConfig.unit() = "mm";
 
+  Pic2Lines pic2Lines(
+    argv[1],
+    std::make_shared<SvgGenerator>(argv[2], svgConfig)
+  );
+#else
   GCodeConfig gCodeConfig;
   gCodeConfig.height() = 200;
   gCodeConfig.width() = 200;
@@ -30,6 +39,7 @@ int main(int argc, char** argv)
       gCodeConfig
     )
   );
+#endif
 
   return 0;
 }
@@ -37,6 +47,6 @@ int main(int argc, char** argv)
 
 void printHelp(const std::string& command)
 {
-  std::cout << "Usage: " << command << " <jpegInFile> <ouputSvgFile>"
+  std::cout << "Usage: " << command << " <jpegInFile> <ouputFile>"
             << std::endl;
 }

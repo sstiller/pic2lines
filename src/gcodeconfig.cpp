@@ -27,7 +27,8 @@ GCodeConfig::GCodeConfig()
 }
 
 GCodeConfig::GCodeConfig(const GCodeConfig &other)
-: prv{std::make_unique<Private>(*other.prv)}
+: OutputConfig(other)
+, prv{std::make_unique<Private>(*other.prv)}
 {
 }
 

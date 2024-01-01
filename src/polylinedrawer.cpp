@@ -54,7 +54,6 @@ void PolyLineDrawer::run()
       currentBrightness = *grayscaleImage->data(darkestPoint);
       currentDarkness = 255. - currentBrightness;
     }
-    const double newOpcaity = std::min<double>(255., startDarkness);
 
     if(currentPolyLine.size() > MIN_LINES_PER_POLY + 1)
     {

@@ -78,7 +78,7 @@ std::shared_ptr<Image> Image::toGrayscale() const
     {
       auto  ret = std::make_shared<Image>(Format::GRAY8, prv->dimensions);
       const auto bytesPerPixel = formatBpp(prv->format);
-      for(unsigned int i = 0; i < prv->dimensions.x * prv->dimensions.y; i++)
+      for(int i = 0; i < prv->dimensions.x * prv->dimensions.y; i++)
       {
         ret->prv->data[i] = static_cast<uint8_t>(
           prv->data[i * bytesPerPixel] * 0.299 // red
@@ -89,6 +89,8 @@ std::shared_ptr<Image> Image::toGrayscale() const
       return ret;
     }
   }
+
+  return nullptr; // can not be reached, but compiler complains
 }
 
 std::shared_ptr<Image> Image::verticalFlip() const
@@ -119,6 +121,7 @@ unsigned int Image::formatBpp(Format format)
       return 3;
     }
   }
+  return 1; // can not be reached, but compiler complains
 }
 
 std::string Image::formatToString(Format format)
@@ -134,6 +137,8 @@ std::string Image::formatToString(Format format)
       return "RGB24";
     }
   }
+
+  return ""; // can not be reached, but compiler complains
 }
 
 Point<int> Image::indexToPosition(int index) const

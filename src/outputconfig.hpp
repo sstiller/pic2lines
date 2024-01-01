@@ -10,6 +10,7 @@ class OutputConfig : public Configuration
 {
 public:
   OutputConfig();
+  OutputConfig(const OutputConfig& other);
   virtual ~OutputConfig();
 
   std::string& unit();

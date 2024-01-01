@@ -1,14 +1,13 @@
-#ifndef SVGGENERATOR_H
-#define SVGGENERATOR_H
+#ifndef SVGGENERATOR_HPP
+#define SVGGENERATOR_HPP
 
+#include "outputconfig.hpp"
 #include "textfileoutputgenerator.hpp"
 
 class SvgGenerator final : public TextFileOutputGenerator
 {
 public:
-  SvgGenerator(const std::string& fileName,
-      const Dimensions<double>& dimensions,
-      const std::string& unit = "mm");
+  SvgGenerator(const std::string& fileName, const OutputConfig &config);
   ~SvgGenerator();
 public:
   // Output interface
@@ -27,4 +26,4 @@ private:
 
 };
 
-#endif // SVGGENERATOR_H
+#endif // SVGGENERATOR_HPP

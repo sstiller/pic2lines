@@ -13,8 +13,8 @@ public:
   }
 };
 
-TextFileOutputGenerator::TextFileOutputGenerator(const std::string& fileName, const Dimensions<double>& dimensions, const std::string& unit)
-: OutputGenerator(dimensions, unit)
+TextFileOutputGenerator::TextFileOutputGenerator(const std::string& fileName, const OutputConfig& config)
+: OutputGenerator(config)
 , prv{std::make_unique<Private>(fileName)}
 {
 }
