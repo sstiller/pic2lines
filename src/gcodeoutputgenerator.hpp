@@ -1,7 +1,8 @@
-#ifndef GCODEOUTPUTGENERATOR_H
-#define GCODEOUTPUTGENERATOR_H
+#ifndef GCODEOUTPUTGENERATOR_HPP
+#define GCODEOUTPUTGENERATOR_HPP
 
 #include "textfileoutputgenerator.hpp"
+#include "gcodeconfig.hpp"
 
 #include <cstdint>
 #include <memory>
@@ -11,8 +12,7 @@ class GCodeOutputGenerator final : public TextFileOutputGenerator
 {
 public:
   GCodeOutputGenerator(const std::string& fileName,
-                       const Dimensions<double>& dimensions,
-                       const std::string& unit = "mm");
+                       const GCodeConfig& config);
   ~GCodeOutputGenerator();
 
   // OutputGenerator interface
@@ -26,6 +26,7 @@ private:
   class Private;
   std::unique_ptr<Private> prv;
 
+  void setUnit(const std::string& unit);
   void generate();
   void generateLine(uint8_t power, const std::vector<Point<double> >& points);
   void laserOff();
@@ -34,4 +35,4 @@ private:
   void moveTo(const Point<double> point);
 };
 
-#endif // GCODEOUTPUTGENERATOR_H
+#endif // GCODEOUTPUTGENERATOR_HPP

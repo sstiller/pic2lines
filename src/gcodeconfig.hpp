@@ -10,6 +10,9 @@ class GCodeConfig final : public OutputConfig
 {
 public:
   GCodeConfig();
+
+  GCodeConfig(const GCodeConfig& other);
+
   ~GCodeConfig();
 
   std::string& laserOnCommand();
@@ -21,11 +24,13 @@ public:
   unsigned int& maxPower();
   const unsigned int& maxPower() const;
 
-  unsigned int& travelSpeed();
-  const unsigned int& travelSpeed() const;
+  // units / min
+  double& travelSpeed();
+  const double& travelSpeed() const;
 
-  unsigned int& burningSpeed();
-  const unsigned int& burningSpeed() const;
+  // units / min
+  double& burningSpeed();
+  const double& burningSpeed() const;
 
   unsigned int& numPasses();
   const unsigned int& numPasses() const;

@@ -11,8 +11,8 @@ class OutputConfig::Private
 {
 public:
   std::string unit{"mm"};
-  unsigned int width{200};
-  unsigned int height{200};
+  double width{200.0};
+  double height{200.0};
 };
 
 OutputConfig::OutputConfig()
@@ -33,22 +33,22 @@ const std::string &OutputConfig::unit() const
   return prv->unit;
 }
 
-unsigned int& OutputConfig::width()
+double& OutputConfig::width()
 {
   return prv->width;
 }
 
-const unsigned int& OutputConfig::width() const
+const double &OutputConfig::width() const
 {
   return prv->width;
 }
 
-unsigned int& OutputConfig::height()
+double& OutputConfig::height()
 {
   return prv->height;
 }
 
-const unsigned int& OutputConfig::height() const
+const double &OutputConfig::height() const
 {
   return prv->height;
 }
@@ -67,11 +67,8 @@ json::value OutputConfig::toJson() const
 void OutputConfig::fromJson(const json::value& input)
 {
   Configuration::fromJson(input);
-  auto& object = input.as_object();
+
   unit() = input.at(unitString).as_string();
-
-  // TODO: why can't we use uint64?
-  width() = input.at(widthString).as_int64();
-
-  height() = input.at(heightString).as_int64();
+  width() = input.at(widthString).as_double();
+  height() = input.at(heightString).as_double();
 }

@@ -2,14 +2,6 @@
 
 #include <stdexcept>
 
-#define LASER_OFF std::string("M05")
-#define LASER_ON std::string("M04")
-
-// units / min
-#define TRAVEL_SPEED 3000
-#define BURNING_SPEED 1000
-
-
 #include <iostream>
 
 class PolyLine : public std::vector<Point<double>>
@@ -26,6 +18,12 @@ class GCodeOutputGenerator::Private
 {
 public:
   std::vector<PolyLine> polyLines;
+  GCodeConfig config;
+
+  Private(const GCodeConfig& config)
+  : config(config)
+  {
+  }
   void sortLines()
   {
     //use vector.swap for sorting
@@ -77,26 +75,16 @@ public:
 
 // https://marlinfw.org/docs/gcode/G000-G001.html
 
-GCodeOutputGenerator::GCodeOutputGenerator(const std::string& fileName,
-                               const Dimensions<double>& dimensions,
-                               const std::string& unit)
-: TextFileOutputGenerator(fileName, dimensions, unit)
-, prv{std::make_unique<Private>()}
+GCodeOutputGenerator::GCodeOutputGenerator(const std::string &fileName,
+                                           const GCodeConfig &config)
+: TextFileOutputGenerator(fileName, //TODO: give config directly
+                          Dimensions<double>{config.width(), config.height()},
+                          config.unit())
+, prv{std::make_unique<Private>(config)}
 {
   laserOff();
-  appendOutput("G90\n");
-  if(unit == "mm")
-  {
-    appendOutput("G21\n");
-  }
-  else if(unit == "in")
-  {
-    appendOutput("G20\n");
-  }
-  else
-  {
-    throw std::invalid_argument("Unknown unit, only 'mm and 'in' supported");
-  }
+  appendOutput("G90\n"); // absolute positioning
+  setUnit(config.unit());
 }
 
 GCodeOutputGenerator::~GCodeOutputGenerator()
@@ -130,6 +118,22 @@ void GCodeOutputGenerator::drawPolyline(const std::vector<Point<double> >& point
   prv->polyLines.push_back(line);
 }
 
+void GCodeOutputGenerator::setUnit(const std::string &unit)
+{
+  if(unit == "mm")
+  {
+    appendOutput("G21\n");
+  }
+  else if(unit == "in")
+  {
+    appendOutput("G20\n");
+  }
+  else
+  {
+    throw std::invalid_argument("Unknown unit, only 'mm and 'in' supported");
+  }
+}
+
 void GCodeOutputGenerator::generate()
 {
   for(const auto line : prv->polyLines)
@@ -148,11 +152,11 @@ void GCodeOutputGenerator::generateLine(uint8_t power, const std::vector<Point<d
     throw std::invalid_argument("polyline needs at least 2 points");
   }
 
-  setSpeed(TRAVEL_SPEED);
+  setSpeed(prv->config.travelSpeed());
   moveTo(points.front());
 
   laserOn(power);
-  setSpeed(BURNING_SPEED);
+  setSpeed(prv->config.burningSpeed());
   // start at the 2nd point because we already are at the first one
   for(int i = 1; i < points.size(); i++)
   {
@@ -163,12 +167,12 @@ void GCodeOutputGenerator::generateLine(uint8_t power, const std::vector<Point<d
 
 void GCodeOutputGenerator::laserOff()
 {
-  appendOutput(LASER_OFF+ " S0\n");
+  appendOutput(prv->config.laserOffCommand() + " S0\n");
 }
 
 void GCodeOutputGenerator::laserOn(uint8_t strength)
 {
-  appendOutput(LASER_ON + " S" + std::to_string(static_cast<int>(strength)) + "\n");
+  appendOutput(prv->config.laserOnCommand() + " S" + std::to_string(static_cast<int>(strength)) + "\n");
 }
 
 void GCodeOutputGenerator::setSpeed(double speed)

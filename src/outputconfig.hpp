@@ -15,11 +15,11 @@ public:
   std::string& unit();
   const std::string& unit() const;
 
-  unsigned int& width();
-  const unsigned int& width() const;
+  double& width();
+  const double& width() const;
 
-  unsigned int& height();
-  const unsigned int& height() const;
+  double &height();
+  const double& height() const;
 
 private:
   class Private;

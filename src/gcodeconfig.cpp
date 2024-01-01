@@ -16,13 +16,18 @@ public:
   std::string laserOnCommand{"M04"};
   std::string laserOffCommand{"M05"};
   unsigned int maxPower{255};
-  unsigned int travelSpeed{3000};
-  unsigned int burningSpeed{1000};
+  double travelSpeed{3000};
+  double burningSpeed{1000};
   unsigned int numPasses{1};
 };
 
 GCodeConfig::GCodeConfig()
 : prv{std::make_unique<Private>()}
+{
+}
+
+GCodeConfig::GCodeConfig(const GCodeConfig &other)
+: prv{std::make_unique<Private>(*other.prv)}
 {
 }
 
@@ -58,22 +63,22 @@ const unsigned int &GCodeConfig::maxPower() const
   return prv->maxPower;
 }
 
-unsigned int &GCodeConfig::travelSpeed()
+double& GCodeConfig::travelSpeed()
 {
   return prv->travelSpeed;
 }
 
-const unsigned int &GCodeConfig::travelSpeed() const
+const double &GCodeConfig::travelSpeed() const
 {
   return prv->travelSpeed;
 }
 
-unsigned int &GCodeConfig::burningSpeed()
+double& GCodeConfig::burningSpeed()
 {
   return prv->burningSpeed;
 }
 
-const unsigned int &GCodeConfig::burningSpeed() const
+const double& GCodeConfig::burningSpeed() const
 {
   return prv->burningSpeed;
 }
@@ -110,8 +115,8 @@ void GCodeConfig::fromJson(const json::value &input)
   laserOffCommand() = input.at(laserOffCommandString).as_string();
   //TODO: why can't we use uint64?
   maxPower() = input.at(maxPowerString).as_int64();
-  travelSpeed() = input.at(travelSpeedString).as_int64();
-  burningSpeed() = input.at(burningSpeedString).as_int64();
+  travelSpeed() = input.at(travelSpeedString).as_double();
+  burningSpeed() = input.at(burningSpeedString).as_double();
   numPasses() = input.at(numPassesString).as_int64();
 }
 

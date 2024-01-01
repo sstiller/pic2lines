@@ -2,6 +2,7 @@
 #include "svggenerator.hpp"
 #include "gcodeoutputgenerator.hpp"
 #include "pic2lines.hpp"
+#include "gcodeconfig.hpp"
 
 #include <iostream>
 void printHelp(const std::string& command);
@@ -16,7 +17,19 @@ int main(int argc, char** argv)
   }
 
   //Pic2Lines pic2Lines(argv[1], std::make_shared<SvgGenerator>(argv[2], Dimensions<double>{100., 100.}, "mm"));
-  Pic2Lines pic2Lines(argv[1], std::make_shared<GCodeOutputGenerator>(argv[2], Dimensions<double>{200., 200.}, "mm"));
+
+  GCodeConfig gCodeConfig;
+  gCodeConfig.height() = 200;
+  gCodeConfig.width() = 200;
+  gCodeConfig.unit() = "mm";
+
+  Pic2Lines pic2Lines(
+    argv[1],
+    std::make_shared<GCodeOutputGenerator>(
+      argv[2],
+      gCodeConfig
+    )
+  );
 
   return 0;
 }
