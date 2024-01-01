@@ -1,6 +1,5 @@
 #include "outputconfig.hpp"
 
-
 namespace
 {
   const std::string unitString{"unit"};
@@ -68,8 +67,11 @@ json::value OutputConfig::toJson() const
 void OutputConfig::fromJson(const json::value& input)
 {
   Configuration::fromJson(input);
-
+  auto& object = input.as_object();
   unit() = input.at(unitString).as_string();
-  width() = input.at(widthString).as_uint64();
-  height() = input.at(heightString).as_uint64();
+
+  // TODO: why can't we use uint64?
+  width() = input.at(widthString).as_int64();
+
+  height() = input.at(heightString).as_int64();
 }

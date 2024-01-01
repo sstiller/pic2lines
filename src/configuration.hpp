@@ -14,7 +14,7 @@ public:
 
   virtual json::value toJson() const;
   virtual void fromJson(const json::value &input);
-  void fromJson(const std::string& jsonString);
+  void fromJsonString(const std::string& jsonString);
 };
 
 #endif // CONFIGURATION_HPP

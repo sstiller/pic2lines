@@ -106,12 +106,12 @@ json::value GCodeConfig::toJson() const
 void GCodeConfig::fromJson(const json::value &input)
 {
   OutputConfig::fromJson(input);
-
   laserOnCommand() = input.at(laserOnCommandString).as_string();
   laserOffCommand() = input.at(laserOffCommandString).as_string();
-  maxPower() = input.at(maxPowerString).as_uint64();
-  travelSpeed() = input.at(travelSpeedString).as_uint64();
-  burningSpeed() = input.at(burningSpeedString).as_uint64();
-  numPasses() = input.at(numPassesString).as_uint64();
+  //TODO: why can't we use uint64?
+  maxPower() = input.at(maxPowerString).as_int64();
+  travelSpeed() = input.at(travelSpeedString).as_int64();
+  burningSpeed() = input.at(burningSpeedString).as_int64();
+  numPasses() = input.at(numPassesString).as_int64();
 }
 
