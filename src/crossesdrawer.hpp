@@ -1,5 +1,5 @@
-#ifndef CROSSESDRAWER_H
-#define CROSSESDRAWER_H
+#ifndef CROSSESDRAWER_HPP
+#define CROSSESDRAWER_HPP
 
 #include "drawer.hpp"
 
@@ -14,4 +14,4 @@ public:
   void run() override;
 };
 
-#endif // CROSSESDRAWER_H
+#endif // CROSSESDRAWER_HPP

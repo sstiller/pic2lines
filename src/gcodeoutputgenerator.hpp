@@ -11,8 +11,8 @@ class GCodeOutputGenerator final : public TextFileOutputGenerator
 {
 public:
   GCodeOutputGenerator(const std::string& fileName,
-                 const Dimensions<double>& dimensions,
-                 const std::string& unit = "mm");
+                       const Dimensions<double>& dimensions,
+                       const std::string& unit = "mm");
   ~GCodeOutputGenerator();
 
   // OutputGenerator interface
