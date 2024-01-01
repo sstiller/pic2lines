@@ -1,5 +1,5 @@
-#ifndef OUTPUTGENERATOR_H
-#define OUTPUTGENERATOR_H
+#ifndef OUTPUTGENERATOR_HPP
+#define OUTPUTGENERATOR_HPP
 
 #include "vec2.hpp"
 #include "outputconfig.hpp"
@@ -40,4 +40,4 @@ private:
 };
 
 
-#endif // OUTPUTGENERATOR_H
+#endif // OUTPUTGENERATOR_HPP

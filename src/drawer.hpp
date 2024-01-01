@@ -1,5 +1,5 @@
-#ifndef DRAWER_H
-#define DRAWER_H
+#ifndef DRAWER_HPP
+#define DRAWER_HPP
 
 #include "image.hpp"
 #include "outputgenerator.hpp"
@@ -28,4 +28,4 @@ private:
 };
 
 
-#endif // DRAWER_H
+#endif // DRAWER_HPP

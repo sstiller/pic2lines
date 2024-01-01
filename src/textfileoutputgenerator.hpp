@@ -1,5 +1,5 @@
-#ifndef TEXTFILEOUTPUTGENERATOR_H
-#define TEXTFILEOUTPUTGENERATOR_H
+#ifndef TEXTFILEOUTPUTGENERATOR_HPP
+#define TEXTFILEOUTPUTGENERATOR_HPP
 
 #include "outputconfig.hpp"
 #include "outputgenerator.hpp"
@@ -19,4 +19,4 @@ private:
   std::unique_ptr<Private> prv;
 };
 
-#endif // TEXTFILEOUTPUTGENERATOR_H
+#endif // TEXTFILEOUTPUTGENERATOR_HPP

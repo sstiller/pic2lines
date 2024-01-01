@@ -1,5 +1,5 @@
-#ifndef JPEG_H
-#define JPEG_H
+#ifndef JPEG_HPP
+#define JPEG_HPP
 
 #include "image.hpp"
 
@@ -8,4 +8,4 @@
 
 std::shared_ptr<Image> readJpeg(const std::string& path);
 
-#endif // JPEG_H
+#endif // JPEG_HPP

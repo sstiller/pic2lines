@@ -1,5 +1,5 @@
-#ifndef VEC2_H
-#define VEC2_H
+#ifndef VEC2_HPP
+#define VEC2_HPP
 
 #include <cmath>
 #include <string>
@@ -89,4 +89,4 @@ using Dimensions = Vec2<T>;
 template <typename T>
 using Point = Vec2<T>;
 
-#endif // VEC2_H
+#endif // VEC2_HPP

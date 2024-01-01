@@ -1,5 +1,5 @@
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef IMAGE_HPP
+#define IMAGE_HPP
 
 #include "vec2.hpp"
 
@@ -44,4 +44,4 @@ private:
 
 };
 
-#endif // IMAGE_H
+#endif // IMAGE_HPP

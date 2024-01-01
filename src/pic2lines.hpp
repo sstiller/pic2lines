@@ -1,5 +1,5 @@
-#ifndef PIC2LINES_H
-#define PIC2LINES_H
+#ifndef PIC2LINES_HPP
+#define PIC2LINES_HPP
 
 #include "outputgenerator.hpp"
 
@@ -15,4 +15,4 @@ private:
   class Private;
   std::unique_ptr<Private> prv;};
 
-#endif // PIC2LINES_H
+#endif // PIC2LINES_HPP

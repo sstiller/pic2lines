@@ -1,5 +1,5 @@
-#ifndef POLYLINEDRAWER_H
-#define POLYLINEDRAWER_H
+#ifndef POLYLINEDRAWER_HPP
+#define POLYLINEDRAWER_HPP
 
 #include "drawer.hpp"
 #include "vec2.hpp"
@@ -20,4 +20,4 @@ private:
   static Point<int> findDarkest(const Image& image, Point<int> pos, unsigned int maxDistance);
 };
 
-#endif // POLYLINEDRAWER_H
+#endif // POLYLINEDRAWER_HPP
