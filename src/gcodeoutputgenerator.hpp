@@ -1,18 +1,17 @@
 #ifndef GCODEOUTPUTGENERATOR_HPP
 #define GCODEOUTPUTGENERATOR_HPP
 
-#include "textfileoutputgenerator.hpp"
+#include "textoutputgenerator.hpp"
 #include "gcodeconfig.hpp"
 
 #include <cstdint>
 #include <memory>
 #include <string>
 
-class GCodeOutputGenerator final : public TextFileOutputGenerator
+class GCodeOutputGenerator final : public TextOutputGenerator
 {
 public:
-  GCodeOutputGenerator(const std::string& fileName,
-                       const GCodeConfig& config);
+  GCodeOutputGenerator(const GCodeConfig& config);
   ~GCodeOutputGenerator();
 
   // OutputGenerator interface

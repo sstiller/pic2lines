@@ -9,7 +9,9 @@
 class Pic2Lines final
 {
 public:
-  Pic2Lines(const std::string inFilePath, std::shared_ptr<OutputGenerator> outputGenerator);
+  Pic2Lines(const std::string& inFilePath,
+            std::shared_ptr<OutputGenerator> outputGenerator,
+            const std::string& outFilePath);
   ~Pic2Lines();
 private:
   class Private;

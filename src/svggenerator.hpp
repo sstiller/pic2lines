@@ -2,12 +2,12 @@
 #define SVGGENERATOR_HPP
 
 #include "outputconfig.hpp"
-#include "textfileoutputgenerator.hpp"
+#include "textoutputgenerator.hpp"
 
-class SvgGenerator final : public TextFileOutputGenerator
+class SvgGenerator final : public TextOutputGenerator
 {
 public:
-  SvgGenerator(const std::string& fileName, const OutputConfig &config);
+  SvgGenerator(const OutputConfig &config);
   ~SvgGenerator();
 public:
   // Output interface

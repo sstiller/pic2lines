@@ -33,6 +33,8 @@ public:
   virtual void drawLine(const Point<double>& p1, const Point<double>& p2) = 0;
   virtual void drawPolyline(const std::vector<Point<double>>& points) = 0;
 
+  virtual void writeToFile(const std::string& fileName) = 0;
+
 
 private:
   class Private;

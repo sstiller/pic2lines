@@ -16,6 +16,9 @@ int main(int argc, char** argv)
     exit(EXIT_FAILURE);
   }
 
+  const std::string inputFilename(argv[1]);
+  const std::string outputFilename(argv[2]);
+
 #if 1
   OutputConfig svgConfig;
   svgConfig.height() = 100;
@@ -23,8 +26,9 @@ int main(int argc, char** argv)
   svgConfig.unit() = "mm";
 
   Pic2Lines pic2Lines(
-    argv[1],
-    std::make_shared<SvgGenerator>(argv[2], svgConfig)
+    inputFilename,
+    std::make_shared<SvgGenerator>(svgConfig),
+    outputFilename
   );
 #else
   GCodeConfig gCodeConfig;
@@ -33,11 +37,9 @@ int main(int argc, char** argv)
   gCodeConfig.unit() = "mm";
 
   Pic2Lines pic2Lines(
-    argv[1],
-    std::make_shared<GCodeOutputGenerator>(
-      argv[2],
-      gCodeConfig
-    )
+    inputFilename,
+    std::make_shared<GCodeOutputGenerator>(gCodeConfig),
+    outputFilename
   );
 #endif
 

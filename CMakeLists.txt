@@ -43,8 +43,8 @@ set(OBJECT_SRCS
   src/polylinedrawer.hpp
   src/svggenerator.cpp
   src/svggenerator.hpp
-  src/textfileoutputgenerator.cpp
-  src/textfileoutputgenerator.hpp
+  src/textoutputgenerator.cpp
+  src/textoutputgenerator.hpp
   src/vec2.hpp
 )
 

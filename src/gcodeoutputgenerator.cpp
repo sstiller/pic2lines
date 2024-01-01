@@ -75,9 +75,8 @@ public:
 
 // https://marlinfw.org/docs/gcode/G000-G001.html
 
-GCodeOutputGenerator::GCodeOutputGenerator(const std::string &fileName,
-                                           const GCodeConfig &config)
-: TextFileOutputGenerator(fileName, config)
+GCodeOutputGenerator::GCodeOutputGenerator(const GCodeConfig &config)
+: TextOutputGenerator(config)
 , prv{std::make_unique<Private>(config)}
 {
   laserOff();

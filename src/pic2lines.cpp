@@ -25,9 +25,10 @@ public:
 
 Pic2Lines::~Pic2Lines() = default;
 
-Pic2Lines::Pic2Lines(const std::string inFilePath, std::shared_ptr<OutputGenerator> outputGenerator)
+Pic2Lines::Pic2Lines(const std::string& inFilePath,
+                     std::shared_ptr<OutputGenerator> outputGenerator,
+                     const std::string& outFilePath)
 {
-
   auto inputImage = readJpeg(inFilePath); // throws on error
   std::cout << "Loaded image: " << inputImage->dimensions().toString()
             << " " << Image::formatToString(inputImage->format())
@@ -38,5 +39,8 @@ Pic2Lines::Pic2Lines(const std::string inFilePath, std::shared_ptr<OutputGenerat
   PolyLineDrawer(inputImage->verticalFlip(), outputGenerator).run();
   //PolyLineDrawer(inputImage, outputGenerator).run();
 //#error use vflip when gcode
+
+  outputGenerator->writeToFile(outFilePath);
 }
+
 

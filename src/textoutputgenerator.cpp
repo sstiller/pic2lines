@@ -1,32 +1,34 @@
-#include "textfileoutputgenerator.hpp"
+#include "textoutputgenerator.hpp"
 
 #include <fstream>
 
-class TextFileOutputGenerator::Private
+class TextOutputGenerator::Private
 {
 public:
-  const std::string fileName;
   std::string fileContent;
-  Private(const std::string& fileName)
-  : fileName{fileName}
-  {
-  }
 };
 
-TextFileOutputGenerator::TextFileOutputGenerator(const std::string& fileName, const OutputConfig& config)
+TextOutputGenerator::TextOutputGenerator(const OutputConfig& config)
 : OutputGenerator(config)
-, prv{std::make_unique<Private>(fileName)}
+, prv{std::make_unique<Private>()}
 {
 }
 
-TextFileOutputGenerator::~TextFileOutputGenerator()
+TextOutputGenerator::~TextOutputGenerator() = default;
+
+const std::string& TextOutputGenerator::getOutput()
 {
-  std::ofstream outFile(prv->fileName, std::ofstream::out);
-  outFile << prv->fileContent;
-  outFile.close();
+  return prv->fileContent;
 }
 
-void TextFileOutputGenerator::appendOutput(std::string data)
+void TextOutputGenerator::appendOutput(std::string data)
 {
   prv->fileContent.append(data);
+}
+
+void TextOutputGenerator::writeToFile(const std::string& fileName)
+{
+  std::ofstream outFile(fileName, std::ofstream::out);
+  outFile << prv->fileContent;
+  outFile.close();
 }

@@ -1,22 +1,29 @@
-#ifndef TEXTFILEOUTPUTGENERATOR_HPP
-#define TEXTFILEOUTPUTGENERATOR_HPP
+#ifndef TEXTOUTPUTGENERATOR_H
+#define TEXTOUTPUTGENERATOR_H
 
 #include "outputconfig.hpp"
 #include "outputgenerator.hpp"
 
 #include <memory>
 
-class TextFileOutputGenerator : public OutputGenerator
+class TextOutputGenerator : public OutputGenerator
 {
 public:
-  TextFileOutputGenerator(const std::string& fileName, const OutputConfig& config);
-  ~TextFileOutputGenerator();
+  TextOutputGenerator(const OutputConfig& config);
+  ~TextOutputGenerator();
+
+  const std::string& getOutput();
 protected:
   void appendOutput(std::string data);
 
 private:
   class Private;
   std::unique_ptr<Private> prv;
+
+
+  // OutputGenerator interface
+public:
+  void writeToFile(const std::string& fileName) override;
 };
 
-#endif // TEXTFILEOUTPUTGENERATOR_HPP
+#endif // TEXTOUTPUTGENERATOR_H
