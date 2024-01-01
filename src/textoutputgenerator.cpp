@@ -32,3 +32,8 @@ void TextOutputGenerator::writeToFile(const std::string& fileName)
   outFile << prv->fileContent;
   outFile.close();
 }
+
+void TextOutputGenerator::reset()
+{
+  prv->fileContent.clear();
+}
