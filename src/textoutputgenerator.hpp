@@ -24,7 +24,7 @@ private:
   // OutputGenerator interface
 public:
   void writeToFile(const std::string& fileName) override;
-  void reset();
+  void init() override;
 };
 
 #endif // TEXTOUTPUTGENERATOR_H

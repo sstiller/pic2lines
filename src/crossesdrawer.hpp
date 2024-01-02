@@ -5,13 +5,9 @@
 
 class CrossesDrawer : public Drawer
 {
-public:
-  CrossesDrawer(std::shared_ptr<const Image> inputImage,
-                   std::shared_ptr<OutputGenerator> outputGenerator);
-
-  // Processor interface
-public:
-  void run() override;
+protected:
+  void doProcess(std::shared_ptr<const Image> inputImage,
+               std::shared_ptr<OutputGenerator> outputGenerator) override;
 };
 
 #endif // CROSSESDRAWER_HPP

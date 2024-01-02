@@ -21,7 +21,7 @@ public:
 
 
 //#error function to process whole polyline., class Point
-  void setLineWidth(double width) ;
+  void setLineWidth(double width);
   double lineWidth() const;
 
   void setOpacity(double opacity);
@@ -34,7 +34,10 @@ public:
   virtual void drawPolyline(const std::vector<Point<double>>& points) = 0;
 
   virtual void writeToFile(const std::string& fileName) = 0;
-  virtual void reset() = 0;
+
+  virtual void init() = 0;
+  virtual void finish() = 0;
+
 
 
 private:

@@ -10,6 +10,7 @@
 
 //TODO: remove poly lines with only one point
 
+//TODO: replace by PolyLineDrawer::Config, inherits from DrawerConfig
 #define BRIGHTNESS_INC 25
 #define NEIGHBOUR_DIST 1 // TODO: if neighbour dist > 1, also increase brightness of pixels between
 #define STOP_BRIGHTNESS 200.
@@ -17,17 +18,15 @@
 #define LINE_WIDTH 0.2
 #define MIN_LINES_PER_POLY 5
 
-PolyLineDrawer::PolyLineDrawer(std::shared_ptr<const Image> inputImage,
-                                     std::shared_ptr<OutputGenerator> outputGenerator)
-: Drawer(inputImage, outputGenerator)
+void PolyLineDrawer::doProcess(std::shared_ptr<const Image> inputImage,
+                               std::shared_ptr<OutputGenerator> outputGenerator)
 {
   srand(time(nullptr));
   outputGenerator->setLineWidth(LINE_WIDTH);
-}
 
-void PolyLineDrawer::run()
-{
-  auto grayscaleImage = inputImage()->toGrayscale();
+  auto grayscaleImage = inputImage->toGrayscale();
+  const auto scalingFactor = calculateScalingFactor(inputImage->dimensions(),
+                                                    outputGenerator->dimensions());
 
   double startBrightness{255};
   do
@@ -41,14 +40,14 @@ void PolyLineDrawer::run()
     }
     const auto startDarkness = 255. - startBrightness;
     auto currentDarkness = startDarkness;
-    outputGenerator()->setOpacity(START_OPACITY * std::min(1., startDarkness / 255));
+    outputGenerator->setOpacity(START_OPACITY * std::min(1., startDarkness / 255));
     std::vector<Point<double>> currentPolyLine;
     while(currentBrightness <= STOP_BRIGHTNESS
           && currentDarkness >= startDarkness * 0.7)
     {
-      const auto randomX = (static_cast<double>(rand()) / RAND_MAX) * scale();
-      const auto randomY = (static_cast<double>(rand()) / RAND_MAX) * scale();
-      currentPolyLine.emplace_back(Point<double>{darkestPoint.x * scale() + randomX, darkestPoint.y * scale() + randomY});
+      const auto randomX = (static_cast<double>(rand()) / RAND_MAX) * scalingFactor;
+      const auto randomY = (static_cast<double>(rand()) / RAND_MAX) * scalingFactor;
+      currentPolyLine.emplace_back(Point<double>{darkestPoint.x * scalingFactor + randomX, darkestPoint.y * scalingFactor + randomY});
       *grayscaleImage->data(darkestPoint) += static_cast<uint8_t>(BRIGHTNESS_INC);
 
       darkestPoint = findDarkest(*grayscaleImage, darkestPoint, NEIGHBOUR_DIST);
@@ -58,7 +57,7 @@ void PolyLineDrawer::run()
 
     if(currentPolyLine.size() > MIN_LINES_PER_POLY + 1)
     {
-      outputGenerator()->drawPolyline(currentPolyLine);
+      outputGenerator->drawPolyline(currentPolyLine);
     }
   } while(startBrightness < STOP_BRIGHTNESS);
 }

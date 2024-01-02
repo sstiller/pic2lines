@@ -1,47 +1,19 @@
 #include "drawer.hpp"
 
-class Drawer::Private
-{
-public:
-  std::shared_ptr<const Image> inputImage;
-  std::shared_ptr<OutputGenerator> outputGenerator;
-  double scale{1};
-
-  Private(std::shared_ptr<const Image> inputImage,
-          std::shared_ptr<OutputGenerator> outputGenerator)
-  : inputImage{inputImage}
-  , outputGenerator{outputGenerator}
-  {
-    if(! inputImage)
-    {
-      throw std::invalid_argument("Processor: No valid image");
-    }
-
-  }
-};
-
-Drawer::Drawer(std::shared_ptr<const Image> inputImage,
+void Drawer::process(std::shared_ptr<const Image> inputImage,
                      std::shared_ptr<OutputGenerator> outputGenerator)
-: prv{std::make_unique<Private>(inputImage, outputGenerator)}
 {
-  const auto xScale = outputGenerator->dimensions().x / inputImage->dimensions().x;
-  const auto yScale = outputGenerator->dimensions().y / inputImage->dimensions().y;
-  prv->scale = std::min(xScale, yScale);
+  outputGenerator->init();
+  doProcess(inputImage, outputGenerator);
+  outputGenerator->finish();
 }
 
-Drawer::~Drawer() = default;
-
-std::shared_ptr<const Image> Drawer::inputImage()
+double Drawer::calculateScalingFactor(const Dimensions<int>& imageDimensions,
+                                      const Dimensions<double>& outputDimensions)
 {
-  return prv->inputImage;
+  const auto xScale = outputDimensions.x / imageDimensions.x;
+  const auto yScale = outputDimensions.y / imageDimensions.y;
+  return std::min(xScale, yScale);
 }
 
-std::shared_ptr<OutputGenerator> Drawer::outputGenerator()
-{
-  return prv->outputGenerator;
-}
 
-double Drawer::scale() const
-{
-  return prv->scale;
-}

@@ -33,7 +33,7 @@ void TextOutputGenerator::writeToFile(const std::string& fileName)
   outFile.close();
 }
 
-void TextOutputGenerator::reset()
+void TextOutputGenerator::init()
 {
   prv->fileContent.clear();
 }

@@ -1,8 +1,8 @@
 #ifndef DRAWER_HPP
 #define DRAWER_HPP
 
-#include "image.hpp"
 #include "outputgenerator.hpp"
+#include "image.hpp"
 
 #include <string>
 #include <memory>
@@ -10,21 +10,15 @@
 class Drawer
 {
 public:
-  Drawer(std::shared_ptr<const Image> inputImage,
-            std::shared_ptr<OutputGenerator> outputGenerator);
-
-  virtual ~Drawer();
-
-  virtual void run() = 0;
+  void process(std::shared_ptr<const Image> inputImage,
+               std::shared_ptr<OutputGenerator> outputGenerator);
 
 protected:
-  std::shared_ptr<const Image> inputImage();
-  std::shared_ptr<OutputGenerator> outputGenerator();
-  double scale() const;
+  virtual void doProcess(std::shared_ptr<const Image> inputImage,
+                         std::shared_ptr<OutputGenerator> outputGenerator) = 0;
 
-private:
-  class Private;
-  std::unique_ptr<Private> prv;
+  static double calculateScalingFactor(const Dimensions<int>& imageDimensions,
+                                       const Dimensions<double>& outputDimensions);
 };
 
 

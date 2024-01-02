@@ -20,12 +20,11 @@ SvgGenerator::SvgGenerator(const OutputConfig& config)
 : TextOutputGenerator(config)
 , prv{std::make_unique<Private>()}
 {
-  startFile();
+  init();
 }
 
 SvgGenerator::~SvgGenerator()
 {
-  finishFile();
 }
 
 void SvgGenerator::updateLineProperties()
@@ -60,8 +59,10 @@ void SvgGenerator::drawPolyline(const std::vector<Point<double> >& points)
   appendOutput("\" />\"\n");
 }
 
-void SvgGenerator::startFile()
+void SvgGenerator::init()
 {
+  TextOutputGenerator::init();
+
   appendOutput("<svg viewBox=\"0 0 " + std::to_string(dimensions().x) + " " + std::to_string(dimensions().y) + "\"\n"
                           + "  units=\"" + unit() + "\"\n"
                           + "  width=\"" + std::to_string(dimensions().x) + unit() + "\"\n"
@@ -69,7 +70,7 @@ void SvgGenerator::startFile()
                           + "  xmlns=\"http://www.w3.org/2000/svg\">\n");
 }
 
-void SvgGenerator::finishFile()
+void SvgGenerator::finish()
 {
   appendOutput("</svg>\n");
 }

@@ -20,6 +20,8 @@ public:
   void drawLine(const Point<double>& p1, const Point<double>& p2) override;
   void drawPolyline(const std::vector<Point<double> >& points) override;
 
+  void init() override;
+  void finish() override;
 
 private:
   class Private;

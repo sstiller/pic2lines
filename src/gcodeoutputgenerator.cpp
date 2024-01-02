@@ -84,8 +84,6 @@ GCodeOutputGenerator::GCodeOutputGenerator(const GCodeConfig &config)
 
 GCodeOutputGenerator::~GCodeOutputGenerator()
 {
-  prv->sortLines();
-  generate();
 }
 
 void GCodeOutputGenerator::updateLineProperties()
@@ -111,6 +109,19 @@ void GCodeOutputGenerator::drawPolyline(const std::vector<Point<double> >& point
   PolyLine line(opacity() * 255);
   std::copy(points.begin(), points.end(), std::back_inserter(line));
   prv->polyLines.push_back(line);
+}
+
+void GCodeOutputGenerator::init()
+{
+  TextOutputGenerator::init();
+  prv->polyLines.clear();
+  setUnit(unit());
+}
+
+void GCodeOutputGenerator::finish()
+{
+  prv->sortLines();
+  generate();
 }
 
 void GCodeOutputGenerator::setUnit(const std::string &unit)
@@ -144,7 +155,7 @@ void GCodeOutputGenerator::generateLine(uint8_t power, const std::vector<Point<d
   // TODO: do not move if same point
   if(points.size() < 2)
   {
-    throw std::invalid_argument("polyline needs at least 2 points");
+    throw std::invalid_argument("(poly)line needs at least 2 points");
   }
 
   setSpeed(prv->config.travelSpeed());

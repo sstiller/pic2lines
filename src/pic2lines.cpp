@@ -35,11 +35,11 @@ Pic2Lines::Pic2Lines(const std::string& inFilePath,
                inputImage->dimensions().toString(),
                Image::formatToString(inputImage->format()));
 
-  //CrossesDrawer(inputImage, outputGenerator).run();
-  //CrossesDrawer(inputImage->verticalFlip(), outputGenerator).run();
-  PolyLineDrawer(inputImage->verticalFlip(), outputGenerator).run();
-  //PolyLineDrawer(inputImage, outputGenerator).run();
 //#error use vflip when gcode
+  CrossesDrawer().process(inputImage, outputGenerator);
+  //CrossesDrawer().process(inputImage->verticalFlip(), outputGenerator);
+  //PolyLineDrawer().process(inputImage->verticalFlip(), outputGenerator);
+  //PolyLineDrawer().process(inputImage, outputGenerator);
 
   outputGenerator->writeToFile(outFilePath);
 }

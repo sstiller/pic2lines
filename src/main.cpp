@@ -24,7 +24,7 @@ int main(int argc, char** argv)
   const std::string inputFilename(argv[1]);
   const std::string outputFilename(argv[2]);
 
-#if 1
+#if 0
   OutputConfig svgConfig;
   svgConfig.height() = 100;
   svgConfig.width() = 100;
