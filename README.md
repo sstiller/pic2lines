@@ -9,7 +9,8 @@ Target platform is GNU/Linux, I don't have MS Windows to test. However, I try to
 
 
 ## Purpose
-For me, this project is one of my playgrounds to test some C++ concepts and libraries, I never tried.
+For me, this project is one of my playgrounds to test some C++ concepts and libraries, I never tried.  
+For this reason, the code may be pretty ugly.
 
 Also, I want to play with my cheap chinese laser plotter a bit
 
