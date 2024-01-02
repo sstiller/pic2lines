@@ -3,10 +3,12 @@
 #include "gcodeoutputgenerator.hpp"
 #include "pic2lines.hpp"
 #include "gcodeconfig.hpp"
+#include "drawerfactory.hpp"
 
 #include <spdlog/spdlog.h>
 
 #include <iostream>
+#include <numeric> // accumulate
 
 void printHelp(const std::string& command);
 
@@ -24,6 +26,21 @@ int main(int argc, char** argv)
   const std::string inputFilename(argv[1]);
   const std::string outputFilename(argv[2]);
 
+  const auto drawerNames = DrawerFactory::availableDrawers();
+  // Creating a string separated by commas
+  const std::string drawerNamesString = std::accumulate(
+    std::next(drawerNames.begin()), drawerNames.end(), drawerNames.front(),
+      [](const std::string &a, const std::string &b) {
+        return a + ", " + b;
+      }
+  );
+  spdlog::info("Available drawers: {}", drawerNamesString);
+#if 1
+  const std::string drawerType = "crosses";
+#else
+  const std::string drawerType = "crosses";
+#endif
+
 #if 0
   OutputConfig svgConfig;
   svgConfig.height() = 100;
@@ -31,6 +48,7 @@ int main(int argc, char** argv)
   svgConfig.unit() = "mm";
 
   Pic2Lines pic2Lines(
+    drawerType,
     inputFilename,
     std::make_shared<SvgGenerator>(svgConfig),
     outputFilename
@@ -42,6 +60,7 @@ int main(int argc, char** argv)
   gCodeConfig.unit() = "mm";
 
   Pic2Lines pic2Lines(
+    drawerType,
     inputFilename,
     std::make_shared<GCodeOutputGenerator>(gCodeConfig),
     outputFilename

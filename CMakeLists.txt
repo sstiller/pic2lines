@@ -26,6 +26,8 @@ set(OBJECT_SRCS
   src/crossesdrawer.hpp
   src/drawer.cpp
   src/drawer.hpp
+  src/drawerfactory.cpp
+  src/drawerfactory.hpp
   src/gcodeconfig.cpp
   src/gcodeconfig.hpp
   src/gcodeoutputgenerator.cpp
