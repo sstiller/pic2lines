@@ -1,14 +1,21 @@
+#define USE_GUI
 
-#include "svggenerator.hpp"
-#include "gcodeoutputgenerator.hpp"
-#include "pic2lines.hpp"
-#include "gcodeconfig.hpp"
-#include "drawerfactory.hpp"
+#ifdef USE_GUI
+  #include "gui/fltkgui.hpp"
+  #include <thread>
+#else
+  #include "svggenerator.hpp"
+  #include "gcodeoutputgenerator.hpp"
+  #include "pic2lines.hpp"
+  #include "gcodeconfig.hpp"
+  #include "drawerfactory.hpp"
+#endif
 
 #include <spdlog/spdlog.h>
 
 #include <iostream>
 #include <numeric> // accumulate
+
 
 void printHelp(const std::string& command);
 
@@ -16,7 +23,21 @@ int main(int argc, char** argv)
 {
 
   spdlog::set_level(spdlog::level::debug); // Set global log level to debug
+#ifdef USE_GUI
 
+  spdlog::info("Starting event loop thread");
+
+  std::shared_ptr<Gui> gui = std::make_shared<FltkGui>();
+  std::thread guiEventThread(
+    [gui, argc, argv]()
+    {
+      gui->runEventLoop(argc, argv);
+    }
+  );
+
+  spdlog::info("Waiting for event loop thread to quit");
+  guiEventThread.join();
+#else
   if(argc != 3)
   {
     printHelp(argv[0]);
@@ -36,7 +57,7 @@ int main(int argc, char** argv)
   );
   spdlog::info("Available drawers: {}", drawerNamesString);
 #if 1
-  const std::string drawerType = "crosses";
+  const std::string drawerType = "polyline";
 #else
   const std::string drawerType = "crosses";
 #endif
@@ -66,6 +87,9 @@ int main(int argc, char** argv)
     outputFilename
   );
 #endif
+#endif // USE_GUI
+
+  spdlog::info("{} quits" , argv[0]);
 
   return 0;
 }

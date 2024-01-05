@@ -10,7 +10,12 @@ Target platform is GNU/Linux, I don't have MS Windows to test. However, I try to
 
 ## Purpose
 For me, this project is one of my playgrounds to test some C++ concepts and libraries, I never tried.  
-For this reason, the code may be pretty ugly.
+For this reason, the code may
+* not be well planned, internal and external interfaces may change any time
+* be ugly (readability, maintainability, different half-implemented concepts))
+* contain some bugs (as currently I am not in the mood of testing)
+* 
+   
 
 Also, I want to play with my cheap chinese laser plotter a bit
 

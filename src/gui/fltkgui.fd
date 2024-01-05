@@ -1,0 +1,191 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0308
+i18n_type 1
+i18n_include <libintl.h>
+i18n_function gettext
+header_name {.hpp}
+code_name {.cpp}
+decl {\#include "../gui.hpp"} {public global
+}
+
+decl {\#include <FL/Fl_JPEG_Image.H>} {private global
+}
+
+decl {\#include <FL/Fl_Native_File_Chooser.H>} {private local
+}
+
+decl {\#include <atomic>} {public global
+}
+
+class FltkGui {open : {public Gui}
+} {
+  Function {FltkGui()} {open
+  } {
+    Fl_Window mainWindow {
+      label Pic2Lines open
+      private xywh {193 364 660 610} type Single visible
+    } {
+      Fl_Menu_Bar {} {open
+        xywh {0 0 660 20}
+      } {
+        Submenu {} {
+          label File open
+          xywh {0 0 70 21}
+        } {
+          MenuItem fileOpen {
+            label {Open...}
+            callback {openJpegImage();}
+            private xywh {0 0 36 21}
+          }
+          MenuItem {} {
+            label Quit
+            callback {mainWindow->hide();}
+            xywh {0 0 36 21}
+          }
+        }
+      }
+      Fl_Group {} {
+        label Output open
+        xywh {210 35 425 570} box THIN_DOWN_FRAME
+      } {
+        Fl_Choice {} {
+          label Unit open
+          xywh {315 60 130 16} down_box BORDER_BOX
+        } {
+          MenuItem {} {
+            label mm
+            xywh {0 0 36 25}
+          }
+          MenuItem {} {
+            label in
+            xywh {0 0 36 25}
+          }
+        }
+        Fl_Spinner {} {
+          label Width
+          xywh {315 85 115 25} type Float step 0.1
+        }
+        Fl_Spinner {} {
+          label Height
+          xywh {315 120 115 25}
+        }
+        Fl_Tabs {} {open
+          xywh {260 170 370 435}
+        } {
+          Fl_Group {} {
+            label {G-Code} open
+            xywh {270 198 345 407}
+          } {
+            Fl_Input {} {
+              label {Laser on}
+              xywh {390 215 160 30}
+            }
+            Fl_Input {} {
+              label {Laser off}
+              xywh {390 245 160 25}
+            }
+            Fl_Value_Slider {} {
+              label {Max power}
+              xywh {390 274 160 21} type Horizontal align 4 minimum 1 step 1 value 255 textsize 14
+            }
+            Fl_Spinner {} {
+              label {Travel speed}
+              xywh {390 305 160 30} maximum 5000 step 100 value 3000
+            }
+            Fl_Spinner {} {
+              label {Engraving speed}
+              xywh {390 340 160 30} maximum 5000 value 5000
+            }
+            Fl_Spinner {} {
+              label Passes
+              xywh {390 380 160 20}
+            }
+            Fl_Input outputFileNameInput {
+              label {Output file}
+              xywh {350 450 160 25}
+            }
+            Fl_Button generateGcodeButton {
+              label Generate
+              callback {generateOutput(readInputJpeg(currentInputFileName),
+               "polyline",
+               "gcode",
+               outputFileNameInput->value());}
+              private xywh {520 455 70 20}
+            }
+          }
+          Fl_Group {} {
+            label SVG open
+            xywh {265 300 165 15} hide deactivate
+          } {}
+        }
+      }
+      Fl_Group {} {
+        label {Loaded image} open
+        xywh {25 50 175 180} box THIN_DOWN_FRAME
+      } {
+        Fl_Box loadedImageBox {selected
+          private xywh {26 50 170 169}
+        }
+      }
+      Fl_Group {} {
+        label Preview
+        xywh {15 260 165 185} box THIN_DOWN_FRAME
+      } {
+        Fl_Clock {} {
+          xywh {40 285 135 135}
+        }
+      }
+    }
+  }
+  decl {std::atomic<bool> quit{false};} {private local
+  }
+  decl {std::string currentInputFileName;} {private local
+  }
+  Function {runEventLoop(int argc, char** argv)} {open
+  } {
+    code {mainWindow->show(argc, argv);
+
+while (! quit && Fl::wait())
+{
+  // Handle events or other actions here
+}} {}
+  }
+  Function {stopEventLoop()} {open
+  } {
+    code {quit = true;} {}
+  }
+  Function {openJpegImage()} {open private
+  } {
+    code {Fl_Native_File_Chooser chooser;
+chooser.title("Open File");
+chooser.type(Fl_Native_File_Chooser::BROWSE_FILE);
+    
+// Set filters for .jpg and .jpeg files
+chooser.filter("JPEG Image Files\\t*.{jpg,jpeg}");
+
+switch (chooser.show())
+{
+  case -1: // Error
+    fprintf(stderr, "Error: %s\\n", chooser.errmsg());
+    break;
+  case 1: // Cancel
+    break;
+  default: // File selected
+  {
+    printf("Selected file: %s\\n", chooser.filename());
+    Fl_JPEG_Image *image = new Fl_JPEG_Image(chooser.filename());
+    if(image)
+    {
+      loadedImageBox->image(image);
+      loadedImageBox->redraw();
+      currentInputFileName = chooser.filename();
+    }
+    else
+    {
+      printf("Error loading image.\\n");
+    }
+    break;
+  }
+}} {}
+  }
+}

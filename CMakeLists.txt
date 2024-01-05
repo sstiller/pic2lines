@@ -13,8 +13,8 @@ option(BUILD_TESTS "Build tests" OFF)
 find_package(Boost 1.75 REQUIRED
   COMPONENTS json
 )
-
 find_package(spdlog REQUIRED)
+find_package(FLTK REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(JPEG REQUIRED libjpeg)
@@ -32,10 +32,15 @@ set(OBJECT_SRCS
   src/gcodeconfig.hpp
   src/gcodeoutputgenerator.cpp
   src/gcodeoutputgenerator.hpp
+  src/gui.cpp
+  src/gui.hpp
+  src/gui/fltkgui.cpp
+  src/gui/fltkgui.hpp
   src/image.cpp
   src/image.hpp
   src/jpeg.cpp
   src/jpeg.hpp
+  src/localtypes.hpp
   src/outputconfig.cpp
   src/outputconfig.hpp
   src/outputgenerator.cpp
@@ -61,8 +66,9 @@ target_link_libraries(${PROJECT_NAME}
   ${JPEG_LIBRARIES}
   Boost::json
   spdlog::spdlog
+  ${FLTK_LIBRARIES}
 )
-target_include_directories(${PROJECT_NAME} PUBLIC ${JPEG_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${JPEG_INCLUDE_DIRS} ${FLTK_INCLUDE_DIRS})
 target_compile_options(${PROJECT_NAME} PUBLIC ${JPEG_CFLAGS_OTHER})
 
 
