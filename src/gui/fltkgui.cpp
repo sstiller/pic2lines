@@ -45,6 +45,13 @@ void FltkGui::cb_generateGcodeButton(Fl_Button* o, void* v) {
   ((FltkGui*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_generateGcodeButton_i(o,v);
 }
 
+unsigned char FltkGui::menu_Drawer_i18n_done = 0;
+Fl_Menu_Item FltkGui::menu_Drawer[] = {
+ {"PolyLine", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {"Crosses", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
+ {0,0,0,0,0,0,0,0,0}
+};
+
 FltkGui::FltkGui() {
   { mainWindow = new Fl_Window(660, 610, gettext("Pic2Lines"));
     mainWindow->user_data((void*)(this));
@@ -77,31 +84,31 @@ FltkGui::FltkGui() {
       } // Fl_Spinner* o
       { new Fl_Spinner(315, 120, 115, 25, gettext("Height"));
       } // Fl_Spinner* o
-      { Fl_Tabs* o = new Fl_Tabs(260, 170, 370, 435);
-        { Fl_Group* o = new Fl_Group(270, 198, 345, 407, gettext("G-Code"));
-          { new Fl_Input(390, 215, 160, 30, gettext("Laser on"));
-          } // Fl_Input* o
-          { new Fl_Input(390, 245, 160, 25, gettext("Laser off"));
-          } // Fl_Input* o
-          { Fl_Value_Slider* o = new Fl_Value_Slider(390, 274, 160, 21, gettext("Max power"));
-            o->type(1);
-            o->minimum(1);
-            o->step(1);
-            o->value(255);
-            o->textsize(14);
-            o->align(Fl_Align(FL_ALIGN_LEFT));
-          } // Fl_Value_Slider* o
-          { Fl_Spinner* o = new Fl_Spinner(390, 305, 160, 30, gettext("Travel speed"));
-            o->maximum(5000);
-            o->step(100);
-            o->value(3000);
-          } // Fl_Spinner* o
-          { Fl_Spinner* o = new Fl_Spinner(390, 340, 160, 30, gettext("Engraving speed"));
-            o->maximum(5000);
-            o->value(5000);
-          } // Fl_Spinner* o
-          { new Fl_Spinner(390, 380, 160, 20, gettext("Passes"));
-          } // Fl_Spinner* o
+      { Fl_Tabs* o = new Fl_Tabs(215, 170, 415, 435);
+        { Fl_Group* o = new Fl_Group(215, 193, 400, 412, gettext("G-Code"));
+          { laserOnCommandInput = new Fl_Input(390, 215, 160, 30, gettext("Laser on"));
+          } // Fl_Input* laserOnCommandInput
+          { laserOffCommandInput = new Fl_Input(390, 245, 160, 25, gettext("Laser off"));
+          } // Fl_Input* laserOffCommandInput
+          { maxPowerSlider = new Fl_Value_Slider(390, 274, 160, 21, gettext("Max power"));
+            maxPowerSlider->type(1);
+            maxPowerSlider->minimum(1);
+            maxPowerSlider->step(1);
+            maxPowerSlider->value(255);
+            maxPowerSlider->textsize(14);
+            maxPowerSlider->align(Fl_Align(FL_ALIGN_LEFT));
+          } // Fl_Value_Slider* maxPowerSlider
+          { travelSpeedSlider = new Fl_Spinner(390, 305, 160, 30, gettext("Travel speed"));
+            travelSpeedSlider->maximum(5000);
+            travelSpeedSlider->step(100);
+            travelSpeedSlider->value(3000);
+          } // Fl_Spinner* travelSpeedSlider
+          { engravingSpeedSlider = new Fl_Spinner(390, 340, 160, 30, gettext("Engraving speed"));
+            engravingSpeedSlider->maximum(5000);
+            engravingSpeedSlider->value(5000);
+          } // Fl_Spinner* engravingSpeedSlider
+          { numPassesSlider = new Fl_Spinner(390, 380, 160, 20, gettext("Passes"));
+          } // Fl_Spinner* numPassesSlider
           { outputFileNameInput = new Fl_Input(350, 450, 160, 25, gettext("Output file"));
           } // Fl_Input* outputFileNameInput
           { generateGcodeButton = new Fl_Button(520, 455, 70, 20, gettext("Generate"));
@@ -118,16 +125,25 @@ FltkGui::FltkGui() {
       } // Fl_Tabs* o
       o->end();
     } // Fl_Group* o
-    { Fl_Group* o = new Fl_Group(25, 50, 175, 180, gettext("Loaded image"));
+    { Fl_Group* o = new Fl_Group(10, 50, 195, 180, gettext("Loaded image"));
       o->box(FL_THIN_DOWN_FRAME);
       { loadedImageBox = new Fl_Box(26, 50, 170, 169);
       } // Fl_Box* loadedImageBox
       o->end();
     } // Fl_Group* o
-    { Fl_Group* o = new Fl_Group(15, 260, 165, 185, gettext("Preview"));
-      o->box(FL_THIN_DOWN_FRAME);
-      { new Fl_Clock(40, 285, 135, 135);
-      } // Fl_Clock* o
+    { Fl_Group* o = new Fl_Group(5, 260, 200, 270, gettext("Drawer"));
+      o->box(FL_DOWN_BOX);
+      { Fl_Choice* o = new Fl_Choice(65, 270, 135, 20, gettext("Drawer"));
+        o->down_box(FL_BORDER_BOX);
+        if (!menu_Drawer_i18n_done) {
+          int i=0;
+          for ( ; i<2; i++)
+            if (menu_Drawer[i].label())
+              menu_Drawer[i].label(gettext(menu_Drawer[i].label()));
+          menu_Drawer_i18n_done = 1;
+        }
+        o->menu(menu_Drawer);
+      } // Fl_Choice* o
       o->end();
     } // Fl_Group* o
     mainWindow->end();

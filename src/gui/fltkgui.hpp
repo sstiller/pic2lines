@@ -15,7 +15,6 @@
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Clock.H>
 
 class FltkGui : public Gui {
 public:
@@ -31,6 +30,12 @@ private:
   static void cb_Quit(Fl_Menu_*, void*);
   static unsigned char menu_Unit_i18n_done;
   static Fl_Menu_Item menu_Unit[];
+  Fl_Input *laserOnCommandInput;
+  Fl_Input *laserOffCommandInput;
+  Fl_Value_Slider *maxPowerSlider;
+  Fl_Spinner *travelSpeedSlider;
+  Fl_Spinner *engravingSpeedSlider;
+  Fl_Spinner *numPassesSlider;
 public:
   Fl_Input *outputFileNameInput;
 private:
@@ -38,6 +43,8 @@ private:
   inline void cb_generateGcodeButton_i(Fl_Button*, void*);
   static void cb_generateGcodeButton(Fl_Button*, void*);
   Fl_Box *loadedImageBox;
+  static unsigned char menu_Drawer_i18n_done;
+  static Fl_Menu_Item menu_Drawer[];
   std::atomic<bool> quit{false}; 
 public:
   void runEventLoop(int argc, char** argv);

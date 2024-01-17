@@ -23,9 +23,9 @@ class FltkGui {open : {public Gui}
   } {
     Fl_Window mainWindow {
       label Pic2Lines open
-      private xywh {193 364 660 610} type Single visible
+      private xywh {195 230 660 610} type Single visible
     } {
-      Fl_Menu_Bar {} {open
+      Fl_Menu_Bar {} {
         xywh {0 0 660 20}
       } {
         Submenu {} {
@@ -70,35 +70,35 @@ class FltkGui {open : {public Gui}
           xywh {315 120 115 25}
         }
         Fl_Tabs {} {open
-          xywh {260 170 370 435}
+          xywh {215 170 415 435}
         } {
           Fl_Group {} {
             label {G-Code} open
-            xywh {270 198 345 407}
+            xywh {215 193 400 412}
           } {
-            Fl_Input {} {
+            Fl_Input laserOnCommandInput {
               label {Laser on}
-              xywh {390 215 160 30}
+              private xywh {390 215 160 30}
             }
-            Fl_Input {} {
+            Fl_Input laserOffCommandInput {
               label {Laser off}
-              xywh {390 245 160 25}
+              private xywh {390 245 160 25}
             }
-            Fl_Value_Slider {} {
+            Fl_Value_Slider maxPowerSlider {
               label {Max power}
-              xywh {390 274 160 21} type Horizontal align 4 minimum 1 step 1 value 255 textsize 14
+              private xywh {390 274 160 21} type Horizontal align 4 minimum 1 step 1 value 255 textsize 14
             }
-            Fl_Spinner {} {
-              label {Travel speed} selected
-              xywh {390 305 160 30} maximum 5000 step 100 value 3000
+            Fl_Spinner travelSpeedSlider {
+              label {Travel speed}
+              private xywh {390 305 160 30} maximum 5000 step 100 value 3000
             }
-            Fl_Spinner {} {
-              label {Engraving speed}
-              xywh {390 340 160 30} maximum 5000 value 5000
+            Fl_Spinner engravingSpeedSlider {
+              label {Engraving speed} selected
+              private xywh {390 340 160 30} maximum 5000 value 5000
             }
-            Fl_Spinner {} {
+            Fl_Spinner numPassesSlider {
               label Passes
-              xywh {390 380 160 20}
+              private xywh {390 380 160 20}
             }
             Fl_Input outputFileNameInput {
               label {Output file}
@@ -120,18 +120,28 @@ generateOutput("polyline",
       }
       Fl_Group {} {
         label {Loaded image} open
-        xywh {25 50 175 180} box THIN_DOWN_FRAME
+        xywh {10 50 195 180} box THIN_DOWN_FRAME
       } {
         Fl_Box loadedImageBox {
           private xywh {26 50 170 169}
         }
       }
       Fl_Group {} {
-        label Preview
-        xywh {15 260 165 185} box THIN_DOWN_FRAME
+        label Drawer open
+        xywh {5 260 200 270} box DOWN_BOX
       } {
-        Fl_Clock {} {
-          xywh {40 285 135 135}
+        Fl_Choice {} {
+          label Drawer open
+          xywh {65 270 135 20} down_box BORDER_BOX
+        } {
+          MenuItem {} {
+            label PolyLine
+            xywh {0 0 34 24}
+          }
+          MenuItem {} {
+            label Crosses
+            xywh {0 0 34 24}
+          }
         }
       }
     }
