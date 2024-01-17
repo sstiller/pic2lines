@@ -37,9 +37,8 @@ Fl_Menu_Item FltkGui::menu_Unit[] = {
 };
 
 void FltkGui::cb_generateGcodeButton_i(Fl_Button*, void*) {
-  generateOutput(readInputJpeg(currentInputFileName),
-               "polyline",
-               "gcode",
+  selectedOutputGenerator = "gcode";
+generateOutput("polyline",
                outputFileNameInput->value());
 }
 void FltkGui::cb_generateGcodeButton(Fl_Button* o, void* v) {
@@ -171,7 +170,7 @@ void FltkGui::openJpegImage() {
       {
         loadedImageBox->image(image);
         loadedImageBox->redraw();
-        currentInputFileName = chooser.filename();
+        selectedInputImagePath = chooser.filename();
       }
       else
       {
@@ -180,4 +179,8 @@ void FltkGui::openJpegImage() {
       break;
     }
   }
+}
+
+void FltkGui::displayErrorMessage(const std::string& message) {
+  printf("TODO: error popup with %s!\n", message.c_str());
 }

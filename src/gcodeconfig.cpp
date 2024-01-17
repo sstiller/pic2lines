@@ -22,7 +22,8 @@ public:
 };
 
 GCodeConfig::GCodeConfig()
-: prv{std::make_unique<Private>()}
+: OutputConfig("gcode")
+, prv{std::make_unique<Private>()}
 {
 }
 
@@ -112,6 +113,7 @@ json::value GCodeConfig::toJson() const
 void GCodeConfig::fromJson(const json::value &input)
 {
   OutputConfig::fromJson(input);
+
   laserOnCommand() = input.at(laserOnCommandString).as_string();
   laserOffCommand() = input.at(laserOffCommandString).as_string();
   //TODO: why can't we use uint64?

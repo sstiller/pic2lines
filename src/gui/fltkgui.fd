@@ -89,7 +89,7 @@ class FltkGui {open : {public Gui}
               xywh {390 274 160 21} type Horizontal align 4 minimum 1 step 1 value 255 textsize 14
             }
             Fl_Spinner {} {
-              label {Travel speed}
+              label {Travel speed} selected
               xywh {390 305 160 30} maximum 5000 step 100 value 3000
             }
             Fl_Spinner {} {
@@ -106,9 +106,8 @@ class FltkGui {open : {public Gui}
             }
             Fl_Button generateGcodeButton {
               label Generate
-              callback {generateOutput(readInputJpeg(currentInputFileName),
-               "polyline",
-               "gcode",
+              callback {selectedOutputGenerator = "gcode";
+generateOutput("polyline",
                outputFileNameInput->value());}
               private xywh {520 455 70 20}
             }
@@ -123,7 +122,7 @@ class FltkGui {open : {public Gui}
         label {Loaded image} open
         xywh {25 50 175 180} box THIN_DOWN_FRAME
       } {
-        Fl_Box loadedImageBox {selected
+        Fl_Box loadedImageBox {
           private xywh {26 50 170 169}
         }
       }
@@ -138,8 +137,6 @@ class FltkGui {open : {public Gui}
     }
   }
   decl {std::atomic<bool> quit{false};} {private local
-  }
-  decl {std::string currentInputFileName;} {private local
   }
   Function {runEventLoop(int argc, char** argv)} {open
   } {
@@ -178,7 +175,7 @@ switch (chooser.show())
     {
       loadedImageBox->image(image);
       loadedImageBox->redraw();
-      currentInputFileName = chooser.filename();
+      selectedInputImagePath = chooser.filename();
     }
     else
     {
@@ -187,5 +184,9 @@ switch (chooser.show())
     break;
   }
 }} {}
+  }
+  Function {displayErrorMessage(const std::string& message)} {open protected
+  } {
+    code {printf("TODO: error popup with %s!\\n", message.c_str());} {}
   }
 }

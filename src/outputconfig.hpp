@@ -8,9 +8,10 @@
 
 class OutputConfig : public Configuration
 {
-public:
-  OutputConfig();
+protected:
   OutputConfig(const OutputConfig& other);
+public:
+  OutputConfig(const std::string configType);
   virtual ~OutputConfig();
 
   std::string& unit();

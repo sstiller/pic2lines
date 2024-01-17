@@ -39,11 +39,12 @@ private:
   static void cb_generateGcodeButton(Fl_Button*, void*);
   Fl_Box *loadedImageBox;
   std::atomic<bool> quit{false}; 
-  std::string currentInputFileName; 
 public:
   void runEventLoop(int argc, char** argv);
   void stopEventLoop();
 private:
   void openJpegImage();
+protected:
+  void displayErrorMessage(const std::string& message);
 };
 #endif

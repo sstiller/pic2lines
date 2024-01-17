@@ -33,6 +33,7 @@ public:
   virtual void stopEventLoop() = 0;
 
 protected:
+  virtual void displayErrorMessage(const std::string& message) = 0;
   /**
    * @brief availableDrawers returns the available drawer implementations.
    * One of the returned drawers can be used in @ref generateOutput
@@ -63,14 +64,11 @@ protected:
   /**
    * @brief generateOutput creates the output file using the input image and the given drawer
    * @param drawerName
-   * @param outputGeneratorName
    * @param fileName
    * @todo make generator configurable, too
    */
-  static void generateOutput(std::shared_ptr<const Image>,
-                             const std::string& drawerName,
-                             const std::string& outputGeneratorName,
-                             const std::string& outFilePath);
+  void generateOutput(const std::string& drawerName,
+                      const std::string& outFilePath);
 
   /**
    * @brief readInputJpeg reads a jpeg file and creates an Image
@@ -79,6 +77,9 @@ protected:
    */
   static std::shared_ptr<Image> readInputJpeg(const std::string& path);
 
+protected:
+  std::string selectedInputImagePath;
+  std::string selectedOutputGenerator;
 };
 
 #endif // GUI_HPP

@@ -15,13 +15,15 @@ public:
   double height{200.0};
 };
 
-OutputConfig::OutputConfig()
-: prv{std::make_unique<Private>()}
+OutputConfig::OutputConfig(const std::string configType)
+: Configuration(configType)
+, prv{std::make_unique<Private>()}
 {
 }
 
 OutputConfig::OutputConfig(const OutputConfig& other)
-: prv{std::make_unique<Private>(*other.prv)}
+: Configuration(other)
+, prv{std::make_unique<Private>(*other.prv)}
 {
 }
 

@@ -13,7 +13,10 @@
 // C
 #include <cassert>
 
-Gui::Gui() = default;
+Gui::Gui()
+{
+  selectedOutputGenerator = availableOutputGenerators().front();
+}
 
 Gui::~Gui() = default;
 
@@ -47,50 +50,73 @@ std::vector<std::string> Gui::availableOutputGenerators()
   return {"gcode", "svg"};
 }
 
-void Gui::generateOutput(std::shared_ptr<const Image> inputImage,
-                         const std::string& drawerName,
-                         const std::string& outputGeneratorName,
+void Gui::generateOutput(const std::string& drawerName,
                          const std::string& outFilePath)
 {
-  assert(inputImage.operator bool());
-  assert(! drawerName.empty());
-  assert(! outputGeneratorName.empty());
-  assert(! outFilePath.empty());
 
-  auto drawer = DrawerFactory::create(drawerName);
-
-  auto createOutputGenerator =
-    [&outputGeneratorName]() -> std::shared_ptr<OutputGenerator>
+  try
+  {
+    if(selectedInputImagePath.empty())
     {
-      spdlog::warn("createOutputGenerator lambbda: TODO: make a factory and a better way to configure.");
+      throw std::logic_error("no image selected");
+    }
 
-      if(outputGeneratorName == "gcode")
+    if(drawerName.empty())
+    {
+      throw std::invalid_argument("no drawer selected");
+    }
+
+    if(selectedOutputGenerator.empty())
+    {
+      throw std::invalid_argument("no output generator selected");
+    }
+
+    if(outFilePath.empty())
+    {
+      throw std::invalid_argument("target file selected");
+    }
+
+    const auto inputImage = readInputJpeg(selectedInputImagePath);
+
+    auto drawer = DrawerFactory::create(drawerName);
+
+    auto createOutputGenerator =
+      [this]() -> std::shared_ptr<OutputGenerator>
       {
-        GCodeConfig gCodeConfig;
-        gCodeConfig.height() = 200;
-        gCodeConfig.width() = 200;
-        gCodeConfig.unit() = "mm";
+        spdlog::warn("createOutputGenerator lambbda: TODO: make a factory and a better way to configure.");
 
-        return std::make_shared<GCodeOutputGenerator>(gCodeConfig);
-      }
-      else if(outputGeneratorName == "svg")
-      {
-        OutputConfig svgConfig;
-        svgConfig.height() = 100;
-        svgConfig.width() = 100;
-        svgConfig.unit() = "mm";
+        if(selectedOutputGenerator == "gcode")
+        {
+          GCodeConfig gCodeConfig;
+          gCodeConfig.height() = 200;
+          gCodeConfig.width() = 200;
+          gCodeConfig.unit() = "mm";
 
-        return std::make_shared<SvgGenerator>(svgConfig);
-      }
-      else
-      {
-        throw std::invalid_argument("Invalid outputGeneratorName: " + outputGeneratorName);
-      }
-    };
+          return std::make_shared<GCodeOutputGenerator>(gCodeConfig);
+        }
+        else if(selectedOutputGenerator == "svg")
+        {
+          OutputConfig svgConfig("svg");
+          svgConfig.height() = 100;
+          svgConfig.width() = 100;
+          svgConfig.unit() = "mm";
 
-  auto outputGenerator = createOutputGenerator();
-  drawer->process(inputImage, outputGenerator);
-  outputGenerator->writeToFile(outFilePath);
+          return std::make_shared<SvgGenerator>(svgConfig);
+        }
+        else
+        {
+          throw std::invalid_argument("Invalid outputGeneratorName: " + selectedOutputGenerator);
+        }
+      };
+
+    auto outputGenerator = createOutputGenerator();
+    drawer->process(inputImage, outputGenerator);
+    outputGenerator->writeToFile(outFilePath);
+  }
+  catch(const std::exception& exc)
+  {
+    displayErrorMessage(exc.what());
+  }
 }
 
 std::shared_ptr<Image> Gui::readInputJpeg(const std::string& path)
