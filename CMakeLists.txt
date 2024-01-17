@@ -45,8 +45,6 @@ set(OBJECT_SRCS
   src/outputconfig.hpp
   src/outputgenerator.cpp
   src/outputgenerator.hpp
-  src/pic2lines.cpp
-  src/pic2lines.hpp
   src/polylinedrawer.cpp
   src/polylinedrawer.hpp
   src/svggenerator.cpp

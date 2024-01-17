@@ -12,7 +12,6 @@ class Gui;
 class Image;
 class OutputConfig;
 class OutputGenerator;
-class Pic2Lines;
 class PolyLineDrawer;
 class SvgGenerator;
 class TextOutputGenerator;
