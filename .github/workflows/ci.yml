@@ -8,7 +8,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libspdlog-dev libfltk1.3-dev libjpeg-dev g++ cmake
-    - name: Install Boost 1.75
+    - name: Install Boost 1.75.0
       run: |
         BOOST_VERSION=1.75.0
         BOOST_DIR=$HOME/boost_$BOOST_VERSION
