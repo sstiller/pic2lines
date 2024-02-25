@@ -11,7 +11,16 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libspdlog-dev libboost-dev libfltk1.3-dev libjpeg-dev
+        sudo apt-get install -y libspdlog-dev libfltk1.3-dev libjpeg-dev
+    - name: Install Boost 1.75
+      run: |
+        BOOST_ROOT=$HOME/boost_1_75_0
+        BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_1_75_0.tar.bz2"
+        wget -O boost.tar.bz2 $BOOST_URL
+        tar --bzip2 -xf boost.tar.bz2
+        cd boost_1_75_0
+        ./bootstrap.sh --prefix=/usr/local
+        ./b2 install
     - name: Configure CMake
       run: |
         mkdir build
