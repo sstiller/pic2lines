@@ -5,8 +5,8 @@
 #include <FL/Fl.H>
 #include "../gui.hpp"
 #include "fltkhelpers.hpp"
+#include <FL/Fl_Double_Window.H>
 #include <atomic>
-#include <FL/Fl_Window.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Choice.H>
@@ -20,7 +20,7 @@ class FltkGui : public Gui {
 public:
   FltkGui();
 private:
-  Fl_Window *mainWindow;
+  Fl_Double_Window *mainWindow;
   static unsigned char menu__i18n_done;
   static Fl_Menu_Item menu_[];
   static Fl_Menu_Item *fileOpen;
@@ -45,8 +45,11 @@ private:
   FltkHelpers::ResizableImageButton *loadedImageButton;
   inline void cb_loadedImageButton_i(FltkHelpers::ResizableImageButton*, void*);
   static void cb_loadedImageButton(FltkHelpers::ResizableImageButton*, void*);
-  static unsigned char menu_Drawer_i18n_done;
-  static Fl_Menu_Item menu_Drawer[];
+public:
+  Fl_Choice *drawerChoice;
+private:
+  inline void cb_drawerChoice_i(Fl_Choice*, void*);
+  static void cb_drawerChoice(Fl_Choice*, void*);
   std::atomic<bool> quit{false}; 
 public:
   void runEventLoop(int argc, char** argv);

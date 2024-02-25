@@ -80,6 +80,19 @@ void ResizableImageButton::scaleAndSetImage(Fl_Image* img)
   this->redraw(); // Redraw the button
 }
 
+void fillChoice(Fl_Choice& choice, const std::vector<std::string>& elements)
+{
+  for(const auto& entry : elements)
+  {
+    choice.add(entry.c_str()); // Assuming myChoice is the name of your Fl_Choice widget in Fluid
+  }
+
+  // Automatically select the first element
+  if (!elements.empty())
+  {
+      choice.value(0);
+  }
+}
 
 
 } // namespace FltkHelpers

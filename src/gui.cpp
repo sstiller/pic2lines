@@ -32,10 +32,14 @@ std::shared_ptr<OutputGenerator> Gui::getPreviewOutputGenerator()
   return {};
 }
 
-void Gui::generatePreview(std::shared_ptr<const Image> inputImage,
-                          const std::string& drawerName)
+void Gui::generatePreview(std::shared_ptr<const Image> inputImage)
 {
-  auto drawer = DrawerFactory::create(drawerName);
+  if(selectedDrawer.empty())
+  {
+    spdlog::warn("{}(): No drawer selected", __func__);
+    return;
+  }
+  auto drawer = DrawerFactory::create(selectedDrawer);
   auto previewOutputGenerator = getPreviewOutputGenerator();
   if(! previewOutputGenerator)
   {
@@ -50,8 +54,7 @@ std::vector<std::string> Gui::availableOutputGenerators()
   return {"gcode", "svg"};
 }
 
-void Gui::generateOutput(const std::string& drawerName,
-                         const std::string& outFilePath)
+void Gui::generateOutput(const std::string& outFilePath)
 {
 
   try
@@ -61,7 +64,7 @@ void Gui::generateOutput(const std::string& drawerName,
       throw std::logic_error("no image selected");
     }
 
-    if(drawerName.empty())
+    if(selectedDrawer.empty())
     {
       throw std::invalid_argument("no drawer selected");
     }
@@ -78,7 +81,7 @@ void Gui::generateOutput(const std::string& drawerName,
 
     const auto inputImage = readInputJpeg(selectedInputImagePath);
 
-    auto drawer = DrawerFactory::create(drawerName);
+    auto drawer = DrawerFactory::create(selectedDrawer);
 
     auto createOutputGenerator =
       [this]() -> std::shared_ptr<OutputGenerator>

@@ -52,8 +52,7 @@ protected:
    * If there is no preview drawer, nothing happens.
    * @param inputImage
    */
-  void generatePreview(std::shared_ptr<const Image> inputImage,
-                       const std::string& drawerName);
+  void generatePreview(std::shared_ptr<const Image> inputImage);
 
   /**
    * @brief available OutputGenerators returns the available OutputGenerator implementations.
@@ -67,8 +66,7 @@ protected:
    * @param fileName
    * @todo make generator configurable, too
    */
-  void generateOutput(const std::string& drawerName,
-                      const std::string& outFilePath);
+  void generateOutput(const std::string& outFilePath);
 
   /**
    * @brief readInputJpeg reads a jpeg file and creates an Image
@@ -79,6 +77,7 @@ protected:
 
 protected:
   std::string selectedInputImagePath;
+  std::string selectedDrawer;
   std::string selectedOutputGenerator;
 };
 

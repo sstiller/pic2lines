@@ -38,8 +38,7 @@ Fl_Menu_Item FltkGui::menu_Unit[] = {
 
 void FltkGui::cb_generateGcodeButton_i(Fl_Button*, void*) {
   selectedOutputGenerator = "gcode";
-generateOutput("polyline",
-               outputFileNameInput->value());
+generateOutput(outputFileNameInput->value());
 }
 void FltkGui::cb_generateGcodeButton(Fl_Button* o, void* v) {
   ((FltkGui*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_generateGcodeButton_i(o,v);
@@ -52,16 +51,27 @@ void FltkGui::cb_loadedImageButton(FltkHelpers::ResizableImageButton* o, void* v
   ((FltkGui*)(o->parent()->parent()->user_data()))->cb_loadedImageButton_i(o,v);
 }
 
-unsigned char FltkGui::menu_Drawer_i18n_done = 0;
-Fl_Menu_Item FltkGui::menu_Drawer[] = {
- {"PolyLine", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {"Crosses", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
- {0,0,0,0,0,0,0,0,0}
-};
+void FltkGui::cb_drawerChoice_i(Fl_Choice*, void*) {
+  const auto selectedIndex = drawerChoice->value();
+  selectedDrawer = drawerChoice->text(selectedIndex);
+  printf("Selected: %d, Text: %s\n", selectedIndex, selectedDrawer.c_str());
+}
+void FltkGui::cb_drawerChoice(Fl_Choice* o, void* v) {
+  ((FltkGui*)(o->parent()->parent()->user_data()))->cb_drawerChoice_i(o,v);
+}
 
 FltkGui::FltkGui() {
-  { mainWindow = new Fl_Window(660, 610, gettext("Pic2Lines"));
+  { mainWindow = new Fl_Double_Window(660, 610, gettext("Pic2Lines"));
+    mainWindow->box(FL_FLAT_BOX);
+    mainWindow->color(FL_BACKGROUND_COLOR);
+    mainWindow->selection_color(FL_BACKGROUND_COLOR);
+    mainWindow->labeltype(FL_NO_LABEL);
+    mainWindow->labelfont(0);
+    mainWindow->labelsize(14);
+    mainWindow->labelcolor(FL_FOREGROUND_COLOR);
     mainWindow->user_data((void*)(this));
+    mainWindow->align(Fl_Align(FL_ALIGN_TOP));
+    mainWindow->when(FL_WHEN_RELEASE);
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(0, 0, 660, 20);
       if (!menu__i18n_done) {
         int i=0;
@@ -74,7 +84,7 @@ FltkGui::FltkGui() {
     } // Fl_Menu_Bar* o
     { Fl_Group* o = new Fl_Group(210, 35, 425, 570, gettext("Output"));
       o->box(FL_THIN_DOWN_FRAME);
-      { Fl_Choice* o = new Fl_Choice(315, 60, 130, 16, gettext("Unit"));
+      { Fl_Choice* o = new Fl_Choice(315, 60, 130, 25, gettext("Unit"));
         o->down_box(FL_BORDER_BOX);
         if (!menu_Unit_i18n_done) {
           int i=0;
@@ -85,7 +95,7 @@ FltkGui::FltkGui() {
         }
         o->menu(menu_Unit);
       } // Fl_Choice* o
-      { Fl_Spinner* o = new Fl_Spinner(315, 85, 115, 25, gettext("Width"));
+      { Fl_Spinner* o = new Fl_Spinner(315, 90, 115, 25, gettext("Width"));
         o->type(1);
         o->step(0.1);
       } // Fl_Spinner* o
@@ -93,7 +103,6 @@ FltkGui::FltkGui() {
       } // Fl_Spinner* o
       { Fl_Tabs* o = new Fl_Tabs(215, 170, 415, 435);
         { Fl_Group* o = new Fl_Group(215, 193, 400, 412, gettext("G-Code"));
-          o->hide();
           { laserOnCommandInput = new Fl_Input(390, 215, 160, 30, gettext("Laser on"));
           } // Fl_Input* laserOnCommandInput
           { laserOffCommandInput = new Fl_Input(390, 245, 160, 25, gettext("Laser off"));
@@ -125,6 +134,7 @@ FltkGui::FltkGui() {
           o->end();
         } // Fl_Group* o
         { Fl_Group* o = new Fl_Group(265, 300, 165, 15, gettext("SVG"));
+          o->hide();
           o->deactivate();
           o->end();
         } // Fl_Group* o
@@ -150,22 +160,16 @@ FltkGui::FltkGui() {
     } // Fl_Group* o
     { Fl_Group* o = new Fl_Group(5, 260, 200, 270, gettext("Drawer"));
       o->box(FL_DOWN_BOX);
-      { Fl_Choice* o = new Fl_Choice(65, 270, 135, 20, gettext("Drawer"));
-        o->down_box(FL_BORDER_BOX);
-        if (!menu_Drawer_i18n_done) {
-          int i=0;
-          for ( ; i<2; i++)
-            if (menu_Drawer[i].label())
-              menu_Drawer[i].label(gettext(menu_Drawer[i].label()));
-          menu_Drawer_i18n_done = 1;
-        }
-        o->menu(menu_Drawer);
-      } // Fl_Choice* o
+      { drawerChoice = new Fl_Choice(65, 270, 135, 20);
+        drawerChoice->down_box(FL_BORDER_BOX);
+        drawerChoice->callback((Fl_Callback*)cb_drawerChoice);
+        FltkHelpers::fillChoice(*drawerChoice, availableDrawers());
+      } // Fl_Choice* drawerChoice
       o->end();
     } // Fl_Group* o
     mainWindow->end();
     mainWindow->resizable(mainWindow);
-  } // Fl_Window* mainWindow
+  } // Fl_Double_Window* mainWindow
 }
 
 void FltkGui::runEventLoop(int argc, char** argv) {
