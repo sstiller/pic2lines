@@ -15,19 +15,21 @@ jobs:
     - name: Install Boost 1.75.0
       run: |
         BOOST_VERSION=1.75.0
-        BOOST_DIR=$HOME/boost_$BOOST_VERSION
+        BOOST_SRC_DIR=$HOME/boost_src_$BOOST_VERSION
+        BOOST_INSTALL_DIR=$HOME/boost_$BOOST_VERSION
         BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VERSION/source/boost_${BOOST_VERSION//./_}.tar.bz2"
+
         wget -O boost.tar.bz2 $BOOST_URL
         tar --bzip2 -xf boost.tar.bz2
-        mv boost_${BOOST_VERSION//./_} $BOOST_DIR
-        cd $BOOST_DIR
-        ./bootstrap.sh --prefix=$BOOST_DIR
+        mv boost_${BOOST_VERSION//./_} $BOOST_SRC_DIR
+        cd $BOOST_SRC_DIR
+        ./bootstrap.sh --prefix=$BOOST_INSTALL_DIR
         ./b2 install
     - name: Configure CMake
       run: |
         mkdir build
         cd build
-        cmake .. -DBOOST_ROOT=$BOOST_DIR
+        cmake .. -DBOOST_ROOT=$BOOST_INSTALL_DIR
     - name: Build
       run: |
         cd build
