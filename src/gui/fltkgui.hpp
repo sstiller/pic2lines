@@ -4,6 +4,7 @@
 #define fltkgui_hpp
 #include <FL/Fl.H>
 #include "../gui.hpp"
+#include "fltkhelpers.hpp"
 #include <atomic>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Menu_Bar.H>
@@ -14,7 +15,6 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Box.H>
 
 class FltkGui : public Gui {
 public:
@@ -42,7 +42,9 @@ private:
   Fl_Button *generateGcodeButton;
   inline void cb_generateGcodeButton_i(Fl_Button*, void*);
   static void cb_generateGcodeButton(Fl_Button*, void*);
-  Fl_Box *loadedImageBox;
+  FltkHelpers::ResizableImageButton *loadedImageButton;
+  inline void cb_loadedImageButton_i(FltkHelpers::ResizableImageButton*, void*);
+  static void cb_loadedImageButton(FltkHelpers::ResizableImageButton*, void*);
   static unsigned char menu_Drawer_i18n_done;
   static Fl_Menu_Item menu_Drawer[];
   std::atomic<bool> quit{false}; 

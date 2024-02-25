@@ -45,6 +45,13 @@ void FltkGui::cb_generateGcodeButton(Fl_Button* o, void* v) {
   ((FltkGui*)(o->parent()->parent()->parent()->parent()->user_data()))->cb_generateGcodeButton_i(o,v);
 }
 
+void FltkGui::cb_loadedImageButton_i(FltkHelpers::ResizableImageButton*, void*) {
+  openJpegImage();
+}
+void FltkGui::cb_loadedImageButton(FltkHelpers::ResizableImageButton* o, void* v) {
+  ((FltkGui*)(o->parent()->parent()->user_data()))->cb_loadedImageButton_i(o,v);
+}
+
 unsigned char FltkGui::menu_Drawer_i18n_done = 0;
 Fl_Menu_Item FltkGui::menu_Drawer[] = {
  {"PolyLine", 0,  0, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -86,6 +93,7 @@ FltkGui::FltkGui() {
       } // Fl_Spinner* o
       { Fl_Tabs* o = new Fl_Tabs(215, 170, 415, 435);
         { Fl_Group* o = new Fl_Group(215, 193, 400, 412, gettext("G-Code"));
+          o->hide();
           { laserOnCommandInput = new Fl_Input(390, 215, 160, 30, gettext("Laser on"));
           } // Fl_Input* laserOnCommandInput
           { laserOffCommandInput = new Fl_Input(390, 245, 160, 25, gettext("Laser off"));
@@ -117,7 +125,6 @@ FltkGui::FltkGui() {
           o->end();
         } // Fl_Group* o
         { Fl_Group* o = new Fl_Group(265, 300, 165, 15, gettext("SVG"));
-          o->hide();
           o->deactivate();
           o->end();
         } // Fl_Group* o
@@ -127,8 +134,18 @@ FltkGui::FltkGui() {
     } // Fl_Group* o
     { Fl_Group* o = new Fl_Group(10, 50, 195, 180, gettext("Loaded image"));
       o->box(FL_THIN_DOWN_FRAME);
-      { loadedImageBox = new Fl_Box(26, 50, 170, 169);
-      } // Fl_Box* loadedImageBox
+      { loadedImageButton = new FltkHelpers::ResizableImageButton(15, 55, 185, 170);
+        loadedImageButton->box(FL_NO_BOX);
+        loadedImageButton->color(FL_BACKGROUND_COLOR);
+        loadedImageButton->selection_color(FL_BACKGROUND_COLOR);
+        loadedImageButton->labeltype(FL_NORMAL_LABEL);
+        loadedImageButton->labelfont(0);
+        loadedImageButton->labelsize(14);
+        loadedImageButton->labelcolor(FL_FOREGROUND_COLOR);
+        loadedImageButton->callback((Fl_Callback*)cb_loadedImageButton);
+        loadedImageButton->align(Fl_Align(FL_ALIGN_CENTER));
+        loadedImageButton->when(FL_WHEN_RELEASE);
+      } // FltkHelpers::ResizableImageButton* loadedImageButton
       o->end();
     } // Fl_Group* o
     { Fl_Group* o = new Fl_Group(5, 260, 200, 270, gettext("Drawer"));
@@ -147,6 +164,7 @@ FltkGui::FltkGui() {
       o->end();
     } // Fl_Group* o
     mainWindow->end();
+    mainWindow->resizable(mainWindow);
   } // Fl_Window* mainWindow
 }
 
@@ -181,11 +199,13 @@ void FltkGui::openJpegImage() {
     default: // File selected
     {
       printf("Selected file: %s\n", chooser.filename());
-      Fl_JPEG_Image *image = new Fl_JPEG_Image(chooser.filename());
-      if(image)
+      auto loadedImage = std::make_unique<Fl_JPEG_Image>(chooser.filename());
+      if(loadedImage)
       {
-        loadedImageBox->image(image);
-        loadedImageBox->redraw();
+        auto* loadedImageWidget = loadedImageButton;
+    
+        loadedImageWidget->image(std::move(loadedImage));
+        loadedImageWidget->redraw();
         selectedInputImagePath = chooser.filename();
       }
       else

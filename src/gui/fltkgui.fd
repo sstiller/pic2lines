@@ -8,6 +8,9 @@ code_name {.cpp}
 decl {\#include "../gui.hpp"} {public global
 }
 
+decl {\#include "fltkhelpers.hpp"} {public global
+}
+
 decl {\#include <FL/Fl_JPEG_Image.H>} {private global
 }
 
@@ -23,9 +26,9 @@ class FltkGui {open : {public Gui}
   } {
     Fl_Window mainWindow {
       label Pic2Lines open
-      private xywh {195 230 660 610} type Single visible
+      private xywh {5 278 660 610} type Single hide resizable
     } {
-      Fl_Menu_Bar {} {
+      Fl_Menu_Bar {} {open
         xywh {0 0 660 20}
       } {
         Submenu {} {
@@ -53,7 +56,7 @@ class FltkGui {open : {public Gui}
           xywh {315 60 130 16} down_box BORDER_BOX
         } {
           MenuItem {} {
-            label mm
+            label mm selected
             xywh {0 0 36 25}
           }
           MenuItem {} {
@@ -74,7 +77,7 @@ class FltkGui {open : {public Gui}
         } {
           Fl_Group {} {
             label {G-Code} open
-            xywh {215 193 400 412}
+            xywh {215 193 400 412} hide
           } {
             Fl_Input laserOnCommandInput {
               label {Laser on}
@@ -93,7 +96,7 @@ class FltkGui {open : {public Gui}
               private xywh {390 305 160 30} maximum 5000 step 100 value 3000
             }
             Fl_Spinner engravingSpeedSlider {
-              label {Engraving speed} selected
+              label {Engraving speed}
               private xywh {390 340 160 30} maximum 5000 value 5000
             }
             Fl_Spinner numPassesSlider {
@@ -114,7 +117,7 @@ generateOutput("polyline",
           }
           Fl_Group {} {
             label SVG open
-            xywh {265 300 165 15} hide deactivate
+            xywh {265 300 165 15} deactivate
           } {}
         }
       }
@@ -122,8 +125,10 @@ generateOutput("polyline",
         label {Loaded image} open
         xywh {10 50 195 180} box THIN_DOWN_FRAME
       } {
-        Fl_Box loadedImageBox {
-          private xywh {26 50 170 169}
+        Fl_Button loadedImageButton {
+          callback {openJpegImage();}
+          private xywh {15 55 185 170} box NO_BOX
+          class {FltkHelpers::ResizableImageButton}
         }
       }
       Fl_Group {} {
@@ -180,11 +185,13 @@ switch (chooser.show())
   default: // File selected
   {
     printf("Selected file: %s\\n", chooser.filename());
-    Fl_JPEG_Image *image = new Fl_JPEG_Image(chooser.filename());
-    if(image)
+    auto loadedImage = std::make_unique<Fl_JPEG_Image>(chooser.filename());
+    if(loadedImage)
     {
-      loadedImageBox->image(image);
-      loadedImageBox->redraw();
+      auto* loadedImageWidget = loadedImageButton;
+  
+      loadedImageWidget->image(std::move(loadedImage));
+      loadedImageWidget->redraw();
       selectedInputImagePath = chooser.filename();
     }
     else

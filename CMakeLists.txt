@@ -36,6 +36,8 @@ set(OBJECT_SRCS
   src/gui.hpp
   src/gui/fltkgui.cpp
   src/gui/fltkgui.hpp
+  src/gui/fltkhelpers.cpp
+  src/gui/fltkhelpers.hpp
   src/image.cpp
   src/image.hpp
   src/jpeg.cpp
