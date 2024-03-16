@@ -11,7 +11,7 @@ option(BUILD_TESTS "Build tests" OFF)
 
 # 1.75 needed for boost.json
 find_package(Boost 1.75 REQUIRED
-  COMPONENTS json
+#  COMPONENTS json
 )
 find_package(spdlog REQUIRED)
 find_package(FLTK REQUIRED)
@@ -64,7 +64,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME}
   projectObjects
   ${JPEG_LIBRARIES}
-  Boost::json
+#  Boost::json
   spdlog::spdlog
   ${FLTK_LIBRARIES}
 )
