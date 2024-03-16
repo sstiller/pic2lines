@@ -5,31 +5,41 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v2
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libspdlog-dev libfltk1.3-dev libjpeg-dev g++ cmake
+
+    # Step to cache Boost installation
+    - name: Cache Boost
+      uses: actions/cache@v2
+      with:
+        path: ${{ github.workspace }}/boost_1_75_0
+        key: boost-1-75-0-${{ runner.os }}-${{ hashFiles('**/install_boost.sh') }}
+        restore-keys: |
+          boost-1-75-0-${{ runner.os }}-
+
     - name: Install Boost 1.75.0
       run: |
         BOOST_VERSION=1.75.0
-        BOOST_SRC_DIR=$HOME/boost_src_$BOOST_VERSION
-        BOOST_INSTALL_DIR=$HOME/boost_$BOOST_VERSION
-        BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VERSION/source/boost_${BOOST_VERSION//./_}.tar.bz2"
+        BOOST_DIR=${{ github.workspace }}/boost_$BOOST_VERSION
+        if [ ! -d "$BOOST_DIR/lib" ]; then
+          # Proceed with Boost download and installation steps
+          BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VERSION/source/boost_${BOOST_VERSION//./_}.tar.bz2"
+          wget -O boost.tar.bz2 $BOOST_URL
+          tar --bzip2 -xf boost.tar.bz2
+          mv boost_${BOOST_VERSION//./_} $BOOST_DIR
+          cd $BOOST_DIR
+          ./bootstrap.sh --prefix=$BOOST_DIR
+          ./b2 install
+        else
+          echo "Using cached Boost directory."
+        fi
 
-        wget -O boost.tar.bz2 $BOOST_URL
-        tar --bzip2 -xf boost.tar.bz2
-        mv boost_${BOOST_VERSION//./_} $BOOST_SRC_DIR
-        cd $BOOST_SRC_DIR
-        ./bootstrap.sh --prefix=$BOOST_INSTALL_DIR
-        ./b2 install
     - name: Configure CMake
       run: |
         mkdir build
         cd build
-        cmake .. -DBOOST_ROOT=$BOOST_INSTALL_DIR -DBoost_NO_SYSTEM_PATHS=ON
+        cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_1_75_0
     - name: Build
       run: |
         cd build
