@@ -29,7 +29,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -DBOOST_ROOT=$BOOST_INSTALL_DIR
+        cmake .. -DBOOST_ROOT=$BOOST_INSTALL_DIR -DBoost_NO_SYSTEM_PATHS=ON
     - name: Build
       run: |
         cd build
