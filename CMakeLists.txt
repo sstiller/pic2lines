@@ -9,6 +9,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 # Optional: Enable testing
 option(BUILD_TESTS "Build tests" OFF)
 
+# Optionally set BOOST_ROOT from the command line or environment variable
+set(BOOST_ROOT "$ENV{BOOST_ROOT}" CACHE PATH "Path to Boost root directory")
+
 # 1.75 needed for boost.json
 find_package(Boost 1.75 REQUIRED
 #  COMPONENTS json
