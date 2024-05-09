@@ -15,7 +15,6 @@ jobs:
       with:
         path: ${{ github.workspace }}/boost_1_75_0
         key: 'boost-1.75.0'
-      post-if: always()
 
     - name: Install Boost 1.75.0
       run: |
