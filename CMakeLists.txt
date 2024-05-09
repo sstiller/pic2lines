@@ -14,7 +14,7 @@ set(BOOST_ROOT "$ENV{BOOST_ROOT}" CACHE PATH "Path to Boost root directory")
 
 # 1.75 needed for boost.json
 find_package(Boost 1.75 REQUIRED
-#  COMPONENTS json
+  COMPONENTS json
 )
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -69,7 +69,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME}
   projectObjects
   ${JPEG_LIBRARIES}
-#  Boost::json
+  Boost::json
   spdlog::spdlog
   ${FLTK_LIBRARIES}
 )
