@@ -22,7 +22,7 @@ jobs:
       run: |
         BOOST_VERSION=1.75.0
         BOOST_DIR=${{ github.workspace }}/boost_$BOOST_VERSION
-        echo "boost dir content: " `ls BOOST_DIR`
+        echo "boost dir content: " `ls ${BOOST_DIR}`
         if [ ! -d "$BOOST_DIR/lib" ]; then
           # Proceed with Boost download and installation steps
           BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VERSION/source/boost_${BOOST_VERSION//./_}.tar.bz2"
