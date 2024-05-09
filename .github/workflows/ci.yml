@@ -14,7 +14,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/boost_1_75_0
-        key: boost-1-75-0-${{ runner.os }}-${{ hashFiles('**/install_boost.sh') }}
+        key: 'boost-1.75.0'
 
     - name: Install Boost 1.75.0
       run: |
@@ -40,9 +40,9 @@ jobs:
         mkdir build
         cd build
         echo "content of BOOST_DIR:"
-        ls ${{ github.workspace }}/boost_1_75_0
+        ls ${{ github.workspace }}/boost_1.75.0
 
-        cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_1_75_0
+        cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_1_75_0 -DBoost_NO_SYSTEM_PATHS=TRUE
     - name: Build
       run: |
         cd build
