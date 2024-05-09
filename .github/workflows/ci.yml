@@ -20,8 +20,7 @@ jobs:
       run: |
         BOOST_VERSION=1.75.0
         BOOST_DIR=${{ github.workspace }}/boost_$BOOST_VERSION
-        echo "boost dir content ${BOOST_DIR}:"
-        #ls ${BOOST_DIR}
+        echo "boost dir = ${BOOST_DIR}:"
 
         if [ ! -d "$BOOST_DIR/lib" ]; then
           # Proceed with Boost download and installation steps
@@ -40,6 +39,9 @@ jobs:
       run: |
         mkdir build
         cd build
+        echo "content of BOOST_DIR:"
+        ls ${{ github.workspace }}/boost_1_75_0
+
         cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_1_75_0
     - name: Build
       run: |
