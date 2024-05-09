@@ -16,6 +16,8 @@ set(BOOST_ROOT "$ENV{BOOST_ROOT}" CACHE PATH "Path to Boost root directory")
 find_package(Boost 1.75 REQUIRED
 #  COMPONENTS json
 )
+include_directories(${Boost_INCLUDE_DIRS})
+
 find_package(spdlog REQUIRED)
 find_package(FLTK REQUIRED)
 
