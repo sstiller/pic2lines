@@ -36,14 +36,10 @@ jobs:
         fi
 
     # Installing spdlog from Ubuntu's repositories
-    - name: Install spdlog
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libspdlog-dev
-
-    - name: Install FLTK
-      run: |
-        sudo apt-get install -y libfltk1.3-dev
+        sudo apt-get install -y libspdlog-dev libfltk1.3-dev libjpeg-dev
 
     - name: Configure CMake
       run: |
