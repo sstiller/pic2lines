@@ -11,12 +11,9 @@ jobs:
 
     # Step to cache Boost installation
     - name: Cache Boost
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/boost_1_75_0
-        key: boost-1-75-0-${{ runner.os }}-${{ hashFiles('**/install_boost.sh') }}
-        restore-keys: |
-          boost-1-75-0-${{ runner.os }}-
 
     - name: Install Boost 1.75.0
       run: |
