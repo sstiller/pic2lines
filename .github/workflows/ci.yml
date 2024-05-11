@@ -8,7 +8,8 @@ jobs:
 
 # Define environment variables here
     env:
-      BOOST_VERSION: 1.82.0
+    BOOST_VERSION: 1.82.0
+    BOOST_VERSION_UNDERSCORE: 1_82_0
 
     steps:
     - uses: actions/checkout@v2
@@ -27,10 +28,10 @@ jobs:
 
         if [ ! -d "$BOOST_DIR/lib" ]; then
           # Proceed with Boost download and installation steps
-          BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/${{ env.BOOST_VERSION }}/source/boost_${{ env.BOOST_VERSION // '.' / '_' }}.tar.bz2"
+          BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/${{ env.BOOST_VERSION }}/source/boost_${{ env.BOOST_VERSION_UNDERSCORE }}.tar.bz2"
           wget -O boost.tar.bz2 $BOOST_URL
           tar --bzip2 -xf boost.tar.bz2
-          mv boost_${{ env.BOOST_VERSION // '.' / '_' }} $BOOST_DIR
+          mv boost_${{ env.BOOST_VERSION_UNDERSCORE }} $BOOST_DIR
           cd $BOOST_DIR
           ./bootstrap.sh --prefix=$BOOST_DIR
           ./b2 install
