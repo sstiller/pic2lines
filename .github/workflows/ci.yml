@@ -1,0 +1,62 @@
+name: C++ CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+# Define environment variables here
+    env:
+      BOOST_VERSION: 1.82.0
+      BOOST_VERSION_UNDERSCORE: 1_82_0
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # Step to cache Boost installation
+    - name: Cache Boost
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
+        key: boost-boost_${{ env.BOOST_VERSION }}
+
+    - name: Install Boost
+      run: |
+        BOOST_DIR=${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
+        echo "boost dir = ${BOOST_DIR}:"
+
+        if [ ! -d "$BOOST_DIR/lib" ]; then
+          # Proceed with Boost download and installation steps
+          BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/${{ env.BOOST_VERSION }}/source/boost_${{ env.BOOST_VERSION_UNDERSCORE }}.tar.bz2"
+          wget -O boost.tar.bz2 $BOOST_URL
+          tar --bzip2 -xf boost.tar.bz2
+          mv boost_${{ env.BOOST_VERSION_UNDERSCORE }} $BOOST_DIR
+          cd $BOOST_DIR
+          ./bootstrap.sh --prefix=$BOOST_DIR
+          ./b2 install
+        else
+          echo "Using cached Boost directory."
+        fi
+
+    # Installing spdlog from Ubuntu's repositories
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libspdlog-dev libfltk1.3-dev libjpeg-dev
+
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        echo "content of BOOST_DIR:"
+        ls ${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
+
+        cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_${{ env.BOOST_VERSION }} -DBoost_NO_SYSTEM_PATHS=TRUE
+    - name: Build
+      run: |
+        cd build
+        make
+#    - name: Test
+#      run: |
+#        ./path/to/your/tests
