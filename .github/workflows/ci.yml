@@ -6,6 +6,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+# Define environment variables here
+    env:
+      BOOST_VERSION: 1.82.0
+
     steps:
     - uses: actions/checkout@v2
 
@@ -13,21 +17,20 @@ jobs:
     - name: Cache Boost
       uses: actions/cache@v3
       with:
-        path: ${{ github.workspace }}/boost_1_75_0
-        key: 'boost-1.75.0'
+        path: ${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
+        key: boost-boost_${{ env.BOOST_VERSION }}
 
-    - name: Install Boost 1.75.0
+    - name: Install Boost
       run: |
-        BOOST_VERSION=1.75.0
-        BOOST_DIR=${{ github.workspace }}/boost_$BOOST_VERSION
+        BOOST_DIR=${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
         echo "boost dir = ${BOOST_DIR}:"
 
         if [ ! -d "$BOOST_DIR/lib" ]; then
           # Proceed with Boost download and installation steps
-          BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VERSION/source/boost_${BOOST_VERSION//./_}.tar.bz2"
+          BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/${{ env.BOOST_VERSION }}/source/boost_${{ env.BOOST_VERSION // '.' / '_' }}.tar.bz2"
           wget -O boost.tar.bz2 $BOOST_URL
           tar --bzip2 -xf boost.tar.bz2
-          mv boost_${BOOST_VERSION//./_} $BOOST_DIR
+          mv boost_${{ env.BOOST_VERSION // '.' / '_' }} $BOOST_DIR
           cd $BOOST_DIR
           ./bootstrap.sh --prefix=$BOOST_DIR
           ./b2 install
@@ -46,9 +49,9 @@ jobs:
         mkdir build
         cd build
         echo "content of BOOST_DIR:"
-        ls ${{ github.workspace }}/boost_1.75.0
+        ls ${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
 
-        cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_1.75.0 -DBoost_NO_SYSTEM_PATHS=TRUE
+        cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_${{ env.BOOST_VERSION }} -DBoost_NO_SYSTEM_PATHS=TRUE
     - name: Build
       run: |
         cd build
