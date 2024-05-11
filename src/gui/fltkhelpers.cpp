@@ -33,8 +33,6 @@ Fl_Image* scaleWithAspectRatio(Fl_Image* originalImage,
   const auto scaleWidth = static_cast<double>(maxWidth) / originalWidth;
   const auto scaleHeight = static_cast<double>(maxHeight) / originalHeight;
   const auto scalingFactor = std::min(scaleWidth, scaleHeight);
-  printf("Orig %dx%d\n", originalWidth, originalHeight);
-  printf("copy %dx%d\n", static_cast<int>(originalWidth * scalingFactor), static_cast<int>(originalHeight * scalingFactor));
 
   return originalImage->copy(originalWidth * scalingFactor, originalHeight * scalingFactor);
 }
