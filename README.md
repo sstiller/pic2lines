@@ -1,5 +1,7 @@
 # pic2lines
 
+![Build Status](https://github.com/sstiller/pic2lines/actions/workflows/ci.yml/badge.svg)
+
 This is a program to generate line art from images.
 
 Currently there is only a commandline tool with compile-time configuration.
