@@ -19,7 +19,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
-        key: boost-boost_${{ env.BOOST_VERSION }}
+        key: boost_${{ env.BOOST_VERSION }}
 
     - name: Install Boost
       run: |
