@@ -9,17 +9,16 @@
 class TextOutputGenerator : public OutputGenerator
 {
 public:
-  TextOutputGenerator(const OutputConfig& config);
+  explicit TextOutputGenerator(const OutputConfig& config);
   ~TextOutputGenerator();
 
-  const std::string& getOutput();
+  [[nodiscard]] const std::string& getOutput();
 protected:
   void appendOutput(std::string data);
 
 private:
   class Private;
   std::unique_ptr<Private> prv;
-
 
   // OutputGenerator interface
 public:

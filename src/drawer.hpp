@@ -10,6 +10,8 @@
 class Drawer
 {
 public:
+  virtual ~Drawer();
+
   void process(std::shared_ptr<const Image> inputImage,
                std::shared_ptr<OutputGenerator> outputGenerator);
 

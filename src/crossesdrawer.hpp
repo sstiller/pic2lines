@@ -3,7 +3,7 @@
 
 #include "drawer.hpp"
 
-class CrossesDrawer : public Drawer
+class CrossesDrawer final : public Drawer
 {
 protected:
   void doProcess(std::shared_ptr<const Image> inputImage,

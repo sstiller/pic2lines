@@ -186,7 +186,7 @@ void GCodeOutputGenerator::setSpeed(double speed)
   appendOutput("G1 F" + std::to_string(speed) + "\n");
 }
 
-void GCodeOutputGenerator::moveTo(const Point<double> point)
+void GCodeOutputGenerator::moveTo(const Point<double>& point)
 {
   appendOutput("G1 X" + std::to_string(point.x) + " Y" + std::to_string(point.y) + "\n");
 }

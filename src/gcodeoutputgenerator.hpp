@@ -11,7 +11,7 @@
 class GCodeOutputGenerator final : public TextOutputGenerator
 {
 public:
-  GCodeOutputGenerator(const GCodeConfig& config);
+  explicit GCodeOutputGenerator(const GCodeConfig& config);
   ~GCodeOutputGenerator();
 
   // OutputGenerator interface
@@ -33,7 +33,7 @@ private:
   void laserOff();
   void laserOn(uint8_t strength);
   void setSpeed(double speed);
-  void moveTo(const Point<double> point);
+  void moveTo(const Point<double>& point);
 };
 
 #endif // GCODEOUTPUTGENERATOR_HPP

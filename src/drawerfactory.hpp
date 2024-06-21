@@ -9,8 +9,8 @@
 class DrawerFactory
 {
 public:
-  static std::shared_ptr<Drawer> create(const std::string& drawerType);
-  static std::vector<std::string> availableDrawers();
+  [[nodiscard]] static std::shared_ptr<Drawer> create(const std::string& drawerType);
+  [[nodiscard]] static std::vector<std::string> availableDrawers();
 };
 
 #endif // DRAWERFACTORY_HPP

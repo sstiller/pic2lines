@@ -14,18 +14,18 @@ protected:
   OutputGenerator(const Dimensions<double> dim, const std::string& unit);
   OutputGenerator(const OutputConfig& config);
 public:
-  ~OutputGenerator();
+  virtual ~OutputGenerator();
 
-  Dimensions<double> dimensions() const;
-  std::string unit() const;
+  [[nodiscard]] Dimensions<double> dimensions() const;
+  [[nodiscard]] std::string unit() const;
 
 
 //#error function to process whole polyline., class Point
   void setLineWidth(double width);
-  double lineWidth() const;
+  [[nodiscard]] double lineWidth() const;
 
   void setOpacity(double opacity);
-  double opacity() const;
+  [[nodiscard]] double opacity() const;
 
   // virtual functions
   virtual void updateLineProperties() = 0;

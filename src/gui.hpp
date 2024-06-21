@@ -62,8 +62,7 @@ protected:
 
   /**
    * @brief generateOutput creates the output file using the input image and the given drawer
-   * @param drawerName
-   * @param fileName
+   * @param outFilePath
    * @todo make generator configurable, too
    */
   void generateOutput(const std::string& outFilePath);

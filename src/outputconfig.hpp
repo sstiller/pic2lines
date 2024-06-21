@@ -11,17 +11,17 @@ class OutputConfig : public Configuration
 protected:
   OutputConfig(const OutputConfig& other);
 public:
-  OutputConfig(const std::string configType);
-  virtual ~OutputConfig();
+  explicit OutputConfig(const std::string configType);
+  ~OutputConfig();
 
-  std::string& unit();
-  const std::string& unit() const;
+  [[nodiscard]] std::string& unit();
+  [[nodiscard]] const std::string& unit() const;
 
-  double& width();
-  const double& width() const;
+  [[nodiscard]] double& width();
+  [[nodiscard]] const double& width() const;
 
-  double &height();
-  const double& height() const;
+  [[nodiscard]] double &height();
+  [[nodiscard]] const double& height() const;
 
 private:
   class Private;
@@ -29,7 +29,7 @@ private:
 
   // Configuration interface
 public:
-  json::value toJson() const override;
+  [[nodiscard]] json::value toJson() const override;
   void fromJson(const json::value &input) override;
 };
 

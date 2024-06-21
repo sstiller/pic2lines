@@ -4,7 +4,7 @@
 #include "drawer.hpp"
 #include "vec2.hpp"
 
-class PolyLineDrawer : public Drawer
+class PolyLineDrawer final : public Drawer
 {
 public:
   //TODO:
@@ -18,7 +18,6 @@ private:
   static Point<int> findDarkest(const Image& image);
   static Point<int> findDarkest(const Image& image, Point<int> topLeft, Point<int> bottomRight);
   static Point<int> findDarkest(const Image& image, Point<int> pos, unsigned int maxDistance);
-
 };
 
 #endif // POLYLINEDRAWER_HPP

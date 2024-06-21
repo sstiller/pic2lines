@@ -15,25 +15,25 @@ public:
 
   ~GCodeConfig();
 
-  std::string& laserOnCommand();
-  const std::string& laserOnCommand() const;
+  [[nodiscard]] std::string& laserOnCommand();
+  [[nodiscard]] const std::string& laserOnCommand() const;
 
-  std::string& laserOffCommand();
-  const std::string& laserOffCommand() const;
+  [[nodiscard]] std::string& laserOffCommand();
+  [[nodiscard]] const std::string& laserOffCommand() const;
 
-  unsigned int& maxPower();
-  const unsigned int& maxPower() const;
-
-  // units / min
-  double& travelSpeed();
-  const double& travelSpeed() const;
+  [[nodiscard]] unsigned int& maxPower();
+  [[nodiscard]] const unsigned int& maxPower() const;
 
   // units / min
-  double& burningSpeed();
-  const double& burningSpeed() const;
+  [[nodiscard]] double& travelSpeed();
+  [[nodiscard]] const double& travelSpeed() const;
 
-  unsigned int& numPasses();
-  const unsigned int& numPasses() const;
+  // units / min
+  [[nodiscard]] double& burningSpeed();
+  [[nodiscard]] const double& burningSpeed() const;
+
+  [[nodiscard]] unsigned int& numPasses();
+  [[nodiscard]] const unsigned int& numPasses() const;
 
 private:
   class Private;
@@ -41,7 +41,7 @@ private:
 
   // Configuration interface
 public:
-  json::value toJson() const;
+  [[nodiscard]] json::value toJson() const;
   void fromJson(const json::value &input);
 };
 

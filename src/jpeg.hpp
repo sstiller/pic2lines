@@ -6,6 +6,6 @@
 #include <string>
 #include <memory>
 
-std::shared_ptr<Image> readJpeg(const std::string& path);
+[[nodiscard]] std::shared_ptr<Image> readJpeg(const std::string& path);
 
 #endif // JPEG_HPP

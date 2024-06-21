@@ -1,5 +1,7 @@
 #include "drawer.hpp"
 
+Drawer::~Drawer() = default;
+
 void Drawer::process(std::shared_ptr<const Image> inputImage,
                      std::shared_ptr<OutputGenerator> outputGenerator)
 {

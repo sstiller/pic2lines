@@ -12,7 +12,7 @@ public:
   T x{0};
   T y{0};
 
-  T length() const
+  [[nodiscard]] T length() const
   {
     return std::sqrt(x * x + y * y);
   }
@@ -64,17 +64,17 @@ public:
     return *this;
   }
 
-  T area() const
+  [[nodiscard]] T area() const
   {
     return x * y;
   }
 
-  std::string toString() const
+  [[nodiscard]] std::string toString() const
   {
     return "(" + std::to_string(x) + "x" + std::to_string(y) + ")";
   }
 
-  Vec2<T> clamp(const Vec2<T>& lower, const Vec2<T>& upper) const
+  [[nodiscard]] Vec2<T> clamp(const Vec2<T>& lower, const Vec2<T>& upper) const
   {
      return {std::clamp(x, lower.x, upper.x),
              std::clamp(y, lower.y, upper.y)
