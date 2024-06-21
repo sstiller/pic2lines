@@ -35,5 +35,5 @@ Things I experiment with
    * in Ubuntu currently not available, you can add it with `sudo add-apt-repository ppa:mhier/libboost-latest`
 * spdlog (logging)
 * libjpeg (to load jpeg images, maybe replaced by boost.GIL in the future)
-
+* fltk
 
