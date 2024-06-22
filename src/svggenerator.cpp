@@ -1,6 +1,5 @@
 #include "svggenerator.hpp"
 
-#include <algorithm>
 #include <stdexcept>
 #include <vector>
 
@@ -23,9 +22,7 @@ SvgGenerator::SvgGenerator(const OutputConfig& config)
   init();
 }
 
-SvgGenerator::~SvgGenerator()
-{
-}
+SvgGenerator::~SvgGenerator() = default;
 
 void SvgGenerator::updateLineProperties()
 {

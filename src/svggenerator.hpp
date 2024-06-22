@@ -23,8 +23,6 @@ private:
   class Private;
   std::unique_ptr<Private> prv;
 
-
-
 };
 
 #endif // SVGGENERATOR_HPP
