@@ -39,7 +39,7 @@ json::value Configuration::toJson() const
   json::object ret{};
   ret["configType"] = configType();
 
-  return json::object{};
+  return ret;
 }
 
 void Configuration::fromJson(const json::value& input)

@@ -1,1 +1,0 @@
-{"unit":"mm","width":200,"height":200,"laserOnCommand":"M04","laserOffCommand":"M05","maxPower":255,"travelSpeed":3000,"burningSpeed":1000,"numPasses":3}

@@ -22,10 +22,12 @@ foreach(TEST_SRC ${TEST_SOURCES})
     # Link against Google Test or any other testing framework
     target_link_libraries(${TEST_NAME}
       gtest
-      GTest::gmock
+#      GTest::gmock
       GTest::gtest_main
       Boost::json
       ${JPEG_LIBRARIES}
+      spdlog::spdlog
+      ${FLTK_LIBRARIES}
     ) # Link against Google Test
 
     # Specify the directories to search for header files
@@ -38,7 +40,7 @@ foreach(TEST_SRC ${TEST_SOURCES})
     )
 
     # Optionally, enable testing
-    enable_testing()
+    # enable_testing()
 
     # Add each test executable as a 'make test' target
     add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})

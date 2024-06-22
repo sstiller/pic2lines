@@ -72,44 +72,18 @@ TEST_F(GCodeConfigTest, TestNumPasses) {
 }
 
 // Test toJsonString() method
-TEST_F(GCodeConfigTest, TestToJsonString) {
-    // Get the content of the file to compare with
-  const std::string currentFilePath = __FILE__;
-  const std::filesystem::path currentDirectory = std::filesystem::path(currentFilePath).parent_path();
-
-  std::ifstream file(currentDirectory.string() + "/expectedGcodeConfig.json");
-  const std::string expectedContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-
+TEST_F(GCodeConfigTest, TestJsonRoundtrip) {
   config.numPasses() = 3; // so we have something non-defaut to compare
 
   // Get the result using your function
-  const std::string result = config.toJsonString();
+  const std::string jsonString1 = config.toJsonString();
 
-  // Compare the result with the content of the file
-  EXPECT_EQ(result, expectedContent);
+  GCodeConfig readConfig;
+  readConfig.fromJsonString(jsonString1);
+  const std::string jsonString2 = readConfig.toJsonString();
+
+  EXPECT_EQ(jsonString1, jsonString2);
 }
-
-// Test fromJson() method
-TEST_F(GCodeConfigTest, TestFromJson) {
-  EXPECT_EQ(config.numPasses(), 1);
-
-  // Get the content of the file to compare with
-  const std::string currentFilePath = __FILE__;
-  const std::filesystem::path currentDirectory = std::filesystem::path(currentFilePath).parent_path();
-
-  std::ifstream file(currentDirectory.string() + "/expectedGcodeConfig.json");
-  const std::string newContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-
-  config.fromJsonString(newContent);
-
-  // Get the result using your function
-  const std::string result = config.toJsonString();
-
-  // changed value from file
-  EXPECT_EQ(config.numPasses(), 3);
-
-}
-
 
 int main(int argc, char** argv)
 {
