@@ -13,7 +13,7 @@ public:
 
   GCodeConfig(const GCodeConfig& other);
 
-  ~GCodeConfig();
+  ~GCodeConfig() override;
 
   [[nodiscard]] std::string& laserOnCommand();
   [[nodiscard]] const std::string& laserOnCommand() const;

@@ -11,8 +11,10 @@
   #include "drawerfactory.hpp"
 #endif
 
+// other libs
 #include <spdlog/spdlog.h>
 
+// std
 #include <iostream>
 #include <numeric> // accumulate
 

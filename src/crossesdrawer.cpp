@@ -12,7 +12,7 @@ void CrossesDrawer::doProcess(std::shared_ptr<const Image> inputImage,
   {
     for(int x = 0; x < imageDimensions.x; x++)
     {
-      const uint8_t grayValue = *grayscaleImage->data(Point<int>{x, y});
+      const auto grayValue = *grayscaleImage->data(Point<int>{x, y});
 
       const auto pixelTopLeft = Point<double>{static_cast<double>(x), static_cast<double>(y)} * scalingFactor;
 

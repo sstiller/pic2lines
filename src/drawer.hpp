@@ -12,16 +12,21 @@ class Drawer
 public:
   virtual ~Drawer();
 
-  void process(std::shared_ptr<const Image> inputImage,
-               std::shared_ptr<OutputGenerator> outputGenerator);
+  void process(
+    std::shared_ptr<const Image> inputImage,
+    std::shared_ptr<OutputGenerator> outputGenerator
+  );
 
 protected:
-  virtual void doProcess(std::shared_ptr<const Image> inputImage,
-                         std::shared_ptr<OutputGenerator> outputGenerator) = 0;
+  virtual void doProcess(
+    std::shared_ptr<const Image> inputImage,
+    std::shared_ptr<OutputGenerator> outputGenerator
+  ) = 0;
 
-  static double calculateScalingFactor(const Dimensions<int>& imageDimensions,
-                                       const Dimensions<double>& outputDimensions);
+  static double calculateScalingFactor(
+    const Dimensions<int>& imageDimensions,
+    const Dimensions<double>& outputDimensions
+  );
 };
-
 
 #endif // DRAWER_HPP

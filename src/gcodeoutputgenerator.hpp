@@ -12,7 +12,7 @@ class GCodeOutputGenerator final : public TextOutputGenerator
 {
 public:
   explicit GCodeOutputGenerator(const GCodeConfig& config);
-  ~GCodeOutputGenerator();
+  ~GCodeOutputGenerator() override;
 
   // OutputGenerator interface
 public:
