@@ -20,7 +20,7 @@ struct ErrorMgr
 void my_error_exit(j_common_ptr cinfo)
 {
     // cinfo->err really points to a my_error_mgr struct, so coerce pointer
-    auto myerr = (ErrorMgr*) cinfo->err;
+    auto myerr = reinterpret_cast<ErrorMgr*>(cinfo->err);
 
     // Always display the message.
     // We could postpone this until after returning, if we chose.
@@ -42,7 +42,7 @@ std::shared_ptr<Image> readJpeg(const std::string& path)
   ErrorMgr errMgr;
 
   JSAMPARRAY outputRow{nullptr}; // output row
-  int rowStride{0};    // physical row width in outputRow
+  unsigned int rowStride{0};    // physical row width in outputRow
 
   FILE* inFile = fopen(path.c_str(), "rb");
 
@@ -71,7 +71,7 @@ std::shared_ptr<Image> readJpeg(const std::string& path)
 
   rowStride = decompressInfo.output_width * decompressInfo.output_components;
   outputRow = (*decompressInfo.mem->alloc_sarray)
-           ((j_common_ptr) &decompressInfo, JPOOL_IMAGE, rowStride, 1);
+           (reinterpret_cast<j_common_ptr>(&decompressInfo), JPOOL_IMAGE, rowStride, 1);
 
   Image::Format format = Image::Format::RGB24;
   if (decompressInfo.output_components == 1)

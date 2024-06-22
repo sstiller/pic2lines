@@ -14,7 +14,7 @@ void Drawer::process(
 
 double Drawer::calculateScalingFactor(
   const Dimensions<int>& imageDimensions,
-  const Dimensions<double>& outputDimension
+  const Dimensions<double>& outputDimensions
 )
 {
   const auto xScale = outputDimensions.x / imageDimensions.x;

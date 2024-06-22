@@ -24,7 +24,7 @@ void PolyLineDrawer::doProcess(std::shared_ptr<const Image> inputImage,
   srand(time(nullptr));
   outputGenerator->setLineWidth(LINE_WIDTH);
 
-  auto grayscaleImage = inputImage->toGrayscale();
+  const auto grayscaleImage = inputImage->toGrayscale();
   const auto scalingFactor = calculateScalingFactor(inputImage->dimensions(),
                                                     outputGenerator->dimensions());
 

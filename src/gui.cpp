@@ -39,7 +39,7 @@ void Gui::generatePreview(std::shared_ptr<const Image> inputImage)
     spdlog::warn("{}(): No drawer selected", __func__);
     return;
   }
-  auto drawer = DrawerFactory::create(selectedDrawer);
+  const auto drawer = DrawerFactory::create(selectedDrawer);
   auto previewOutputGenerator = getPreviewOutputGenerator();
   if(! previewOutputGenerator)
   {
@@ -81,7 +81,7 @@ void Gui::generateOutput(const std::string& outFilePath)
 
     const auto inputImage = readInputJpeg(selectedInputImagePath);
 
-    auto drawer = DrawerFactory::create(selectedDrawer);
+    const auto drawer = DrawerFactory::create(selectedDrawer);
 
     auto createOutputGenerator =
       [this]() -> std::shared_ptr<OutputGenerator>
@@ -112,7 +112,7 @@ void Gui::generateOutput(const std::string& outFilePath)
         }
       };
 
-    auto outputGenerator = createOutputGenerator();
+    const auto outputGenerator = createOutputGenerator();
     drawer->process(inputImage, outputGenerator);
     outputGenerator->writeToFile(outFilePath);
   }

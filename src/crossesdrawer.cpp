@@ -6,7 +6,7 @@ void CrossesDrawer::doProcess(std::shared_ptr<const Image> inputImage,
   const auto scalingFactor = calculateScalingFactor(inputImage->dimensions(),
                                                     outputGenerator->dimensions());
   outputGenerator->setLineWidth(scalingFactor / 5);
-  auto grayscaleImage = inputImage->toGrayscale();
+  const auto grayscaleImage = inputImage->toGrayscale();
   const auto imageDimensions = grayscaleImage->dimensions();
   for(int y = 0; y < imageDimensions.y; y++)
   {
