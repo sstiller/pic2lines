@@ -4,8 +4,6 @@
 
 This is a program to generate line art from images.
 
-A simple GUI is added now :-)
-
 Target platform is GNU/Linux. I don't have MS Windows to test. However, I try to keep the software portable, so you could try to compile it for different platforms.
 
 
@@ -18,17 +16,26 @@ For this reason, the code may
 
 Also, I want to play with my cheap chinese laser plotter a bit
 
-Things I experiment with
+### Libraries I experiment with
 * [ ] boost.gil
 * [x] boost.json
-* [x] cmake
 * [x] fltk
-* [x] g-code
-* [ ] gtest
+* [x] gtest
 * [x] libjpeg
 * [x] spdlog
-* [x] svg
 
+### Other things I experiment with
+* gitlab CI
+* [x] g-code
+* [x] svg
+* [x] cmake
+* [x] Replaceable GUI framework (abstract GUI interface)
+* [ ] design for testability
+* [ ] new C++ features
+* Different IDEs
+   * [x] Qt creator
+   * [ ] Clion
+   * [ ] Eclipse cdt
 
 ## Dependencies
 * boost >= 1.77 (needed for boost.json)
@@ -36,4 +43,15 @@ Things I experiment with
 * spdlog (logging)
 * libjpeg (to load jpeg images, maybe replaced by boost.GIL in the future)
 * fltk
+* for tests: libgtest
+
+## Build
+1. Go to the main project dir
+2. `mkdir build`
+3. `cd build`
+4. `cmake ..`
+   * if you want to build tests, call `cmake -DBUILD_TESTS=ON ..` instead
+5. `make -j8`
+   * instead of 8, you can use the number of processors on you build system
+6. `./pic2lines`
 
