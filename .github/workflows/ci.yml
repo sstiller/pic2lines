@@ -52,11 +52,11 @@ jobs:
         echo "content of BOOST_DIR:"
         ls ${{ github.workspace }}/boost_${{ env.BOOST_VERSION }}
 
-        cmake .. -DBOOST_ROOT=${{ github.workspace }}/boost_${{ env.BOOST_VERSION }} -DBoost_NO_SYSTEM_PATHS=TRUE
+        cmake .. -DBUILD_TESTS=on -DBOOST_ROOT=${{ github.workspace }}/boost_${{ env.BOOST_VERSION }} -DBoost_NO_SYSTEM_PATHS=TRUE
     - name: Build
       run: |
         cd build
         make
-#    - name: Test
-#      run: |
-#        ./path/to/your/tests
+    - name: Test
+      run: |
+        ./build/tests/test_gcodeconfig
